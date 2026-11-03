@@ -1,0 +1,1175 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="日々の記録から編む九十六の断章。十二章・全九十六断章と原資料の対応、奥付を収録。">
+<meta name="voicy-run-id" content="mikan-no-mama-kangaeru">
+<meta name="voicy-source-sha256" content="140e694af85af6aad5020d7c7a0c949d15415ece17ac19c1293a57ec79c2d74f">
+<meta name="voicy-theme" content="paper">
+<title>未完のまま考える</title>
+<link rel="canonical" href="https://kakurai49.github.io/voicy/articles/mikan-no-mama-kangaeru.html">
+<style>
+:root { color-scheme: light; font-family: Georgia, 'Yu Mincho', 'Hiragino Mincho ProN', 'Noto Serif CJK JP', serif; color: #24211e; background: #f1efeb; font-synthesis: none; }
+* { box-sizing: border-box; }
+html { scroll-padding-top: 4.5rem; }
+body { margin: 0; line-height: 1.95; overflow-wrap: anywhere; }
+a { color: #59472f; text-underline-offset: .22em; text-decoration-thickness: 1px; }
+a:hover { color: #17120d; }
+a:focus-visible, summary:focus-visible { outline: 3px solid #9b752d; outline-offset: 4px; }
+.reader-bar { position: sticky; top: 0; z-index: 2; border-bottom: 1px solid #d8d1c7; background: #faf9f6; font-family: system-ui, sans-serif; font-size: .875rem; }
+.reader-bar nav { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem 1.35rem; max-width: 52rem; margin: auto; padding: .7rem 1rem; }
+.reader-bar a { display: inline-block; padding: .25rem 0; }
+.reader-info { max-width: 52rem; padding: 1.2rem 1rem .8rem; margin: auto; font: .875rem/1.7 system-ui, sans-serif; color: #5e574f; }
+.reader-info time { display: block; margin-bottom: .5rem; }
+.page-jump summary { width: fit-content; padding: .3rem 0; cursor: pointer; }
+.page-jump nav { display: grid; grid-template-columns: repeat(auto-fill, minmax(3rem, 1fr)); gap: .35rem; padding: .75rem 0; }
+.page-jump a { padding: .4rem .2rem; text-align: center; background: #fff; border: 1px solid #ded8ce; border-radius: .2rem; }
+main { width: 100%; }
+article { max-width: 52rem; margin: 0 auto; }
+.book-page { background: #fff; margin: 0 0 1.3rem; padding: clamp(1.25rem, 5vw, 4.2rem); border: 1px solid #e5e0d8; box-shadow: 0 2px 12px #302a2008; font-size: 1.0625rem; }
+.book-page > :first-child { margin-top: 0; }
+.book-page.cover { padding-top: clamp(3rem, 11vw, 8.6rem); padding-bottom: clamp(3rem, 8vw, 6rem); }
+h1 { font-size: clamp(1.8rem, 5.4vw, 2.65rem); line-height: 1.6; letter-spacing: .035em; margin: 0 0 2rem; }
+h2 { font-size: clamp(1.45rem, 4.2vw, 1.9rem); line-height: 1.6; margin: .5rem 0 1.65rem; letter-spacing: .025em; }
+h3 { font-size: 1.18rem; line-height: 1.75; margin: 1.75rem 0 .85rem; }
+p { margin: .8rem 0; }
+.cover-subtitle { font-size: 1.15rem; margin-top: 0; }
+.cover-credit-start { margin-top: 4.4rem; }
+.cover-repository-start { margin-top: 3.2rem; }
+.cover-note, .cover-credit, .cover-repository { font-size: .95rem; color: #57524b; }
+.cover-credit, .cover-repository { margin: .3rem 0; }
+.chapter-label { font-size: .9rem; letter-spacing: .08em; color: #675d51; margin-bottom: .55rem; }
+.source-note { font-size: .82rem; color: #625b53; line-height: 1.85; margin: .45rem 0; }
+.quote { margin: .6rem 0 .65rem; padding: .15rem 0 .15rem .95rem; border-left: 2px solid #d6c9b4; }
+.source-page-footer { font-size: .78rem; color: #69625a; text-align: center; margin-top: 2.3rem; padding-top: .85rem; border-top: 1px solid #eee9e1; }
+.toc-entry { font-size: .98rem; margin: .9rem 0; line-height: 1.75; }
+.toc-entry .toc-tail { display: inline; color: #766e64; font-size: .8em; word-break: break-all; }
+.reference-text { font-size: .95rem; line-height: 1.85; }
+.source-path { font-size: .82rem; color: #605950; line-height: 1.7; margin: .4rem 0; overflow-wrap: anywhere; }
+.source-heading { font-size: 1.08rem; margin-top: 1.9rem; }
+.crossrefs { font-size: .94rem; }
+.colophon-title { font-size: 1.2rem; margin-top: 1.8rem; }
+.reader-end { max-width: 52rem; margin: 1.5rem auto 3rem; padding: 0 1rem; font: .9rem/1.8 system-ui, sans-serif; }
+[id] { scroll-margin-top: 4.5rem; }
+@media (max-width: 520px) {
+  .book-page { font-size: 1rem; border-left: 0; border-right: 0; padding: 1.35rem 1.25rem 1.65rem; }
+  .book-page.cover { padding-top: 3.2rem; }
+  h1 { letter-spacing: 0; }
+  h2 { margin-bottom: 1.35rem; }
+  h3 { font-size: 1.1rem; }
+  .source-note, .source-path { font-size: .8rem; }
+  .reader-bar nav { gap: .35rem 1.2rem; }
+}
+@media print {
+  :root { background: #fff; }
+  .reader-bar, .reader-info, .reader-end { display: none; }
+  article { max-width: none; }
+  .book-page { border: 0; box-shadow: none; margin: 0; padding: 0; break-after: page; font-size: 11pt; }
+  .book-page:last-child { break-after: auto; }
+  h1, h2, h3 { break-after: avoid; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+<header class="reader-bar"><nav aria-label="読書ナビゲーション"><a href="../index.html">ホーム</a><a href="#table-of-contents">目次</a><a href="#page-selector">ページへ移動</a></nav></header>
+<aside class="reader-info" aria-label="公開情報とページ移動">
+<time datetime="2026-11-04">2026年11月4日 公開</time>
+<details class="page-jump" id="page-selector"><summary>原本のページへ移動</summary><nav aria-label="原本ページ一覧">
+<a href="#page-1">1</a>
+<a href="#page-2">2</a>
+<a href="#page-3">3</a>
+<a href="#page-4">4</a>
+<a href="#page-5">5</a>
+<a href="#page-6">6</a>
+<a href="#page-7">7</a>
+<a href="#page-8">8</a>
+<a href="#page-9">9</a>
+<a href="#page-10">10</a>
+<a href="#page-11">11</a>
+<a href="#page-12">12</a>
+<a href="#page-13">13</a>
+<a href="#page-14">14</a>
+<a href="#page-15">15</a>
+<a href="#page-16">16</a>
+<a href="#page-17">17</a>
+<a href="#page-18">18</a>
+<a href="#page-19">19</a>
+<a href="#page-20">20</a>
+<a href="#page-21">21</a>
+<a href="#page-22">22</a>
+<a href="#page-23">23</a>
+<a href="#page-24">24</a>
+<a href="#page-25">25</a>
+<a href="#page-26">26</a>
+<a href="#page-27">27</a>
+<a href="#page-28">28</a>
+<a href="#page-29">29</a>
+<a href="#page-30">30</a>
+<a href="#page-31">31</a>
+<a href="#page-32">32</a>
+<a href="#page-33">33</a>
+<a href="#page-34">34</a>
+<a href="#page-35">35</a>
+<a href="#page-36">36</a>
+<a href="#page-37">37</a>
+<a href="#page-38">38</a>
+<a href="#page-39">39</a>
+<a href="#page-40">40</a>
+<a href="#page-41">41</a>
+<a href="#page-42">42</a>
+<a href="#page-43">43</a>
+<a href="#page-44">44</a>
+<a href="#page-45">45</a>
+<a href="#page-46">46</a>
+<a href="#page-47">47</a>
+<a href="#page-48">48</a>
+<a href="#page-49">49</a>
+<a href="#page-50">50</a>
+<a href="#page-51">51</a>
+<a href="#page-52">52</a>
+<a href="#page-53">53</a>
+<a href="#page-54">54</a>
+<a href="#page-55">55</a>
+<a href="#page-56">56</a>
+<a href="#page-57">57</a>
+</nav></details>
+</aside>
+<main id="main-content"><article aria-labelledby="book-title">
+<section class="book-page cover" id="page-1" data-source-page="1" aria-label="原本 1 ページ">
+<h1 id="book-title" class="book-title">未完のまま考える</h1>
+<p id="pdf-line-1-2" class="cover-subtitle">日々の記録から編む九十六の断章</p>
+<p id="pdf-line-1-3" class="cover-note">パスカルのパンセに着想を得た断章集</p>
+<p id="pdf-line-1-4" class="cover-credit cover-credit-start">素材　kakurai49 の実践と思索の記録</p>
+<p id="pdf-line-1-5" class="cover-credit">編纂と断章執筆 ChatGPT</p>
+<p id="pdf-line-1-6" class="cover-credit">2026 年11 月3 日　初版</p>
+<p id="pdf-line-1-7" class="cover-repository cover-repository-start">kakurai49/sandbox</p>
+<p id="pdf-line-1-8" class="cover-repository">kakurai49/semantic-knowledge</p>
+</section>
+<section class="book-page" id="page-2" data-source-page="2" aria-label="原本 2 ページ">
+<h2 id="pdf-line-2-1" class="section-title">紙切れから始める</h2>
+<p id="pdf-line-2-2" class="body-text">この本の出発点は、仕事や学習の途中に生まれた小さな引っ掛かりである。処理が何度も繰り返されている気がする。保存できたはずなのに開けない。覚えたはずの言葉が出てこない。問題を未然に防いだ仕事が見えない。その傍らには、池の上で食べる弁当、衣の付きにくかったとんかつ、銀杏の実、旅先で眺めた雲の記録がある。</p>
+<p id="pdf-line-2-6" class="body-text">これらの断片を並べていくと、一つの問いが何度も姿を変えて現れた。自分が知ったこと、できたこと、生きたことを、どのように受け取り、次へ渡せばよいのか。記録はそのための助けになる。しかし、記録を増やすことだけで、その問いが解けるわけではない。確かめる仕事にも、任せる仕事にも、休む時間にも、それぞれの難しさが残る。</p>
+<p id="pdf-line-2-10" class="body-text">パスカルの『パンセ』には、« Ordre par dialogues. » という書き付けがある。「対話による配列」と私訳できる短い言葉である。本書では、断章どうしが問いを返す書き方への手掛かりとした。保存する価値を述べた頁の後に、残さない時間への問いがある。努力の意味を考えた先に、方法を変え、誰かに託す選択がある。パスカルの宗教的な議論を再現することは、本書の目的には置いていない。［P01］</p>
+<p id="pdf-line-2-15" class="body-text">十二の章と九十六の断章は、二つのリポジトリに保存された資料から、今回新たに構成し執筆したものである。短い章頭の「原文片」には実在する文章を引き、その記録の性格を添えた。続く断章は、引用を足場にした考察、比喩、問い返しを含む。本人の言葉をそのまま並べた語録や、本人が承認した信条の一覧としては読まないでほしい。</p>
+<p id="pdf-line-2-19" class="body-text">資料には、本人の入力文、手書きメモの転記、音声対話の編集済み記録、AI による説明や設計が共存している。その違いは巻末で確かめられる。原音声や写真そのものを今回独立に照合した版ではなく、保存済みテキストを足場にした編纂である。</p>
+<p id="pdf-line-2-22" class="body-text">番号順に読んでも、気になる見出しから開いてもよい。一つの断章に納得できなければ、その反対を考えながら先へ進んでほしい。ここに並んだ言葉を、次の経験によって直せるようにしておきたい。紙切れを束ねることは、考えを動かなくすることではない。</p>
+<footer id="pdf-line-2-25" class="source-page-footer">未完のまま考える　2</footer>
+</section>
+<section class="book-page" id="page-3" data-source-page="3" aria-label="原本 3 ページ">
+<h2 id="table-of-contents" class="section-title">目次</h2>
+<p id="pdf-line-3-2" class="toc-entry"><a href="#pdf-line-5-2" data-pdf-link="3046" data-link-kind="internal">第1 章　問いの入口</a>　001〜008<span class="toc-tail">.............................................................................5</span></p>
+<p id="pdf-line-3-3" class="toc-entry"><a href="#pdf-line-8-2" data-pdf-link="3045" data-link-kind="internal">第2 章　証拠と信頼</a>　009〜016<span class="toc-tail">.............................................................................8</span></p>
+<p id="pdf-line-3-4" class="toc-entry"><a href="#pdf-line-11-2" data-pdf-link="3044" data-link-kind="internal">第3 章　忘れる者の記録</a>　017〜024<span class="toc-tail">.....................................................................11</span></p>
+<p id="pdf-line-3-5" class="toc-entry"><a href="#pdf-line-14-2" data-pdf-link="3043" data-link-kind="internal">第4 章　知ることとできること</a>　025〜032<span class="toc-tail">...........................................................14</span></p>
+<p id="pdf-line-3-6" class="toc-entry"><a href="#pdf-line-17-2" data-pdf-link="3042" data-link-kind="internal">第5 章　保留と決断</a>　033〜040<span class="toc-tail">...........................................................................17</span></p>
+<p id="pdf-line-3-7" class="toc-entry"><a href="#pdf-line-20-2" data-pdf-link="3041" data-link-kind="internal">第6 章　規則と自由</a>　041〜048<span class="toc-tail">...........................................................................20</span></p>
+<p id="pdf-line-3-8" class="toc-entry"><a href="#pdf-line-23-2" data-pdf-link="3040" data-link-kind="internal">第7 章　身体が教える距離</a>　049〜056<span class="toc-tail">..................................................................23</span></p>
+<p id="pdf-line-3-9" class="toc-entry"><a href="#pdf-line-26-2" data-pdf-link="3039" data-link-kind="internal">第8 章　観察と世界の抵抗</a>　057〜064<span class="toc-tail">..................................................................26</span></p>
+<p id="pdf-line-3-10" class="toc-entry"><a href="#pdf-line-30-2" data-pdf-link="3038" data-link-kind="internal">第9 章　つくることと味わうこと</a>　065〜072<span class="toc-tail">........................................................30</span></p>
+<p id="pdf-line-3-11" class="toc-entry"><a href="#pdf-line-34-2" data-pdf-link="3037" data-link-kind="internal">第10 章　協働する知性</a>　073〜080<span class="toc-tail">......................................................................34</span></p>
+<p id="pdf-line-3-12" class="toc-entry"><a href="#pdf-line-37-2" data-pdf-link="3036" data-link-kind="internal">第11 章　老いと経験の継承</a>　081〜088<span class="toc-tail">................................................................37</span></p>
+<p id="pdf-line-3-13" class="toc-entry"><a href="#pdf-line-40-2" data-pdf-link="3035" data-link-kind="internal">第12 章　続けることと手放すこと</a>　089〜096<span class="toc-tail">......................................................40</span></p>
+<p id="pdf-line-3-14" class="toc-entry"><a href="#pdf-line-44-1" data-pdf-link="3034" data-link-kind="internal">問いの往復</a><span class="toc-tail">..........................................................................................................44</span></p>
+<p id="pdf-line-3-15" class="toc-entry"><a href="#pdf-line-45-1" data-pdf-link="3033" data-link-kind="internal">束ねた紙のその先</a><span class="toc-tail">.................................................................................................45</span></p>
+<p id="pdf-line-3-16" class="toc-entry"><a href="#pdf-line-46-1" data-pdf-link="3032" data-link-kind="internal">原資料と断章の対応</a><span class="toc-tail">.............................................................................................46</span></p>
+<footer id="pdf-line-3-17" class="source-page-footer">未完のまま考える　3</footer>
+</section>
+<section class="book-page" id="page-4" data-source-page="4" aria-label="原本 4 ページ">
+<h2 id="pdf-line-4-1" class="section-title">この本の読み方</h2>
+<p id="pdf-line-4-2" class="body-text">各章の冒頭にある「原文片」は、保存された文章からの短い引用である。転記の改行は、必要に応じて紙面上でも保持した。本人の手書きと書かれた箇所も、引用元は既存の文字転記である。</p>
+<p id="pdf-line-4-5" class="body-text">001 から096 までの本文は、本書のために執筆した断章である。断章の末尾に付した S・K・L の資料番号から、巻末の原資料へ戻れる。番号は思想の優劣や完成順を表さない。</p>
+<p id="pdf-line-4-8" class="body-text">資料番号は、本文のすべての哲学的主張が原資料に書かれていたことを意味しない。どの経験や設計を思索の足場にしたかを示す。「問いの往復」には、離れた断章を組み合わせて読む道を置いた。</p>
+<p id="pdf-line-4-11" class="body-text">本書中の人物像、比喩、問い返しは、引用で示した事実を越えて考えるための文章である。実在の人についての新たな出来事や、能力向上の測定結果を付け加えたものではない。</p>
+<p id="pdf-line-4-13" class="body-text">資料本文から採用した原資料　42 件</p>
+<p id="pdf-line-4-14" class="body-text">本文　十二章 九十六断章</p>
+<footer id="pdf-line-4-15" class="source-page-footer">未完のまま考える　4</footer>
+</section>
+<section class="book-page" id="page-5" data-source-page="5" aria-label="原本 5 ページ">
+<p id="pdf-line-5-1" class="chapter-label">第1 章</p>
+<h2 id="pdf-line-5-2" class="section-title">問いの入口</h2>
+<p id="pdf-line-5-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-5-4" class="quote">まず見たときに重複と繰り返しがあると言う直感がありました。</blockquote>
+<p id="pdf-line-5-5" class="source-note">本人の入力文</p>
+<p id="pdf-line-5-6" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/37a9ab9a7525852fbc590a0acc8f57e381b8624bc877d80fa1ee81f350b1344d.txt#L1" data-pdf-link="3031" data-link-kind="external">S05 1 行</a></p>
+<h3 id="fragment-001" class="fragment-title">001　小さな引っ掛かり</h3>
+<p id="pdf-line-5-8" class="body-text">何かがおかしい、という感じは、まだ答えを持っていない。どの言葉で呼べばよいかさえ分からないことがある。そこで早く説明を与えると、安心と引き換えに、最初の引っ掛かりを失うかもしれない。</p>
+<p id="pdf-line-5-11" class="body-text">違和感を紙に置くとは、その曖昧さが少しの間、生き延びられるようにすることである。「分からない」と書かれた一行にも、後から見つかる問いの居場所がある。書く時点で立派な問題に整える必要はない。後で読み直した自分が、何に立ち止まったのか思い出せればよい。</p>
+<p id="pdf-line-5-15" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/inquiry_handoff.md#L9-L23" data-pdf-link="3030" data-link-kind="external">S02 9-23 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/37a9ab9a7525852fbc590a0acc8f57e381b8624bc877d80fa1ee81f350b1344d.txt#L1" data-pdf-link="3029" data-link-kind="external">S05 1 行</a></p>
+<h3 id="fragment-002" class="fragment-title">002　大きな問いの足元</h3>
+<p id="pdf-line-5-17" class="body-text">世界全体を一度に問うと、どこから答えを受け取るのかが分からなくなる。秋に咲く桜を前にしたなら、まず木の種類を知りたいのか、咲いた条件を知りたいのかを分けてみる。問いを小さくするとき、驚きまで小さくする必要はない。</p>
+<p id="pdf-line-5-20" class="body-text">一つの答えで世界が尽きることはない。足元の一問に答えることで、遠くの問いが前よりはっきり見えることがある。大きな疑問への忠実さは、いつまでも大きな言葉で語ることだけでは測れない。</p>
+<p id="pdf-line-5-23" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/inquiry_handoff.md#L57-L74" data-pdf-link="3028" data-link-kind="external">S02 57-74 行</a></p>
+<footer id="pdf-line-5-24" class="source-page-footer">未完のまま考える　5</footer>
+</section>
+<section class="book-page" id="page-6" data-source-page="6" aria-label="原本 6 ページ">
+<h3 id="fragment-003" class="fragment-title">003　頭の中で使えること</h3>
+<p id="pdf-line-6-2" class="body-text">手順が美しく整理されていても、出先で使えなければ、その人にとってはまだ遠い知識である。違和感を問いへ変える方法を、暗算のように自分の頭で使いたい。記録にあるこの願いには、答えを得たいという願いと、自分で問い始めたいという願いが重なっている。</p>
+<p id="pdf-line-6-5" class="body-text">道具が返す答えの速さに、自分の疑問を明け渡すことはない。何が気になったのかを短く言えるだけでも、次に受け取る説明との関係は変わる。説明を聞く側にも、問いを選ぶ仕事が残る。</p>
+<p id="pdf-line-6-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/inquiry_handoff.md#L9-L23" data-pdf-link="3027" data-link-kind="external">S02 9-23,85-98 行</a></p>
+<h3 id="fragment-004" class="fragment-title">004　増える未知</h3>
+<p id="pdf-line-6-10" class="body-text">分からないことが増えた。その一言だけでは、理解が後退したのか、見る範囲が広がったのか、まだ決められない。</p>
+<p id="pdf-line-6-12" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/docs/unknown_creation.md#L7-L16" data-pdf-link="3026" data-link-kind="external">S01 7-16 行</a></p>
+<h3 id="fragment-005" class="fragment-title">005　問いにしない時間</h3>
+<p id="pdf-line-6-14" class="body-text">違和感をすべて問いへ変えようとすると、散歩まで未処理の案件で埋まってしまう。雲を見たら雲の問いを、花を見たら花の問いを、休んだら休みの効果を記録する。その丁寧さの中で、目の前のものが次の仕事の入口にしか見えなくなることはないか。</p>
+<p id="pdf-line-6-17" class="body-text">問いを持てることは豊かである。同じ人に、問いを持たずに眺める自由もあってよい。あの時間は役に立ったのかと尋ねられて、まだ答えを持たないまま、もう一度同じ道を歩く。関心には、回収の予定を立てずに待つ形もある。</p>
+<p id="pdf-line-6-20" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md#L14-L20" data-pdf-link="3025" data-link-kind="external">S03 14-20,63-85 行</a></p>
+<h3 id="fragment-006" class="fragment-title">006　直感の身分</h3>
+<p id="pdf-line-6-22" class="body-text">同じ仕事を何度もしている気がする。その直感から処理の重複を調べ、改善へ進んだ記録がある。最初の感じは、検証される前から調査を始める力を持っていた。</p>
+<p id="pdf-line-6-24" class="body-text">直感を大切にするなら、直感が間違える余地も大切にしたい。調べた結果、重複に必要な理由が見つかるかもしれない。そのとき最初の感じを隠す必要はない。どこが当たり、どこで見込みが外れたかを残せば、経験は次の直感を少し違うものにする。</p>
+<p id="pdf-line-6-27" class="body-text">すべての着想に証明を要求してから考え始めるのは難しい。着想に結論の席を与えるのも早すぎる。紙の端に書かれた仮説には、仮説のまま働ける場所を用意すればよい。</p>
+<p id="pdf-line-6-29" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/37a9ab9a7525852fbc590a0acc8f57e381b8624bc877d80fa1ee81f350b1344d.txt#L1" data-pdf-link="3024" data-link-kind="external">S05 1 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/001bc915d536596f8fa1/report.md#L9-L23" data-pdf-link="3023" data-link-kind="external">S06 9-23 行</a></p>
+<footer id="pdf-line-6-30" class="source-page-footer">未完のまま考える　6</footer>
+</section>
+<section class="book-page" id="page-7" data-source-page="7" aria-label="原本 7 ページ">
+<h3 id="fragment-007" class="fragment-title">007　反証の席</h3>
+<p id="pdf-line-7-2" class="body-text">問いの横に、気に入った答えを一つだけ置いておく。すると、その答えに合う出来事がよく見えるようになる。少なくとも、記録を読み返すときには、別の説明が入り込める余地を残したい。</p>
+<p id="pdf-line-7-5" class="body-text">今の説明が違うなら、何が見えるはずか。そう尋ねることは、考えた自分を裏切ることになるだろうか。考えの方を守り続けると、考え直せる自分の方が狭くなることがある。反対の事実を迎える席は、将来の自分のための空席でもある。</p>
+<p id="pdf-line-7-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/docs/unknown_creation.md#L7-L16" data-pdf-link="3022" data-link-kind="external">S01 7-16 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/inquiry_handoff.md#L77-L93" data-pdf-link="3021" data-link-kind="external">S02 77-93 行</a></p>
+<h3 id="fragment-008" class="fragment-title">008　問いの持ち主</h3>
+<p id="pdf-line-7-10" class="body-text">同じ展示を見ても、ある人は技術の起源を、別の人は作り手の暮らしを知りたがる。問いの目的を尋ねることは、正しい形式の質問を作る作業だけではない。その人が、世界のどこに触れようとしているのかを聞くことでもある。</p>
+<p id="pdf-line-7-13" class="body-text">AI は問いを整えられる。大きすぎる問いを分け、足りない条件を示せる。けれども、整理された問いが本人の気掛かりを置き去りにするなら、その整頓は一度ほどく必要がある。「今知りたいのはそこではない」と言える余地があって、対話はようやく本人のものになる。</p>
+<p id="pdf-line-7-17" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/inquiry_handoff.md#L17-L23" data-pdf-link="3020" data-link-kind="external">S02 17-23 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-design-review-20261026/source.md#L13-L19" data-pdf-link="3019" data-link-kind="external">S08 13-19 行</a></p>
+<footer id="pdf-line-7-18" class="source-page-footer">未完のまま考える　7</footer>
+</section>
+<section class="book-page" id="page-8" data-source-page="8" aria-label="原本 8 ページ">
+<p id="pdf-line-8-1" class="chapter-label">第2 章</p>
+<h2 id="pdf-line-8-2" class="section-title">証拠と信頼</h2>
+<p id="pdf-line-8-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-8-4" class="quote">本文の生成と、実地検証・本人の理解・GitHub の読戻しは別の判定。</blockquote>
+<p id="pdf-line-8-5" class="source-note">対話を整理した報告文</p>
+<p id="pdf-line-8-6" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L54" data-pdf-link="3018" data-link-kind="external">S09 54 行</a></p>
+<h3 id="fragment-009" class="fragment-title">009　完了という約束</h3>
+<p id="pdf-line-8-8" class="body-text">「できました」という言葉を聞くと、人は次の行動へ移る。待つのをやめる。別の仕事を始める。必要なら誰かに渡す。完了の報告には、相手の時間の使い方を変える力がある。</p>
+<p id="pdf-line-8-10" class="body-text">だから、文章を作ったのか、保存できたのか、開いて使えるのかを確かめることには、人への配慮が含まれている。確認の手間を省いて早く返したつもりでも、その不足は受け手の手間となって戻ってくる。安心を与える言葉ほど、その安心を支えるものが必要になる。</p>
+<p id="pdf-line-8-13" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/repository-guide/reports/voice-github-milestone-20261031/README.md#L84-L128" data-pdf-link="3017" data-link-kind="external">S07 84-128 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L54-L55" data-pdf-link="3016" data-link-kind="external">S09 54-55 行</a></p>
+<h3 id="fragment-010" class="fragment-title">010　開かないリンク</h3>
+<p id="pdf-line-8-15" class="body-text">入口を示す文字列がある。押してみると何も開かない。作り手の側では仕事が終わり、受け手の側では仕事が始まらない。</p>
+<p id="pdf-line-8-17" class="body-text">この小さな断絶には、完成を誰の側から見るかという問いがある。送ったこと、届いたこと、使えたこと。その間を一足で越えられると考えた途端、相手の経験が見えなくなる。受け手が入口に立てるか確かめる行為は、成果物の最後の一部なのだろう。</p>
+<p id="pdf-line-8-20" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-recall-20261028-r0001/source.md#L13-L19" data-pdf-link="3015" data-link-kind="external">S14 13-19 行</a></p>
+<footer id="pdf-line-8-21" class="source-page-footer">未完のまま考える　8</footer>
+</section>
+<section class="book-page" id="page-9" data-source-page="9" aria-label="原本 9 ページ">
+<h3 id="fragment-011" class="fragment-title">011　何も起きなかった日</h3>
+<p id="pdf-line-9-2" class="body-text">火が上がれば、消し止めた人の働きは見えやすい。火が出ないよう整えた人の仕事は、平穏な一日の中へ溶けていく。原文には、その評価の偏りへの強い不満が記されている。</p>
+<p id="pdf-line-9-4" class="body-text">しかし、何も起きなかったという一事だけから、すべてが予防の成果だったと決めることもできない。予防の価値を伝える難しさは、手柄を主張する難しさでもある。何を危ぶみ、どんな働きかけをし、その後どうなったか。平穏の背後にあった判断を残すことは、その難しさを少し引き受ける方法になる。</p>
+<p id="pdf-line-9-8" class="body-text">目立つ危機だけを仕事の物差しにすると、静かに支えていた人が見えなくなる。見えるものを数える仕組みの中に、見えにくい仕事の居場所を作れるだろうか。</p>
+<p id="pdf-line-9-10" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/507c5136d7ff548509154167311bbb884aebc863a381e389c80433124320b924.txt#L1" data-pdf-link="3014" data-link-kind="external">S13 1 行</a></p>
+<h3 id="fragment-012" class="fragment-title">012　範囲のある成功</h3>
+<p id="pdf-line-9-12" class="body-text">一度できたことを、一度できたと喜ぶ。その喜びを、いつでもできるという保証へ膨らませなければ、成功は小さくなるだろうか。むしろ、その一回がどのように実現したかを大事にできる。</p>
+<p id="pdf-line-9-15" class="body-text">途中で助けを求めたことも、条件がそろっていたことも、成功を汚すものではない。次に使う人には、それらも方法の一部になる。成功を飾るために条件を落とすと、次の人は同じ場所へ戻れなくなる。正確に喜ぶことはできる。</p>
+<p id="pdf-line-9-18" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/repository-guide/reports/voice-github-milestone-20261031/README.md#L47-L81" data-pdf-link="3013" data-link-kind="external">S07 47-81 行</a></p>
+<h3 id="fragment-013" class="fragment-title">013　証拠の外側</h3>
+<p id="pdf-line-9-20" class="body-text">記録がない。だから、何が起きたかを確認できない。ここから、何も起きなかったと結論するまでには、越えてはならない距離がある。</p>
+<p id="pdf-line-9-22" class="body-text">とりわけ人の訴えを聞くとき、この距離は大きい。記録のない疲れ、説明にまとまらない困惑、途中で言葉にならなくなった不満がある。確かめられないことを事実として決めつけずに、その人の話を聞くことはできる。証拠を求める態度が、証拠を持たない人を黙らせる態度になれば、確かめるという行為そのものが何かを見失う。</p>
+<p id="pdf-line-9-26" class="body-text">事実認定の留保と、関わりの留保を同じものにしない。その区別にも、判断する側の責任がある。</p>
+<p id="pdf-line-9-28" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/repository-guide/reports/voice-github-milestone-20261031/README.md#L31-L46" data-pdf-link="3012" data-link-kind="external">S07 31-46 行</a></p>
+<footer id="pdf-line-9-29" class="source-page-footer">未完のまま考える　9</footer>
+</section>
+<section class="book-page" id="page-10" data-source-page="10" aria-label="原本 10 ページ">
+<h3 id="fragment-014" class="fragment-title">014　後から知ったこと</h3>
+<p id="pdf-line-10-2" class="body-text">後で分かった答えを、初めから分かっていた自分の記憶に混ぜると、過去の失敗は不注意にしか見えなくなる。</p>
+<p id="pdf-line-10-4" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/docs/unknown_creation.md#L49-L53" data-pdf-link="3011" data-link-kind="external">S01 49-53 行</a></p>
+<h3 id="fragment-015" class="fragment-title">015　信じるための足場</h3>
+<p id="pdf-line-10-6" class="body-text">何もかも疑い続けるには、一日が短すぎる。人に頼み、道具に頼み、前に確かめたことに頼って暮らしている。その信頼を、無条件に信じるか、毎回最初から疑うかの二つだけで考えると疲れてしまう。</p>
+<p id="pdf-line-10-9" class="body-text">いつ、何を確かめ、どんな条件が変われば見直すのか。信頼の足場が見えるなら、確かめる仕事を引き継げる。足場のある信頼にも崩れる可能性はある。それでも、どこを点検すればよいか分かることは、疑いの広さを変える。</p>
+<p id="pdf-line-10-12" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/001bc915d536596f8fa1/report.md#L17-L23" data-pdf-link="3010" data-link-kind="external">S06 17-23 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/repository-guide/reports/voice-github-milestone-20261031/README.md#L95-L113" data-pdf-link="3009" data-link-kind="external">S07 95-113 行</a></p>
+<h3 id="fragment-016" class="fragment-title">016　確認を終える</h3>
+<p id="pdf-line-10-14" class="body-text">確認のための確認を重ねれば、安心は増え続けるだろうか。いつか、確認に使える時間の方が尽きる。すると最後は疲れによって手を離すことになる。</p>
+<p id="pdf-line-10-16" class="body-text">何を確かめたら今回の仕事を終えるのかを、できるだけ先に考えておく。残る不確かさを記し、その範囲を引き受けて区切る。これは確実さを軽んじることだろうか。有限の時間で誰かに約束する以上、十分さを判断する仕事も避けられない。確かめる勇気と同じくらい、確かめた範囲を示して終える勇気が要る。</p>
+<p id="pdf-line-10-20" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/docs/unknown_creation.md#L55-L62" data-pdf-link="3008" data-link-kind="external">S01 55-62 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md#L24-L29" data-pdf-link="3007" data-link-kind="external">S03 24-29 行</a></p>
+<footer id="pdf-line-10-21" class="source-page-footer">未完のまま考える　10</footer>
+</section>
+<section class="book-page" id="page-11" data-source-page="11" aria-label="原本 11 ページ">
+<p id="pdf-line-11-1" class="chapter-label">第3 章</p>
+<h2 id="pdf-line-11-2" class="section-title">忘れる者の記録</h2>
+<p id="pdf-line-11-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-11-4" class="quote">その設計を出発点にして改善ループを回せる形になる様にループ設計をせよ。</blockquote>
+<p id="pdf-line-11-5" class="source-note">本人の手書きメモを転記した文書</p>
+<p id="pdf-line-11-6" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/kufu-accumulation-20261011/artifacts/source_note.md#L52" data-pdf-link="3006" data-link-kind="external">S04 52 行</a></p>
+<h3 id="fragment-017" class="fragment-title">017　紙切れに残るもの</h3>
+<p id="pdf-line-11-8" class="body-text">紙切れには、考えの結論だけでなく、考え始めた方向が残る。途中で線が止まり、言葉が取り消され、別の言葉が脇に置かれる。読みやすい文章へ整えるとき、これらをすべて欠陥として取り除いてよいだろうか。</p>
+<p id="pdf-line-11-11" class="body-text">分からない字を分からないまま残したメモがある。その小さな留保によって、後の読み手は、どこまでが書かれていたことで、どこからが解釈なのかを知る。記録を役立つものへ変える仕事には、役立ちそうな意味を勝手に足さない仕事も含まれている。</p>
+<p id="pdf-line-11-14" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/kufu-accumulation-20261011/artifacts/source_note.md#L14-L16" data-pdf-link="3005" data-link-kind="external">S04 14-16,54-72 行</a></p>
+<h3 id="fragment-018" class="fragment-title">018　同じ言葉の別の日</h3>
+<p id="pdf-line-11-16" class="body-text">同じことを、別の日にも言う。その二つを重複として消してしまうと、その人が二度そこへ戻ったという事実が消える。</p>
+<p id="pdf-line-11-18" class="body-text">一方、同じ記録を二つの場所へ複製しただけなら、経験が二回になったわけではない。文字が等しいことと、出来事が同じことは重ならない。経験の回数を数えるためにも、反復する願いを聞き取るためにも、日付のような小さな違いが必要になる。</p>
+<p id="pdf-line-11-21" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/README.md#L15-L23" data-pdf-link="3004" data-link-kind="external">S16 15-23 行</a></p>
+<h3 id="fragment-019" class="fragment-title">019　保存された自分</h3>
+<p id="pdf-line-11-23" class="body-text">記録の中の自分が、今の自分と同じことを望んでいるとは限らない。かつての計画を読み返して、もうそれをしたくないと気づくこともある。</p>
+<p id="pdf-line-11-25" class="body-text">その変化を、記録への不忠実と呼ぶ必要はない。過去の自分の意図を正しく残すことと、今もそれに従うことは別の約束である。自分のための記録が命令書になれば、保存した過去に、現在を明け渡すことになる。昔の願いを読める距離に置きながら、今日は別の道を選べる。それも記録を持つ自由である。</p>
+<p id="pdf-line-11-29" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt#L1" data-pdf-link="3003" data-link-kind="external">S11 1 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md#L17-L29" data-pdf-link="3002" data-link-kind="external">S12 17-29 行</a></p>
+<footer id="pdf-line-11-30" class="source-page-footer">未完のまま考える　11</footer>
+</section>
+<section class="book-page" id="page-12" data-source-page="12" aria-label="原本 12 ページ">
+<h3 id="fragment-020" class="fragment-title">020　棚の知識</h3>
+<p id="pdf-line-12-2" class="body-text">本棚の本が増えたとき、頭の中の理解も同じ速さで増えるとは限らない。保存先に置かれた言葉は、必要なときに取り出し、使ってみて、ようやく暮らしに触れる。</p>
+<p id="pdf-line-12-4" class="body-text">それでも、まだ使っていないものを無価値と決めるのは急ぎすぎる。今の自分には用途が見えない一行が、後で問いを持ったときに読めるようになることもある。保存には待つ時間がある。その時間と、すでに身につけたという自己評価を混ぜずにおければよい。</p>
+<p id="pdf-line-12-7" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-recall-20261028-r0001/source.md#L5-L15" data-pdf-link="3001" data-link-kind="external">S14 5-15 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/daily-chat-assets-20261012/source.md#L10-L33" data-pdf-link="3000" data-link-kind="external">S15 10-33 行</a></p>
+<h3 id="fragment-021" class="fragment-title">021　忘れても戻る</h3>
+<p id="pdf-line-12-9" class="body-text">忘れない自分を約束するのは難しい。どこから戻ればよいかを残すことなら、今日の自分にもできる。</p>
+<p id="pdf-line-12-11" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md#L24-L29" data-pdf-link="2999" data-link-kind="external">S03 24-29 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/repository-guide/reports/voice-github-milestone-20261031/README.md#L95-L113" data-pdf-link="2998" data-link-kind="external">S07 95-113 行</a></p>
+<h3 id="fragment-022" class="fragment-title">022　残さない権利</h3>
+<p id="pdf-line-12-13" class="body-text">すべての経験を資産にしようとする人に、残さないものはあるかと尋ねたい。いつか役立つかもしれないから、今日の迷いも、遊びも、人との言葉も保存する。その予防的な収集は、まだ来ない未来へ向けた配慮である。</p>
+<p id="pdf-line-12-16" class="body-text">けれども、保存することにも選択がある。他人の言葉を自分のための材料として持ち続けてよいのか。読み直す義務のように積もる記録を、どこまで増やしたいのか。記録の仕組みがよくできるほど、残すかどうかを問う機会は減りやすい。</p>
+<p id="pdf-line-12-19" class="body-text">風を受けたことを、風を受けたまま終える日もある。その日が記録から漏れていることを、人生から漏れたことにしない。</p>
+<p id="pdf-line-12-21" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/daily-chat-assets-20261012/source.md#L10-L33" data-pdf-link="2997" data-link-kind="external">S15 10-33 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md#L14-L20" data-pdf-link="2996" data-link-kind="external">S03 14-20 行</a></p>
+<footer id="pdf-line-12-22" class="source-page-footer">未完のまま考える　12</footer>
+</section>
+<section class="book-page" id="page-13" data-source-page="13" aria-label="原本 13 ページ">
+<h3 id="fragment-023" class="fragment-title">023　訂正の重ね方</h3>
+<p id="pdf-line-13-2" class="body-text">後から成功したとき、以前の失敗を消すと、道のりが一本の滑らかな線になる。読者は迷わずに済むかもしれない。しかし、同じ失敗に出会った人には、戻る足場が失われる。</p>
+<p id="pdf-line-13-4" class="body-text">間違いが分かったなら、今の答えを加える。前に何を知らず、どんな条件で判断したかも残す。その重なりを読めることは、恥を保存することだろうか。そこには、変えられる判断の姿がある。誤りを持たなかった自分を作るより、誤りから離れた位置を示す方が、他人にも自分にも役立つ。</p>
+<p id="pdf-line-13-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/repository-guide/reports/voice-github-milestone-20261031/README.md#L133-L170" data-pdf-link="2995" data-link-kind="external">S07 133-170 行</a></p>
+<h3 id="fragment-024" class="fragment-title">024　記録から出ていく</h3>
+<p id="pdf-line-13-10" class="body-text">引き継ぎのために書いたものを何度も整え、目録を作り、索引を付ける。次に使うための準備が、いつまでも次に進まない理由になることがある。</p>
+<p id="pdf-line-13-12" class="body-text">記録の完成を待たず、そこに残した一つを暮らしへ持ち出してみる。使えなければ、使えなかった事情を一行加える。それで記録は、完成から少し遠のきながら、自分には近くなる。紙の上で終わらなかった経験が、次の経験へ渡っていく。</p>
+<p id="pdf-line-13-15" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md#L21-L31" data-pdf-link="2994" data-link-kind="external">S12 21-31 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/daily-chat-assets-20261012/source.md#L24-L35" data-pdf-link="2993" data-link-kind="external">S15 24-35 行</a></p>
+<footer id="pdf-line-13-16" class="source-page-footer">未完のまま考える　13</footer>
+</section>
+<section class="book-page" id="page-14" data-source-page="14" aria-label="原本 14 ページ">
+<p id="pdf-line-14-1" class="chapter-label">第4 章</p>
+<h2 id="pdf-line-14-2" class="section-title">知ることとできること</h2>
+<p id="pdf-line-14-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-14-4" class="quote">ただしその場で言えたことと長期保持は分けて計測する。</blockquote>
+<p id="pdf-line-14-5" class="source-note">想起の編集記録にある留保。資料編集者の文章であり、本人の原音声の逐語ではない。</p>
+<p id="pdf-line-14-6" class="source-note">引用 <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-recall-20261028/r0001.yaml#L331-L341" data-pdf-link="2992" data-link-kind="external">K05 331-341 行</a></p>
+<h3 id="fragment-025" class="fragment-title">025　本を閉じる</h3>
+<p id="pdf-line-14-8" class="body-text">説明を読んでいる間は、文章の順序が考える順序を支えてくれる。前の段落が次の段落を呼び、見出しが忘れかけた関係を教える。その支えを受けて理解できたことには、確かな価値がある。ところが本を閉じて同じことを話そうとすると、支えられていた場所が見える。何から話すべきか、なぜ次へ進めるのか、自分の中にはまだ順序がなかったと気づく。</p>
+<p id="pdf-line-14-12" class="body-text">学習の記録は、説明、別の場面への適用、適用できる範囲、後日の再生を分けている。この区別は人を細かく採点するためだけに必要なのではあるまい。次に何を練習すればよいかを、小さく見えるようにするためでもある。説明はできるが例が作れない。例は作れるが例外が分からない。そう書ければ、分からないものは全人格を覆う暗さから、一つの課題になる。</p>
+<p id="pdf-line-14-17" class="body-text">本を閉じる試みは、支えを受けた自分を責める儀式であってはならない。どこまで自分で歩けるようになったかを確かめ、足りないところへ再び支えを置くための、短い往復である。</p>
+<p id="pdf-line-14-20" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/results/learning/r0001.yaml#L3853-L4011" data-pdf-link="2991" data-link-kind="external">K06 3853-4011 行</a></p>
+<h3 id="fragment-026" class="fragment-title">026　知識の置き場所</h3>
+<p id="pdf-line-14-22" class="body-text">記録を増やすことには喜びがある。昨日まで失われていたものに、戻れる場所ができるからだ。しかし保存された知識が、いつでも自分を助けるとは限らない。探す言葉が分からず、なぜ残したかも忘れれば、倉庫は広がっても使える道は増えない。</p>
+<p id="pdf-line-14-25" class="body-text">外部記憶の設計は、何を入れるかとともに、何を手掛かりに戻るかを問う。使った後でその手掛かりを書き添えることは、未来の自分に入口を残す仕事である。それでも、この入口を通れることと、中の内容を自力で説明できることは、それぞれに確かめる必要がある。</p>
+<p id="pdf-line-14-28" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/results/learning/r0001.yaml#L4160-L4331" data-pdf-link="2990" data-link-kind="external">K06 4160-4331 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-recall-20261028/r0001.yaml#L558-L569" data-pdf-link="2989" data-link-kind="external">K05 558-569 行</a></p>
+<footer id="pdf-line-14-29" class="source-page-footer">未完のまま考える　14</footer>
+</section>
+<section class="book-page" id="page-15" data-source-page="15" aria-label="原本 15 ページ">
+<h3 id="fragment-027" class="fragment-title">027　二度目の朝</h3>
+<p id="pdf-line-15-2" class="body-text">昨夜は言えた名前が、朝には出てこない。昨日の成功は消えたのだろうか。昨夜言えたという出来事は残る。その出来事に、今朝も言えるという保証まで付けていたのなら、そこを考え直せばよい。</p>
+<p id="pdf-line-15-5" class="body-text">記憶には時刻を添える。何を見ながら答えたかも添える。すると、忘れたという言葉が少し具体的になる。見出しは残っているが、その理由が抜けた。理由は言えるが、名前が出ない。昨日の自分と今日の自分を、一つの成功と失敗の箱に押し込める必要はない。違いが見えたところから、次の練習が始まる。</p>
+<p id="pdf-line-15-9" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/results/learning/r0001.yaml#L4012-L4159" data-pdf-link="2988" data-link-kind="external">K06 4012-4159 行</a></p>
+<h3 id="fragment-028" class="fragment-title">028　見出し</h3>
+<p id="pdf-line-15-11" class="body-text">理解の条件を四つ覚えたことと、その四つを満たしたことの間には、まだ一冊分の練習が入る。</p>
+<p id="pdf-line-15-13" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/results/learning/r0001.yaml#L3980-L4011" data-pdf-link="2987" data-link-kind="external">K06 3980-4011 行</a></p>
+<h3 id="fragment-029" class="fragment-title">029　説明しきれない技</h3>
+<p id="pdf-line-15-15" class="body-text">旅先で、ひらがなとカタカナの違いを問われる。使い分けてきた人が、その理由をうまく説明できない。この困惑は、使えることと説明できることの間に、二つの向きの隔たりがあると教える。説明できても使えないことがある。そして使えても説明できないことがある。</p>
+<p id="pdf-line-15-19" class="body-text">ここで、言葉にならない技はすべて理解の外だと片づけてよいだろうか。オールを引く加減、会話を遮らずに待つ間、鍋の中を見る注意には、説明を追い越している部分がある。説明を求める学習は大切だが、説明できるものだけを技能として認めれば、既に働いている知恵まで失敗に数えることになる。</p>
+<p id="pdf-line-15-23" class="body-text">かといって、言葉にならないというだけで、その技を正しいと保証することもできない。いつもできると思っている動作が、条件の変化で崩れる場合がある。身体の働きに学ぶことと、その働きを吟味することは、同じ場所で必要になる。何を説明で確かめ、何を実演で確かめるか。その境界は、一度引いて終われる線だろうか。</p>
+<p id="pdf-line-15-27" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml#L939-L963" data-pdf-link="2986" data-link-kind="external">K04 939-963 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/results/learning/r0001.yaml#L3853-L4011" data-pdf-link="2985" data-link-kind="external">K06 3853-4011 行</a></p>
+<footer id="pdf-line-15-28" class="source-page-footer">未完のまま考える　15</footer>
+</section>
+<section class="book-page" id="page-16" data-source-page="16" aria-label="原本 16 ページ">
+<h3 id="fragment-030" class="fragment-title">030　練習の失敗</h3>
+<p id="pdf-line-16-2" class="body-text">練習には、まだできないことを露わにする役目がある。それなのに、できなかった箇所を毎回消して清書すれば、練習帳には成長の入口が残らない。美しく整った答えが、次の自分に何も教えないことがある。</p>
+<p id="pdf-line-16-5" class="body-text">反復とは、同じ言葉を増やすだけの運動ではない。どこで止まり、何を助けに再開したかを知り、その箇所を変えて試すことである。修正の跡を残せば、過去の誤りは現在の自分を責め続ける証拠から、次の試みの足場になり得る。何度でも成功するという保証まで、そこに書き込む必要はない。</p>
+<p id="pdf-line-16-9" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-recall-20261028/r0001.yaml#L285-L306" data-pdf-link="2984" data-link-kind="external">K05 285-306 行</a></p>
+<h3 id="fragment-031" class="fragment-title">031　独りと一緒</h3>
+<p id="pdf-line-16-11" class="body-text">AI と一緒に説明を作れた。それは共同作業の成果である。同じ説明を一人で作れたかは、まだ別の問いとして残る。二つを区別することは、共同作業の価値を小さくするためではない。どこに助けがあり、次にもその助けを使えるかを知るためである。</p>
+<p id="pdf-line-16-14" class="body-text">一人でできることだけを能力と呼ぶなら、辞書を引く知恵や人に尋ねる技は、評価から抜け落ちる。助けを選び、その答えを吟味し、必要な場面で使うこともまた習うべきことである。独力の練習と協働の練習には、それぞれの問いを用意したい。</p>
+<p id="pdf-line-16-17" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-recall-20261028/r0001.yaml#L558-L569" data-pdf-link="2983" data-link-kind="external">K05 558-569 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/results/learning/r0001.yaml#L4160-L4331" data-pdf-link="2982" data-link-kind="external">K06 4160-4331 行</a></p>
+<h3 id="fragment-032" class="fragment-title">032　能力の向かう先</h3>
+<p id="pdf-line-16-19" class="body-text">底にとどまるものから、自分で行先を選んで泳ぐものへ。想起の記録にある海の比喩は、外から与えられた能力等級ではない。どこへ向かいたいかという本人の願いを映している。</p>
+<p id="pdf-line-16-21" class="body-text">知識を増やし、忘れにくくし、使える技を身につける。その努力は、選べる行先を増やすためにある。ところが能力の一覧を伸ばすことだけが目的になると、泳ぐ先はいつの間にか採点表によって決まってしまう。昨日より多く覚えた日に、何を選べるようになっただろう。まだ選べない日にも、その人の価値が減ったわけではない。泳ぎ方を学ぶことと、生きる値打ちを証明することを、同じ課題にしてはならない。</p>
+<p id="pdf-line-16-26" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-recall-20261028/r0001.yaml#L524-L569" data-pdf-link="2981" data-link-kind="external">K05 524-569 行</a></p>
+<footer id="pdf-line-16-27" class="source-page-footer">未完のまま考える　16</footer>
+</section>
+<section class="book-page" id="page-17" data-source-page="17" aria-label="原本 17 ページ">
+<p id="pdf-line-17-1" class="chapter-label">第5 章</p>
+<h2 id="pdf-line-17-2" class="section-title">保留と決断</h2>
+<p id="pdf-line-17-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-17-4" class="quote">「課題の解決」と「今回の思考作業の終了」は別。後者だけでも完了させられる。</blockquote>
+<p id="pdf-line-17-5" class="source-note">音声対話を整理した引き継ぎ文書</p>
+<p id="pdf-line-17-6" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md#L29" data-pdf-link="2980" data-link-kind="external">S03 29 行</a></p>
+<h3 id="fragment-033" class="fragment-title">033　三つ目の返事</h3>
+<p id="pdf-line-17-8" class="body-text">できるか、できないか。どちらかの返事を急ぐと、まだ知らない条件を、都合のよい方へ埋めたくなる。三つ目の返事として、保留がある。</p>
+<p id="pdf-line-17-10" class="body-text">保留を言う人は、空白を渡すだけで終わらない方がよい。何が分かれば決められるのかを示せば、待つ側にも次の動きが生まれる。保留は、答えの欠けた場所に札を立てる行為になり得る。その札には、ここから先へ進むために必要なものを書く。</p>
+<p id="pdf-line-17-13" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L15-L19" data-pdf-link="2979" data-link-kind="external">S09 15-19 行</a></p>
+<h3 id="fragment-034" class="fragment-title">034　宛先のある保留</h3>
+<p id="pdf-line-17-15" class="body-text">いつか確かめる。その言葉は、誰が確かめるのかを隠しやすい。次に手を付ける人も時も決まらなければ、保留した問題は、待つ人の頭の中だけで続く。</p>
+<p id="pdf-line-17-17" class="body-text">再開条件を書き、見直す時を置くことは、未来を思いどおりにする約束ではない。忘れたままにする可能性へ、今できる手当てをすることである。それでも再開できなかったなら、その事実からまた判断する。予定を立てたことで責任が消えるわけではない。</p>
+<p id="pdf-line-17-20" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L17" data-pdf-link="2978" data-link-kind="external">S09 17 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md#L24-L29" data-pdf-link="2977" data-link-kind="external">S03 24-29 行</a></p>
+<footer id="pdf-line-17-21" class="source-page-footer">未完のまま考える　17</footer>
+</section>
+<section class="book-page" id="page-18" data-source-page="18" aria-label="原本 18 ページ">
+<h3 id="fragment-035" class="fragment-title">035　待つ人の時間</h3>
+<p id="pdf-line-18-2" class="body-text">判断する側には、もう少し調べる余地がある。待っている側には、もう少し待つ余地がないかもしれない。この違いを見ずに慎重さを誇ると、慎重であるための費用を、別の人が払うことになる。</p>
+<p id="pdf-line-18-5" class="body-text">確かめずに決める危うさを知る人は、決めないことにも結果があると知っていたい。すべての情報がそろう日を待てない場面では、どこまで分かり、何を見込んで決めるのかを伝える必要がある。後から違っていたと分かったとき、判断の理由を示せることも責任の一部である。</p>
+<p id="pdf-line-18-9" class="body-text">保留が誠実であるためには、その保留が誰に何を待たせるのかを尋ね続けなければならない。</p>
+<p id="pdf-line-18-11" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L15-L19" data-pdf-link="2976" data-link-kind="external">S09 15-19 行</a></p>
+<h3 id="fragment-036" class="fragment-title">036　小さく試す</h3>
+<p id="pdf-line-18-13" class="body-text">未知のものを全面的に受け入れるか、入り口で退けるか。その間に、限られた範囲で試すという行為がある。試してよい範囲と、止める条件を決めておけば、知らないことを少し知るために動ける。</p>
+<p id="pdf-line-18-16" class="body-text">ただし、小さいという言葉だけで、その試みを軽く見ない。誰にとって小さいのか。失敗したとき、元に戻せるのは何か。試す人の学びが、他人の一方的な負担にならないように、試行の輪郭を考える。</p>
+<p id="pdf-line-18-19" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L17" data-pdf-link="2975" data-link-kind="external">S09 17,27-31 行</a></p>
+<h3 id="fragment-037" class="fragment-title">037　違うという返事</h3>
+<p id="pdf-line-18-21" class="body-text">否定するときにも、相手の可能性をすべて閉じる必要はない。今回の条件では選べないことと、どの条件でも価値がないことの間には、広い隔たりがある。</p>
+<p id="pdf-line-18-23" class="body-text">理由のある否定は、反論の入口にもなる。どの条件が合わないか分かれば、条件の読み違いを指摘でき、別の方法を探せる。理由を伝えない否定は、結論だけでなく、その結論を問い直す道まで塞ぐことがある。</p>
+<p id="pdf-line-18-26" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L17" data-pdf-link="2974" data-link-kind="external">S09 17 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/intake.yaml#L70-L92" data-pdf-link="2973" data-link-kind="external">S10 70-92 行</a></p>
+<h3 id="fragment-038" class="fragment-title">038　今は決めない</h3>
+<p id="pdf-line-18-28" class="body-text">迷っているのか、待つ理由があるのか。外からは同じ沈黙に見えることがある。</p>
+<p id="pdf-line-18-29" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md#L24-L29" data-pdf-link="2972" data-link-kind="external">S03 24-29 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L17" data-pdf-link="2971" data-link-kind="external">S09 17 行</a></p>
+<footer id="pdf-line-18-30" class="source-page-footer">未完のまま考える　18</footer>
+</section>
+<section class="book-page" id="page-19" data-source-page="19" aria-label="原本 19 ページ">
+<h3 id="fragment-039" class="fragment-title">039　終えることを学ぶ</h3>
+<p id="pdf-line-19-2" class="body-text">話し合いを終えたからといって、問題が解けたことにはならない。それでも、その日の話し合いを終えることはできる。ここまで分かり、ここが残り、次は何から始めるか。それだけを残して席を立つ。</p>
+<p id="pdf-line-19-5" class="body-text">すべてに決着を付けてから外へ出ようとすれば、外で出会うはずだったものにいつまでも会えない。問題を抱えたまま歩くことと、問題に頭を占められたまま歩くことは、同じ経験だろうか。書いて置いておく試みには、両者を分けたいという願いがある。</p>
+<p id="pdf-line-19-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md#L24-L51" data-pdf-link="2970" data-link-kind="external">S03 24-51 行</a></p>
+<h3 id="fragment-040" class="fragment-title">040　分からなさの持ち方</h3>
+<p id="pdf-line-19-10" class="body-text">分からないことをすべて無害なまま保てるわけではない。決める必要があるなら、今ある根拠で判断を引き受ける。決めなくてもよいなら、早すぎる説明で埋めずにおく。この二つを選ぶには、分からない内容だけでなく、判断を求める事情を見なければならない。</p>
+<p id="pdf-line-19-13" class="body-text">不確かさは、いつも同じ重さではない。問いに答える期限、間違えた場合に影響を受ける人、やり直せる範囲によって、持ち方が変わる。疑いをなくすことだけを目標にしていると、その疑いと一緒に何をすべきかが見えなくなる。</p>
+<p id="pdf-line-19-16" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L15-L19" data-pdf-link="2969" data-link-kind="external">S09 15-19 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/docs/unknown_creation.md#L55-L62" data-pdf-link="2968" data-link-kind="external">S01 55-62 行</a></p>
+<footer id="pdf-line-19-17" class="source-page-footer">未完のまま考える　19</footer>
+</section>
+<section class="book-page" id="page-20" data-source-page="20" aria-label="原本 20 ページ">
+<p id="pdf-line-20-1" class="chapter-label">第6 章</p>
+<h2 id="pdf-line-20-2" class="section-title">規則と自由</h2>
+<p id="pdf-line-20-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-20-4" class="quote">経費を使うときに効果的にどんどん使いましょう</blockquote>
+<p id="pdf-line-20-5" class="source-note">本人の質問を収録した入力記録</p>
+<p id="pdf-line-20-6" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/intake.yaml#L84" data-pdf-link="2967" data-link-kind="external">S10 84 行</a></p>
+<h3 id="fragment-041" class="fragment-title">041　目的のある支出</h3>
+<p id="pdf-line-20-8" class="body-text">支出を減らせば、数字は小さくなる。その数字だけで判断が終わるなら、何のために使うかを考える仕事も小さくなる。</p>
+<p id="pdf-line-20-10" class="body-text">経費を効果的に使いたいという問いは、節約の否定として読む必要はない。費用の先に何を望むかを、もう一度判断の中心へ戻している。多く使ったことを誇る理由も、少なく済ませたことを誇る理由も、目的との関係を離れては定まらない。数字は比較を助ける。その数字にどんな意味を求めるかは、使う側に残る。</p>
+<p id="pdf-line-20-14" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L15-L19" data-pdf-link="2966" data-link-kind="external">S09 15-19 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/intake.yaml#L70-L92" data-pdf-link="2965" data-link-kind="external">S10 70-92 行</a></p>
+<h3 id="fragment-042" class="fragment-title">042　同じ言葉の別の働き</h3>
+<p id="pdf-line-20-16" class="body-text">ルール、ポリシー、クレド。名前を覚えると分かった気になるが、目の前の文章が何をしているかは、まだ読まなければならない。価値を語っているのか、判断の優先を示しているのか、行動を義務づけているのか。</p>
+<p id="pdf-line-20-19" class="body-text">名称が立派であるほど、その中に異なる働きが混ざっていても見落としやすい。言葉を使い分ける練習は、分類を増やすためだけにあるのではない。今どの種類の理由で、自分や他人の行動が決められようとしているのかを見えるようにする。</p>
+<p id="pdf-line-20-22" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L9-L25" data-pdf-link="2964" data-link-kind="external">S09 9-25 行</a></p>
+<h3 id="fragment-043" class="fragment-title">043　任せる範囲</h3>
+<p id="pdf-line-20-24" class="body-text">目的を伝えて任せるとき、任せた人は何を手放したのだろう。方法を選ぶ仕事は渡せる。けれども、望む結果や守る条件まで相手が自由に変えられるとは限らない。</p>
+<p id="pdf-line-20-26" class="body-text">委任の範囲が曖昧なままだと、任された人は細部ごとに尋ねるか、越えてよい境界を推測することになる。自由を与えたつもりが、不安を与えることもある。何を選べて、何を相談し、どんな場合に止まるか。それを話せる関係があれば、裁量は具体的な行動へ変わる。</p>
+<p id="pdf-line-20-29" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L9-L25" data-pdf-link="2963" data-link-kind="external">S09 9-25 行</a></p>
+<footer id="pdf-line-20-30" class="source-page-footer">未完のまま考える　20</footer>
+</section>
+<section class="book-page" id="page-21" data-source-page="21" aria-label="原本 21 ページ">
+<h3 id="fragment-044" class="fragment-title">044　規則への異論</h3>
+<p id="pdf-line-21-2" class="body-text">決まりに従えば、いつでも正しく暮らせるだろうか。決まりが作られたときには想定されなかった人や事情がある。目的を守るための規則が、別の場面では目的を妨げることも考えられる。</p>
+<p id="pdf-line-21-5" class="body-text">だからといって、目的を口にした人がその場で境界を消してよいわけでもない。自分が不便だと感じたことと、規則を変える理由があることは、同じ判断にはならない。異論を記し、誰が影響を受けるかを示し、変更を考える場へ持っていく。この手間を、面倒な遠回りと呼ぶ人もいるだろう。</p>
+<p id="pdf-line-21-9" class="body-text">それでも、従う以外の道が密かな逸脱だけにならぬように、規則を問い直せる場所が要る。その場所を持つかどうかも、規則の質の一部になる。</p>
+<p id="pdf-line-21-11" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L9-L25" data-pdf-link="2962" data-link-kind="external">S09 9-25 行</a></p>
+<h3 id="fragment-045" class="fragment-title">045　説明する自由</h3>
+<p id="pdf-line-21-13" class="body-text">方法を自分で選べる自由には、なぜそれを選んだかを話せる自由が伴う。理由を尋ねられることを、すべて干渉だと感じる必要はない。</p>
+<p id="pdf-line-21-15" class="body-text">ただし、毎回すべてを説明しなければ一歩も進めないなら、裁量は名ばかりになる。どの判断に説明が要るか、どこは任せるかを分けておく。説明する人にも、説明を求める人にも、使える時間に限りがある。</p>
+<p id="pdf-line-21-18" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L9-L13" data-pdf-link="2961" data-link-kind="external">S09 9-13 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-design-review-20261026/source.md#L13-L19" data-pdf-link="2960" data-link-kind="external">S08 13-19 行</a></p>
+<h3 id="fragment-046" class="fragment-title">046　配られた信条</h3>
+<p id="pdf-line-21-20" class="body-text">同じ信条を配った日から、全員が同じ重みを感じるわけではない。</p>
+<p id="pdf-line-21-21" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L21-L25" data-pdf-link="2959" data-link-kind="external">S09 21-25 行</a></p>
+<footer id="pdf-line-21-22" class="source-page-footer">未完のまま考える　21</footer>
+</section>
+<section class="book-page" id="page-22" data-source-page="22" aria-label="原本 22 ページ">
+<h3 id="fragment-047" class="fragment-title">047　曖昧なまま始める</h3>
+<p id="pdf-line-22-2" class="body-text">何に困っているのかを正しく説明できるまで、相談を始められないとしたら、最も相談の要る人ほど入口で止まってしまう。</p>
+<p id="pdf-line-22-4" class="body-text">六つの問いを整理する設計には、全部を本人に質問するのではなく、分かっている部分を使い、判断を変える不足だけを聞くという考えがある。仕組みの明晰さを、そのまま利用者の義務にしないための工夫である。まだうまく言えない言葉を、直せる仮の形へ置く。その形が違えば、本人が違うと言えばよい。始まりに必要なのは、最終的な説明の完成だけではない。</p>
+<p id="pdf-line-22-9" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-design-review-20261026/source.md#L3" data-pdf-link="2958" data-link-kind="external">S08 3,13-19 行</a></p>
+<h3 id="fragment-048" class="fragment-title">048　選択肢の中の自由</h3>
+<p id="pdf-line-22-11" class="body-text">選べるものが増えても、どれを選びたいかが見えなければ、自由は重く感じられる。目的を定めることは、選択肢を狭める。その狭まりによって、ようやく動ける場合もある。</p>
+<p id="pdf-line-22-13" class="body-text">だが、目的そのものを見直す自由まで失えば、上手に選ぶ人は、望まない場所へ効率よく進む人にもなれる。方法の裁量を問うとき、その方法で向かう先を誰が選んだのかも、ときどき尋ね直したい。</p>
+<p id="pdf-line-22-16" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md#L9-L17" data-pdf-link="2957" data-link-kind="external">S09 9-17 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-recall-20261028-r0001/source.md#L5-L9" data-pdf-link="2956" data-link-kind="external">S14 5-9 行</a></p>
+<footer id="pdf-line-22-17" class="source-page-footer">未完のまま考える　22</footer>
+</section>
+<section class="book-page" id="page-23" data-source-page="23" aria-label="原本 23 ページ">
+<p id="pdf-line-23-1" class="chapter-label">第7 章</p>
+<h2 id="pdf-line-23-2" class="section-title">身体が教える距離</h2>
+<p id="pdf-line-23-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-23-4" class="quote">一回経験すると、帰りは楽ちん。</blockquote>
+<p id="pdf-line-23-5" class="source-note">礼文旅行の編集済み記録に収録された本人帰属の発言。原音声は本編纂では未照合。</p>
+<p id="pdf-line-23-6" class="source-note">引用 <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml#L522-L529" data-pdf-link="2955" data-link-kind="external">K04 522-529 行</a></p>
+<h3 id="fragment-049" class="fragment-title">049　見る距離と漕ぐ距離</h3>
+<p id="pdf-line-23-8" class="body-text">岸から見る池と、オールで渡る池は、同じ広さをしている。それでも、二つの距離は人の中で一致しない。不忍池の記録には、広く見えるのに、漕いでみるとすぐ行ってしまうという驚きがある。水面の寸法が変わったわけではない。眺める目に、動かす腕と進む舟が加わったのである。</p>
+<p id="pdf-line-23-12" class="body-text">試す前に考えることは無駄ではない。考えれば、向かう先や気をつけることを整理できる。しかし、考えた距離を実際の距離として扱えば、一つの尺度だけで世界を閉じてしまう。漕いで初めて、思ったより進むこと、進んでいても揺れること、ゆっくり向きが変わることが、別々の出来事として現れる。</p>
+<p id="pdf-line-23-16" class="body-text">行動は答えを得る手段であると同時に、問うべきことを増やす機会でもある。向こうへ行けるかと問うだけでなく、戻る時間や他の舟との間隔も考え始める。世界に近づくとは、不安を一掃することではあるまい。漠然とした不安の中から、次に見るべき一つを取り出していくことでもある。</p>
+<p id="pdf-line-23-20" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/transcripts/shinobazu-boat-20261008/r0001.md#L139-L183" data-pdf-link="2954" data-link-kind="external">K02 139-183 行</a></p>
+<h3 id="fragment-050" class="fragment-title">050　味に届くまで</h3>
+<p id="pdf-line-23-22" class="body-text">弁当は用意されている。食べる時間もある。それでも舟の揺れや帰岸の心配が気になり、落ち着いて味わえない。翌日の記録には、美味しかったという言葉が残る。</p>
+<p id="pdf-line-23-24" class="body-text">この違いから、慣れだけが味を取り戻したと決めることはできない。料理も風も気分も、同じ条件ではなかったかもしれない。それでも、食べ物がそこにあることと、その味を受け取れることの間に隔たりがあるのは、この二つの記録から考えられる。</p>
+<p id="pdf-line-23-27" class="body-text">手に入れるための準備には熱心でも、受け取るための余裕は後回しにされる。ようやく得た時間の中で、まだ次の心配を噛み続けてはいないだろうか。</p>
+<p id="pdf-line-23-29" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/transcripts/shinobazu-boat-20261008/r0001.md#L165-L167" data-pdf-link="2953" data-link-kind="external">K02 165-167 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/supporting/shinobazu-field-practice-20261010/r0001.md#L42-L54" data-pdf-link="2952" data-link-kind="external">K03 42-54 行</a></p>
+<footer id="pdf-line-23-30" class="source-page-footer">未完のまま考える　23</footer>
+</section>
+<section class="book-page" id="page-24" data-source-page="24" aria-label="原本 24 ページ">
+<h3 id="fragment-051" class="fragment-title">051　残った二割</h3>
+<p id="pdf-line-24-2" class="body-text">リラックスを十のうち八と表し、残る二を転覆への心配とする記録がある。八を喜ぶために、二を偽物にする必要はない。心配が残ったまま、風を気持ちよく感じることもある。</p>
+<p id="pdf-line-24-4" class="body-text">人の状態は、安心か不安かという一語に収まりきらない。十分に楽しめたという報告と、まだ怖かったという報告を並べると、経験が少し正確になる。ただし、この八は舟の安全性の点数ではない。感じ方を数字にした途端、測った対象を取り違えてはならない。</p>
+<p id="pdf-line-24-7" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/supporting/shinobazu-field-practice-20261010/r0001.md#L42-L47" data-pdf-link="2951" data-link-kind="external">K03 42-47 行</a></p>
+<h3 id="fragment-052" class="fragment-title">052　冷たい風</h3>
+<p id="pdf-line-24-9" class="body-text">陽射しは熱い。風は冷たい。一つの身体に二つが届き、その違いが気持ちよい。反対の感触を、どちらも消さずに味わう瞬間がある。</p>
+<p id="pdf-line-24-11" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/transcripts/shinobazu-boat-20261008/r0001.md#L199-L203" data-pdf-link="2950" data-link-kind="external">K02 199-203 行</a></p>
+<h3 id="fragment-053" class="fragment-title">053　慣れを信じる範囲</h3>
+<p id="pdf-line-24-13" class="body-text">二度目は楽になる。一度通った道には、次の曲がり角の記憶がある。初めての操作に使っていた注意を、風や景色に向ける余地ができる。経験の恩恵は、そのように使い道の増えた注意として現れることがある。</p>
+<p id="pdf-line-24-16" class="body-text">だが、身体が覚えた感じを、そのまま世界の保証にしてよいだろうか。昨日渡れた場所にも、今日は違う風が吹く。帰路を知った安心は、道が変わらないという証拠を含まない。慣れが助けになるのは、状況が以前とどこまで似ているかを見られる間である。</p>
+<p id="pdf-line-24-19" class="body-text">この留保を強めれば、毎回を初めてのように疑うことになり、経験の価値を自分で壊してしまうかもしれない。だから、信じるか疑うかを一度に全部へ適用するのでなく、慣れた動作には任せながら、変わり得る条件へ目を向ける。その配分をどこまで自覚できるのか。注意を節約する知恵と、注意を眠らせる油断は、時として同じ落ち着いた顔をしている。</p>
+<p id="pdf-line-24-23" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml#L522-L539" data-pdf-link="2949" data-link-kind="external">K04 522-539 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/supporting/shinobazu-field-practice-20261010/r0001.md#L42-L47" data-pdf-link="2948" data-link-kind="external">K03 42-47 行</a></p>
+<footer id="pdf-line-24-24" class="source-page-footer">未完のまま考える　24</footer>
+</section>
+<section class="book-page" id="page-25" data-source-page="25" aria-label="原本 25 ページ">
+<h3 id="fragment-054" class="fragment-title">054　午後四時半</h3>
+<p id="pdf-line-25-2" class="body-text">旅の記録には、東京で慌ただしく過ぎる午後四時と、海を眺めて過ごした旅先の午後四時半が並ぶ。どちらも夕方へ近づく時刻でありながら、心に広がる時間は違っていた。</p>
+<p id="pdf-line-25-4" class="body-text">焦っているときには苛立たしかった雲の遅さを、その日は心地よく感じたという。雲に、見る人の都合へ合わせる義務はない。時間を豊かにするとは、空いている枠を次の仕事で埋めることだけだろうか。何も早めずに眺められた午後が、一日の中にどれほどの広さを作るか。予定表には、その広さを書く欄がない。</p>
+<p id="pdf-line-25-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml#L766-L789" data-pdf-link="2947" data-link-kind="external">K04 766-789 行</a></p>
+<h3 id="fragment-055" class="fragment-title">055　岸へ戻る</h3>
+<p id="pdf-line-25-10" class="body-text">池の上で会話はできても、話している相手が同じ景色を見ているとは限らない。帰岸の記録では、視覚情報のないAI は進む向きを断定せず、本人の目と係員の案内に判断を戻している。</p>
+<p id="pdf-line-25-13" class="body-text">遠くの知性とつながるほど、手元の感覚を無条件に捨てたくなることがある。頼れる相手を持つことと、相手に届いていない情報を忘れることは違う。どちらが賢いかを競う前に、今、誰に何が見えているかを確かめる。その短い確認が、知識の量では埋められない距離を扱う。</p>
+<p id="pdf-line-25-17" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/supporting/shinobazu-field-practice-20261010/r0001.md#L69-L75" data-pdf-link="2946" data-link-kind="external">K03 69-75 行</a></p>
+<h3 id="fragment-056" class="fragment-title">056　水面を残す</h3>
+<p id="pdf-line-25-19" class="body-text">水面を撮れば、波の輪郭は持ち帰れる。けれど、舟の揺れ、頬に触れた風、漕ぐ腕の加減まで、同じ仕方で残るわけではない。</p>
+<p id="pdf-line-25-21" class="body-text">写真に写らなかったものを、経験の外へ追い出す必要はない。記録は場面の一部を運ぶ。その運べる範囲を知って使えば、後の読み手が一枚の像に、その場のすべてを背負わせずに済む。</p>
+<p id="pdf-line-25-24" class="body-text">何を残せたか。何がまだ伝わっていないか。その二つを並べておくと、記録の先に続く人の経験を考えられる。</p>
+<p id="pdf-line-25-26" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/transcripts/shinobazu-boat-20261008/r0001.md#L181-L211" data-pdf-link="2945" data-link-kind="external">K02 181-211 行</a></p>
+<footer id="pdf-line-25-27" class="source-page-footer">未完のまま考える　25</footer>
+</section>
+<section class="book-page" id="page-26" data-source-page="26" aria-label="原本 26 ページ">
+<p id="pdf-line-26-1" class="chapter-label">第8 章</p>
+<h2 id="pdf-line-26-2" class="section-title">観察と世界の抵抗</h2>
+<p id="pdf-line-26-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-26-4" class="quote">予習で想定していたよりも、ぜんぜん判って</blockquote>
+<blockquote id="pdf-line-26-5" class="quote">いないという事が判った。</blockquote>
+<p id="pdf-line-26-6" class="source-note">本人の受講後メモの転記　IMG3350 L15〜L16　本人校合前</p>
+<p id="pdf-line-26-7" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/memo_transcription.md#L510-L511" data-pdf-link="2944" data-link-kind="external">L13 510-511 行</a></p>
+<h3 id="fragment-057" class="fragment-title">057　枝に残る実</h3>
+<p id="pdf-line-26-9" class="body-text">報告書を書き終えても、枝には実が残っている。記録の完了を、季節は知らない。こちらが終わると決めたところから、観察が始まることもある。</p>
+<p id="pdf-line-26-11" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/reports/ginkgo_observation/20261016/report.md#L35-L43" data-pdf-link="2943" data-link-kind="external">L04 35-43 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/reports/ginkgo_observation/20261031/report.md#L18-L26" data-pdf-link="2942" data-link-kind="external">L05 18-26 行</a></p>
+<h3 id="fragment-058" class="fragment-title">058　地面と人の手</h3>
+<p id="pdf-line-26-13" class="body-text">地面には、土のよく見える場所があった。自然の変化だろうか。誰かが掃いたのだろうか。木だけを見ていたつもりでも、その周りで人がしていることを考えなければ、足元の様子を読めない。</p>
+<p id="pdf-line-26-16" class="body-text">清掃の影響が疑われる写真を、そのまま自然の落下量の比較に使うことはできない。それでも、その写真は、比較できない理由を伝える資料になる。もし掃かれていたなら、道を保つ仕事と季節を追う眼は、同じ地面に関わっていたことになる。</p>
+<p id="pdf-line-26-19" class="body-text">自分の問いに答えない資料を、価値のない資料と呼ぶのは早い。その呼び名は、世界に向けた評価に見えて、こちらの問いの狭さを告げている。</p>
+<p id="pdf-line-26-21" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/reports/ginkgo_observation/20261016/report.md#L9-L43" data-pdf-link="2941" data-link-kind="external">L04 9-43 行</a></p>
+<footer id="pdf-line-26-22" class="source-page-footer">未完のまま考える　26</footer>
+</section>
+<section class="book-page" id="page-27" data-source-page="27" aria-label="原本 27 ページ">
+<h3 id="fragment-059" class="fragment-title">059　問いを一つ持つ</h3>
+<p id="pdf-line-27-2" class="body-text">講義へ一つの問いを持っていく。それは、知らない話の中で帰る場所を作る工夫である。砂のすき間に暮らす生きものは、どこで、何を、どう食べるのか。問いがあれば、散らばる説明の間に道が現れる。</p>
+<p id="pdf-line-27-5" class="body-text">ただし、道は景色の全部ではない。用意した問いに合う言葉だけを拾えば、予習は見落としの練習にもなる。持参した問いに答えがなかった日、代わりに何が気になったか。それを持ち帰れるなら、問いは入口として働いた。入口の大きさで、世界の広さを決めずに済んだ。</p>
+<p id="pdf-line-27-9" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/conversation_excerpt.md#L5-L17" data-pdf-link="2940" data-link-kind="external">L11 5-17 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/memo_transcription.md#L235-L260" data-pdf-link="2939" data-link-kind="external">L13 235-260,445-527 行</a></p>
+<h3 id="fragment-060" class="fragment-title">060　知らなさの輪郭</h3>
+<p id="pdf-line-27-11" class="body-text">学んだ結果、分からないことが増える場合がある。予習では、問いを差し出せば答えの置かれた棚へ案内されると思っていた。ところが、棚そのものがまだ作られていない領域に出会う。そこで手ぶらになったと思うか、未知の所在を知ったと思うかによって、その日の価値は変わる。</p>
+<p id="pdf-line-27-15" class="body-text">受講後のメモには、想定よりも分かっていないことが多いと知った、という驚きが残る。この驚きを、学習者の理解不足へ片づけることはできない。世界について何がまだ明らかでないかという問いと、自分が何を理解していないかという問いは、重なりながらも違う。</p>
+<p id="pdf-line-27-18" class="body-text">もっとも、「まだ誰にも分からない」は便利な逃げ道にもなる。すでに分かっていることを調べる手間まで省いてよいわけではない。無知を敬うには、その範囲を確かめる労力がいる。</p>
+<p id="pdf-line-27-21" class="body-text">知らなさに輪郭がつくと、空想にも向かう先ができる。断定できないという理由で興味を閉じず、面白いという理由で仮説を事実へ押し上げない。その間にいる時間が、学ぶという行為のかなりの部分を占めているのだろう。</p>
+<p id="pdf-line-27-24" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/memo_transcription.md#L480-L527" data-pdf-link="2938" data-link-kind="external">L13 480-527,560-564 行</a></p>
+<footer id="pdf-line-27-25" class="source-page-footer">未完のまま考える　27</footer>
+</section>
+<section class="book-page" id="page-28" data-source-page="28" aria-label="原本 28 ページ">
+<h3 id="fragment-061" class="fragment-title">061　名のないもの</h3>
+<p id="pdf-line-28-2" class="body-text">名前がまだない、と聞くと、人はそれを空白として受け取りやすい。けれど、名づけられる前にも、生きものはそこにいる。分類表の空欄と、砂のすき間の空白は、同じものではない。</p>
+<p id="pdf-line-28-5" class="body-text">名を得れば、他の人へ知らせ、比較し、再び探すことができる。名づける仕事には大きな力がある。その力ゆえに、名のないものを存在の薄いものとして扱う危うさもある。</p>
+<p id="pdf-line-28-7" class="body-text">生活でも、まだ言い表せない感じは、何も起きていない証拠にはならない。言葉を急いで与える前に、その感じがどう変わるかを見守る余地を残しておきたい。</p>
+<p id="pdf-line-28-9" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/memo_transcription.md#L371-L384" data-pdf-link="2937" data-link-kind="external">L13 371-384,445-475 行</a></p>
+<h3 id="fragment-062" class="fragment-title">062　近づくこと</h3>
+<p id="pdf-line-28-11" class="body-text">遠くからは三分咲きに見え、近づくと半分以上に見えた。最初の眼が全面的に役立たなかったわけでも、二度目の見え方が最後の真理になったわけでもない。見る位置が、見えるものを変えた。</p>
+<p id="pdf-line-28-14" class="body-text">意見を改めるとき、人はしばしば敗北したような顔をする。しかし、近づいたために判断が変わったのなら、変えないことの方に説明が要る。</p>
+<p id="pdf-line-28-16" class="body-text">近づけばすべて解決するとも限らない。近すぎれば全体の形が消える。誠実な眼とは、一つの距離を守り抜く眼なのか。それとも、いま何を見落としているかに応じて、距離を選び直せる眼なのか。</p>
+<p id="pdf-line-28-19" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/records/2026-10-09-shinobazu-voice-session.md#L25-L31" data-pdf-link="2936" data-link-kind="external">L12 25-31,147-165 行</a></p>
+<footer id="pdf-line-28-20" class="source-page-footer">未完のまま考える　28</footer>
+</section>
+<section class="book-page" id="page-29" data-source-page="29" aria-label="原本 29 ページ">
+<h3 id="fragment-063" class="fragment-title">063　終盤という物語</h3>
+<p id="pdf-line-29-2" class="body-text">同じ木を見続けていると、そろそろ終わりだという筋書きが欲しくなる。日付が進み、葉に黄色が混じり、観察の回数も積み上がった。これだけ待ったのだから、落下も終盤に違いない。そう言えば記録は一つの物語になる。</p>
+<p id="pdf-line-29-5" class="body-text">だが、日付の経過は、数えていない実の減少を証明しない。観察に費やした時間も、木に変化を義務づけるものではない。銀杏の記録で「終盤」という先の評価が取り下げられたところには、物語にしてしまう眼への小さな抵抗がある。</p>
+<p id="pdf-line-29-8" class="body-text">物語を捨てればよいのか。そうも言い切れない。変化の見通しがあるから毎朝見上げられるし、何かが起きると思うから注意を向けられる。筋書きは観察を持続させ、同時に観察を先取りする。</p>
+<p id="pdf-line-29-11" class="body-text">その両方を引き受けるなら、物語には訂正できる継ぎ目が要る。今日は終わらなかった、予想した変化は確かめられなかった、と書き込める継ぎ目である。世界の抵抗は、物語を壊すだけではない。こちら一人の物語になることから、それを救うこともある。</p>
+<p id="pdf-line-29-14" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/reports/ginkgo_observation/20261016/report.md#L7-L21" data-pdf-link="2935" data-link-kind="external">L04 7-21,35-43 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/reports/ginkgo_observation/20261031/report.md#L18-L29" data-pdf-link="2934" data-link-kind="external">L05 18-29 行</a></p>
+<h3 id="fragment-064" class="fragment-title">064　答えを持ち帰れない日</h3>
+<p id="pdf-line-29-16" class="body-text">質問をして、分からないという答えを持ち帰った。それでも、質問したという行為は残る。頭の中だけにあった疑問が、他の人にも扱える形で外へ出たからである。</p>
+<p id="pdf-line-29-18" class="body-text">問いは、答えを回収する容器だけではない。どこを気にしているかを誰かに知らせる身振りでもある。その身振りが、すぐには役立たない会話を開くことがある。</p>
+<p id="pdf-line-29-20" class="body-text">次は何を見ればよいのだろう。問いが一つ残ったことを、その日の欠品として数えるか、次に世界へ出ていく理由として持つか。どちらが正しいと決める前に、まだ気になるという感触を失わずにいたい。</p>
+<p id="pdf-line-29-23" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/memo_transcription.md#L445-L456" data-pdf-link="2933" data-link-kind="external">L13 445-456,503-527 行</a></p>
+<footer id="pdf-line-29-24" class="source-page-footer">未完のまま考える　29</footer>
+</section>
+<section class="book-page" id="page-30" data-source-page="30" aria-label="原本 30 ページ">
+<p id="pdf-line-30-1" class="chapter-label">第9 章</p>
+<h2 id="pdf-line-30-2" class="section-title">つくることと味わうこと</h2>
+<p id="pdf-line-30-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-30-4" class="quote">お店に出せるレベル。</blockquote>
+<p id="pdf-line-30-5" class="source-note">本人のとんかつ調理メモの転記　P1 L17　本人校合前</p>
+<p id="pdf-line-30-6" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/tonkatsu_20261013/notes.md#L33" data-pdf-link="2932" data-link-kind="external">L02 33 行</a></p>
+<h3 id="fragment-065" class="fragment-title">065　食卓まで</h3>
+<p id="pdf-line-30-8" class="body-text">料理の計画には、まだ味がない。材料と手順をどれほど正確に並べても、食べる人の一口が、仕事の外に残っている。</p>
+<p id="pdf-line-30-10" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/cooking_20261010/notes.md#L70-L76" data-pdf-link="2931" data-link-kind="external">L01 70-76,102-110 行</a></p>
+<h3 id="fragment-066" class="fragment-title">066　液の付かないところ</h3>
+<p id="pdf-line-30-12" class="body-text">とんかつのメモには、手で持った場所に液が付かなかったという失敗と、お店に出せるほどだったという喜びが並ぶ。片方を消せば、記録は簡単になる。料理全体を成功か失敗かに決めれば、一語で片づく。</p>
+<p id="pdf-line-30-15" class="body-text">その簡単さのために、失うものは大きい。喜びがあるからといって、次回変えられる手つきを忘れる必要はない。改善点があるからといって、食べた時の満足まで取り消す必要もない。</p>
+<p id="pdf-line-30-18" class="body-text">うまくいった一日の中にも、うまくいかなかった箇所がある。それを残せる人は、自分を褒めることと、自分の仕事を直すことを、いつも敵同士にしなくて済む。</p>
+<p id="pdf-line-30-20" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/tonkatsu_20261013/notes.md#L23-L33" data-pdf-link="2930" data-link-kind="external">L02 23-33,63-65 行</a></p>
+<footer id="pdf-line-30-21" class="source-page-footer">未完のまま考える　30</footer>
+</section>
+<section class="book-page" id="page-31" data-source-page="31" aria-label="原本 31 ページ">
+<h3 id="fragment-067" class="fragment-title">067　器の大きさ</h3>
+<p id="pdf-line-31-2" class="body-text">肉が揚げる器に入らないので、半分に切った。調理の記録にあるこの小さな変更は、計画が現実へ触れた場所を示している。</p>
+<p id="pdf-line-31-4" class="body-text">机の上では、材料の名と重量がそろえば準備できたように見える。台所では、器の幅、手の届く場所、持った時の形が関わってくる。知っていることを行うには、文字にまだ現れていない条件を引き受けなければならない。</p>
+<p id="pdf-line-31-7" class="body-text">ここから、現場の工夫をいつでも正しいと持ち上げることもできない。小さくすれば変わる条件もある。工夫を学ぶとは、変更した手つきだけを持ち帰ることでなく、その変更が必要になった狭さも覚えておくことである。</p>
+<p id="pdf-line-31-10" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/tonkatsu_20261013/notes.md#L19-L46" data-pdf-link="2929" data-link-kind="external">L02 19-46,59-66 行</a></p>
+<h3 id="fragment-068" class="fragment-title">068　おいしいと感じる</h3>
+<p id="pdf-line-31-12" class="body-text">料理の目標として、「食べた結果、おいしいと感じる」と書かれている。素朴な言葉である。けれど、この目標を最後まで尊重するのは容易ではない。作る側は、手順どおりにしたこと、時間をかけたこと、工夫を増やしたことを、満足の代わりに差し出したくなる。</p>
+<p id="pdf-line-31-15" class="body-text">食べる人の感じ方は、その努力に従う義務を持たない。丁寧に作った料理が期待どおりに受け取られない時、努力の事実は残るが、それだけで相手の舌を説得することはできない。</p>
+<p id="pdf-line-31-17" class="body-text">反対に、本人がうれしそうに食べたというだけで、作り方のすべてが確かな手順になったとも言えない。一回の満足が教えることと、繰り返して確かめる必要のあることがある。</p>
+<p id="pdf-line-31-19" class="body-text">つくる者の誇り、食べる者の自由、次にも使える方法への関心。この三つは、いつも一つの採点欄に収まるだろうか。誰かの一口を結論へ急がせず、それでも仕事を終えるための判断はする。食卓には、評価を受けるものを作った人と、評価を予定されていない仕方で返す人が同席している。</p>
+<p id="pdf-line-31-23" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/cooking_20261010/notes.md#L70-L76" data-pdf-link="2928" data-link-kind="external">L01 70-76,102-110 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/tonkatsu_20261013/notes.md#L63-L78" data-pdf-link="2927" data-link-kind="external">L02 63-78 行</a></p>
+<footer id="pdf-line-31-24" class="source-page-footer">未完のまま考える　31</footer>
+</section>
+<section class="book-page" id="page-32" data-source-page="32" aria-label="原本 32 ページ">
+<h3 id="fragment-069" class="fragment-title">069　まぐれの一球</h3>
+<p id="pdf-line-32-2" class="body-text">一球が気持ちよく当たった。メモには「ぐうぜんのまぐれ。」とある。そのすぐ後に、「出来たじゃん」とうれしくなったことも書かれている。</p>
+<p id="pdf-line-32-4" class="body-text">次にも当てられるかは、まだ分からない。だから技能が身についたと大きく言うのを待つ。しかし、再現性が確かめられるまで、うれしさを預けておく必要があるだろうか。</p>
+<p id="pdf-line-32-6" class="body-text">たまたまであっても、一球は当たった。原因についての慎重さと、出来事を喜ぶことは両立する。人生の小さな歓びから、偶然というだけで受取人の名前を消してしまうのは、ずいぶん厳しい会計である。</p>
+<p id="pdf-line-32-9" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/runs/voice-20261021-ueno-400efdfb26eb96b1/sources/memo-91af492a421e6194.txt#L10-L22" data-pdf-link="2926" data-link-kind="external">L17 10-22 行</a></p>
+<h3 id="fragment-070" class="fragment-title">070　疲れていてもうれしい</h3>
+<p id="pdf-line-32-11" class="body-text">出来たという実感があり、体は疲れている。この二つを足したり引いたりして、一日の成績を出す必要はない。うれしかったことは疲れを無かったことにせず、疲れたことも喜びを嘘にしない。</p>
+<p id="pdf-line-32-14" class="body-text">成功の話には、次もやりたいという結びが好まれる。だが、今日は十分だから休みたい、という終わり方もある。気持ちよく終わった活動を、次の活動への燃料としてしか認めないなら、喜びまで仕事に変わってしまう。</p>
+<p id="pdf-line-32-17" class="body-text">いま何を感じているかを尋ねることと、その感じを利用して次へ進ませること。その境目で、支援する者は一度手を止められるだろうか。</p>
+<p id="pdf-line-32-19" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/observations/2026-10-21-ueno-dekitajan/report.md#L3-L5" data-pdf-link="2925" data-link-kind="external">L16 3-5,60-74 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/runs/voice-20261021-ueno-400efdfb26eb96b1/sources/memo-91af492a421e6194.txt#L20-L30" data-pdf-link="2924" data-link-kind="external">L17 20-30 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/voice_action_reuse/01fbc9ad2b4871612bb275feca0be5ed9f5bd3581933c74c56155febe178d325.txt#L3932-L3934" data-pdf-link="2923" data-link-kind="external">L18 3932-3934,4024-4026 行</a></p>
+<footer id="pdf-line-32-20" class="source-page-footer">未完のまま考える　32</footer>
+</section>
+<section class="book-page" id="page-33" data-source-page="33" aria-label="原本 33 ページ">
+<h3 id="fragment-071" class="fragment-title">071　役に立つ遊び</h3>
+<p id="pdf-line-33-2" class="body-text">遊びから学べることは多い。初めての場所へ行くこと、人に使い方を尋ねること、失敗した後にもう一度試すこと。小さな冒険を記録すれば、次の行動を助ける手がかりにもなる。</p>
+<p id="pdf-line-33-4" class="body-text">それでも、遊びは何かを身につけたから良かった、とだけ書いてしまうのをためらう。後に役立つことを示せなければ、その時間を楽しんだ理由が足りないのだろうか。気持ちよく一球が当たった瞬間には、将来の使い道をまだ知らない喜びがあった。</p>
+<p id="pdf-line-33-7" class="body-text">費用や時間を考えることも、生活の一部である。限りがあるから、次にも選べるように残しておきたい。計算を退けてしまえば、続けたい遊びを続ける条件が見えなくなる。だが、計算だけでその日の価値を尽くそうとすると、何のために条件を整えたのかが見えなくなる。</p>
+<p id="pdf-line-33-11" class="body-text">役に立つことと、ただ楽しいことを、無理に引き離す必要はない。ただ、まだ役に立つと説明できない楽しさにも、座る場所を一つ残せないか。未来の能力へ変換される前に、今日の時間はすでに生きられている。</p>
+<p id="pdf-line-33-14" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/observations/2026-10-21-ueno-dekitajan/report.md#L104-L129" data-pdf-link="2922" data-link-kind="external">L16 104-129 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/runs/voice-20261021-ueno-400efdfb26eb96b1/sources/memo-91af492a421e6194.txt#L20-L41" data-pdf-link="2921" data-link-kind="external">L17 20-41 行</a></p>
+<h3 id="fragment-072" class="fragment-title">072　余りものの形</h3>
+<p id="pdf-line-33-16" class="body-text">残った液とパン粉をまとめて揚げたら、なんとなくまんじゅうのようになった。メモにあるこの小さな枝分かれには、最初の料理名に含まれていない出来事が残っている。</p>
+<p id="pdf-line-33-18" class="body-text">計画の外へ出たものをすべて誤差として消せば、記録は整う。しかし、つくる行為では、余りものから別の形が生まれることもある。必要なのは、偶然の産物をすぐ標準へ昇格させることでも、予定外というだけで捨てることでもない。</p>
+<p id="pdf-line-33-21" class="body-text">何が残り、何をして、どんなものになったか。名前が決まる前のその曖昧な時間にも、手の仕事は続いている。</p>
+<p id="pdf-line-33-23" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/tonkatsu_20261013/notes.md#L35-L46" data-pdf-link="2920" data-link-kind="external">L02 35-46,65-66 行</a></p>
+<footer id="pdf-line-33-24" class="source-page-footer">未完のまま考える　33</footer>
+</section>
+<section class="book-page" id="page-34" data-source-page="34" aria-label="原本 34 ページ">
+<p id="pdf-line-34-1" class="chapter-label">第10 章</p>
+<h2 id="pdf-line-34-2" class="section-title">協働する知性</h2>
+<p id="pdf-line-34-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-34-4" class="quote">言葉全然通じないのに盛り上がりました。</blockquote>
+<p id="pdf-line-34-5" class="source-note">礼文旅行の編集済み記録に収録された本人帰属の発言。原音声は本編纂では未照合。</p>
+<p id="pdf-line-34-6" class="source-note">引用 <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml#L929-L936" data-pdf-link="2919" data-link-kind="external">K04 929-936 行</a></p>
+<h3 id="fragment-073" class="fragment-title">073　望みを渡す</h3>
+<p id="pdf-line-34-8" class="body-text">曖昧な困り事を話しているうちに、欲しかったものが見えてくる。初めから完成した仕様を持てない人にも、対話を始める場所は必要である。声による設計の記録では、人が目的や判断条件を整え、AI が構造を作り、方法を比較する役割が考えられている。</p>
+<p id="pdf-line-34-11" class="body-text">この分担は、人間が正解を知り、AI がそれを清書するという単純な配置に収まらない。説明を受けて、人が初めて自分の望みの曖昧さに気づくこともある。AI の整理に触れて、そういうことをしたかったのだと思う場合もある。考えは、渡される前に完成しているとは限らない。</p>
+<p id="pdf-line-34-15" class="body-text">それでも、整った説明ができたという理由だけで、その説明が本人の望みを決定してよいわけではない。言いやすい形にされた願いの中で、言いにくかった部分が失われているかもしれないからだ。共同で考える相手には、分かりやすくする力とともに、違うと言い直せる余地を残す仕事がある。渡すことができるのは仕事であり、望む主体まで譲り渡す約束ではない。</p>
+<p id="pdf-line-34-20" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-design-review-20261026/r0001.yaml#L264-L287" data-pdf-link="2918" data-link-kind="external">K10 264-287 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/organization-model-20261027/r0001.yaml#L264-L275" data-pdf-link="2917" data-link-kind="external">K08 264-275 行</a></p>
+<h3 id="fragment-074" class="fragment-title">074　委ねるための情報</h3>
+<p id="pdf-line-34-22" class="body-text">責任を任せたと言いながら、判断に要る情報も権限も渡さない。それで仕事が止まると、自律性が足りないと評する。ここでは委任の言葉が、委任の条件を隠している。</p>
+<p id="pdf-line-34-24" class="body-text">誰かに任せるなら、どこまで選べるか、何を守るか、何をもって受け取るかを知らせる。その条件が見えれば、任された側は途中で考え直すこともできる。自由な工夫を求める人が、完成後にだけ隠れていた条件を取り出すなら、相手は次から工夫より顔色を読むだろう。裁量を渡すことには、渡した側の振る舞いも含まれている。</p>
+<p id="pdf-line-34-28" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/organization-model-20261027/r0001.yaml#L335-L390" data-pdf-link="2916" data-link-kind="external">K08 335-390 行</a></p>
+<footer id="pdf-line-34-29" class="source-page-footer">未完のまま考える　34</footer>
+</section>
+<section class="book-page" id="page-35" data-source-page="35" aria-label="原本 35 ページ">
+<h3 id="fragment-075" class="fragment-title">075　尋ねすぎる知性</h3>
+<p id="pdf-line-35-2" class="body-text">確認のために質問したはずが、相手の仕事を増やしている。既に答えたことを尋ね、判断に影響しない細部を尋ね、作業を始めるための会話が作業そのものより長くなる。</p>
+<p id="pdf-line-35-4" class="body-text">設計の記録には、分かる部分は埋め、判断が変わる不明点を尋ねるという方針がある。相手を理解する努力には、尋ねる前に既に渡されたものを読むことも含まれる。すべてを質問する態度は、慎重に見えても、理解する責任を相手へ戻している場合がある。よい質問の数は、相手の答える能力を使い切った数では測れない。</p>
+<p id="pdf-line-35-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-design-review-20261026/r0001.yaml#L278-L319" data-pdf-link="2915" data-link-kind="external">K10 278-319 行</a></p>
+<h3 id="fragment-076" class="fragment-title">076　同席</h3>
+<p id="pdf-line-35-10" class="body-text">相手の言葉を全部理解できなかった。それでも一緒に喜んだ。理解には、埋めなければならない空白と、残っていても座れる場所がある。</p>
+<p id="pdf-line-35-12" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml#L915-L931" data-pdf-link="2914" data-link-kind="external">K04 915-931 行</a></p>
+<h3 id="fragment-077" class="fragment-title">077　山に登らない人</h3>
+<p id="pdf-line-35-14" class="body-text">歩くことは好きだが、山登りは嫌いだという旅行者がいる。その二つを一続きに感じている聞き手には、理由が分かりにくい。だが、同じ動詞で括れる行動が、その人に同じ喜びや負担をもたらすとは限らない。</p>
+<p id="pdf-line-35-17" class="body-text">他者を理解しようとするとき、人は自分の中にある分類を差し出す。歩くのが好きなら山にも登るだろう。美味しそうに食べているなら高く評価しているだろう。分類は話を始める助けになる。ところが相手の言葉がそこに収まらないとき、相手を矛盾として処理すれば、理解はそこで終わる。</p>
+<p id="pdf-line-35-21" class="body-text">協働のためには目的をそろえる必要がある。しかし、それは全員が同じものを望むことを要求するのだろうか。別の喜びを持つ人々が、一つの仕事の限られた部分で手を結ぶこともある。合意した範囲の外に、相手の分からない好みや、こちらには不要に見える時間が残る。それを全て解明しなければ信頼できないという態度は、知ろうとする熱心さとどこで分かれるのか。他者に残る余白を、共同作業の欠陥として埋め尽くしたくはない。</p>
+<p id="pdf-line-35-26" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml#L971-L1019" data-pdf-link="2913" data-link-kind="external">K04 971-1019 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/organization-model-20261027/r0001.yaml#L335-L355" data-pdf-link="2912" data-link-kind="external">K08 335-355 行</a></p>
+<footer id="pdf-line-35-27" class="source-page-footer">未完のまま考える　35</footer>
+</section>
+<section class="book-page" id="page-36" data-source-page="36" aria-label="原本 36 ページ">
+<h3 id="fragment-078" class="fragment-title">078　共有する夕日</h3>
+<p id="pdf-line-36-2" class="body-text">同じ夕日を見て喜んだという記録には、議事録にしにくい共同の時間がある。誰が何を提案し、どの成果物を引き渡したかを数えなくても、その時間は二人の間に起こる。</p>
+<p id="pdf-line-36-4" class="body-text">協働を仕事の構造だけで考えると、人と一緒にいることの多くが、準備か余談になってしまう。だが、一緒に眺めた空の色が、後の言葉を受け取りやすくするかもしれない。その効果が測定できるから価値がある、と急いで説明する必要もない。役に立つかを問われる前の時間を、関係の中に置いておけるだろうか。</p>
+<p id="pdf-line-36-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml#L734-L784" data-pdf-link="2911" data-link-kind="external">K04 734-784 行</a></p>
+<h3 id="fragment-079" class="fragment-title">079　共同作業の完成</h3>
+<p id="pdf-line-36-10" class="body-text">本を作り終えたとき、編集者には完成が見える。読む人には、そこから始まる時間がある。ファイルが存在すること、開けること、内容を理解すること、自分の判断に使うことは、同じ完了の印では代用できない。</p>
+<p id="pdf-line-36-13" class="body-text">共同作業を終えるときには、何を渡せたかを具体的に確かめたい。そして、受け取った人の経験がまだ始まっていないなら、その先を勝手に成功として書かずにおく。完成を正確に祝うことと、効果を確かめるために余地を残すことは両立する。読者が何を考えるかまで、著者の成果に先取りすることはできない。</p>
+<p id="pdf-line-36-17" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/output-outcome-understanding-20261027/r0001.yaml#L243-L340" data-pdf-link="2910" data-link-kind="external">K09 243-340 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/docs/registrations/voice-github-milestone-20261031/evidence-review-r0002/README.md#L7-L40" data-pdf-link="2909" data-link-kind="external">K11 7-40 行</a></p>
+<h3 id="fragment-080" class="fragment-title">080　目的を言い直す声</h3>
+<p id="pdf-line-36-19" class="body-text">仕組みが精密になり、記録が増えたところへ、本人の声が戻ってくる。やりたかったのは、自分の能力がどう伸びたかを知ることだった、と。その一言で、熱心に整えてきた作業の置き場所が変わる。</p>
+<p id="pdf-line-36-22" class="body-text">共同で作った仕組みは、作った人の努力を守るためだけに続けてはならない。使う人が目的を言い直したとき、それを迷惑な変更として扱えば、仕組みは持ち主を失う。けれども、望みを聞き直すたびにすべてを壊すこともできない。何を残し、どこを変えるか。その判断を、過去に費やした手間だけで決めないために、現在の声を聞く場所を空けておく。</p>
+<p id="pdf-line-36-26" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-to-implementation-20261101/r0001.yaml#L267-L273" data-pdf-link="2908" data-link-kind="external">K15 267-273 行</a>　<a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/organization-model-20261027/r0001.yaml#L375-L390" data-pdf-link="2907" data-link-kind="external">K08 375-390 行</a></p>
+<footer id="pdf-line-36-27" class="source-page-footer">未完のまま考える　36</footer>
+</section>
+<section class="book-page" id="page-37" data-source-page="37" aria-label="原本 37 ページ">
+<p id="pdf-line-37-1" class="chapter-label">第11 章</p>
+<h2 id="pdf-line-37-2" class="section-title">老いと経験の継承</h2>
+<p id="pdf-line-37-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-37-4" class="quote">自分のやってることを再利用するためにまた理解して覚えられるように</blockquote>
+<p id="pdf-line-37-5" class="source-note">本人の入力文</p>
+<p id="pdf-line-37-6" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt#L1" data-pdf-link="2906" data-link-kind="external">S11 1 行</a></p>
+<h3 id="fragment-081" class="fragment-title">081　六十三歳の現在形</h3>
+<p id="pdf-line-37-8" class="body-text">六十三歳で、自分の経験を再び使えるように学び、訓練しているという文章がある。そこに書かれている年齢は、終わった仕事の集計のためだけに置かれていない。今から何をするかという文の中にある。</p>
+<p id="pdf-line-37-11" class="body-text">経験が多ければ、新しい練習は不要になるだろうか。かつてできたことを、違う環境でもう一度使うには、確かめ直すことがある。年齢は時間の経過を告げる。どこまで関心を持ってよいかの許可証にはしなくてよい。</p>
+<p id="pdf-line-37-14" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt#L1" data-pdf-link="2905" data-link-kind="external">S11 1 行</a></p>
+<h3 id="fragment-082" class="fragment-title">082　伝わらない能力</h3>
+<p id="pdf-line-37-16" class="body-text">できるつもりなのに、若い人には伝わらない。その言葉には、自分の経験と、相手に見えているものとの隔たりがある。</p>
+<p id="pdf-line-37-18" class="body-text">この隔たりを、どちらか一方の欠点で片付けると、調べる余地が失われる。実行する力が今の条件でも通用するのか。相手はその力を必要としているのか。説明の仕方が届いているのか。自分の経験を尊重することと、その経験がすべての場面で価値を持つと考えることは別である。</p>
+<p id="pdf-line-37-22" class="body-text">伝わらないまま傷つくこともあるだろう。それでも、相手の理解を強制することでは、自分の力の確かさは増えない。一件を使ってみて、何が起きるかを確かめる。その小さな実践が、評価から少し距離を取る足場になる。</p>
+<p id="pdf-line-37-25" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt#L1" data-pdf-link="2904" data-link-kind="external">S11 1 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md#L15-L25" data-pdf-link="2903" data-link-kind="external">S12 15-25 行</a></p>
+<footer id="pdf-line-37-26" class="source-page-footer">未完のまま考える　37</footer>
+</section>
+<section class="book-page" id="page-38" data-source-page="38" aria-label="原本 38 ページ">
+<h3 id="fragment-083" class="fragment-title">083　最初の継承者</h3>
+<p id="pdf-line-38-2" class="body-text">経験を誰かへ伝えたいと願う前に、昨日の自分が見つけたことを、今日の自分が使えるだろうか。</p>
+<p id="pdf-line-38-4" class="body-text">この問いは、他人への伝承を諦めるためのものではない。未来の自分にも、当日の事情は分からなくなる。なぜそう判断したのか、どんな場合には使えないのかを書いておけば、自分が最初の読み手になれる。昨日を再現するためだけに記録するのではなく、昨日の工夫を今日の条件で使い直すために記録する。継承には、受け取り手の変更が含まれている。</p>
+<p id="pdf-line-38-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md#L21-L53" data-pdf-link="2902" data-link-kind="external">S12 21-53 行</a></p>
+<h3 id="fragment-084" class="fragment-title">084　古い方法の新しい試験</h3>
+<p id="pdf-line-38-10" class="body-text">長く使われてきた方法には、長く使われてきた理由があるはずだ。その理由を聞かず、古いというだけで捨てるのは早い。</p>
+<p id="pdf-line-38-12" class="body-text">同じように、長く使ったという事実だけで、今も適していると決めるのも早い。慣れている側には見えない費用があり、新しく選ぶ側には見えない工夫があるかもしれない。双方の条件を言葉にし、何を比べるかを決める。経験を尊ぶ態度は、経験を試さずに保存する態度と同じではない。</p>
+<p id="pdf-line-38-16" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-recall-20261028-r0001/source.md#L13-L17" data-pdf-link="2901" data-link-kind="external">S14 13-17 行</a></p>
+<h3 id="fragment-085" class="fragment-title">085　一人で暮らすこと</h3>
+<p id="pdf-line-38-18" class="body-text">一人で楽しめることと、誰の手も借りずに生きることを、同じ誇りにしなくてよい。</p>
+<p id="pdf-line-38-19" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt#L1" data-pdf-link="2900" data-link-kind="external">S11 1 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md#L9-L13" data-pdf-link="2899" data-link-kind="external">S12 9-13 行</a></p>
+<h3 id="fragment-086" class="fragment-title">086　評価を求める心</h3>
+<p id="pdf-line-38-21" class="body-text">他人の評価だけに生き方を委ねたくない。そう言っても、認めてほしい気持ちまで消えるとは限らない。工夫が届けばうれしく、何もしていないように見られれば悔しい。</p>
+<p id="pdf-line-38-23" class="body-text">その気持ちを克服できていないから未熟だと、自分をもう一度採点する必要はあるだろうか。評価の外で営みを続ける力と、評価を欲しがる心は、同じ人の中に居合わせる。どちらかを偽物にしなければならない理由はない。</p>
+<p id="pdf-line-38-26" class="body-text">自分のために経験を使い直すことは、他人に認められたい気持ちを消す方法ではない。認められるまで今日の暮らしを始められない、という状態から離れるための、一つの道にはなり得る。</p>
+<p id="pdf-line-38-29" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt#L1" data-pdf-link="2898" data-link-kind="external">S11 1 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md#L9-L25" data-pdf-link="2897" data-link-kind="external">S12 9-25 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/507c5136d7ff548509154167311bbb884aebc863a381e389c80433124320b924.txt#L1" data-pdf-link="2896" data-link-kind="external">S13 1 行</a></p>
+<footer id="pdf-line-38-30" class="source-page-footer">未完のまま考える　38</footer>
+</section>
+<section class="book-page" id="page-39" data-source-page="39" aria-label="原本 39 ページ">
+<h3 id="fragment-087" class="fragment-title">087　増えたものを数える</h3>
+<p id="pdf-line-39-2" class="body-text">今日はいくつ保存したか、いくつ実行したか。数えられるものがあれば、一日の輪郭を確かめやすい。それを数える楽しみもある。</p>
+<p id="pdf-line-39-4" class="body-text">けれども、数が増えなかった日には、何もなかったのだろうか。分からないまま持っていた問いが少し変わった日、無理をせずに引き返した日、前の記録を一つ使えた日もある。増えたものだけを目に入れると、減らしてよかった負担や、変えてよかった判断が見えにくくなる。自分の暮らしを数えるなら、数え方を変える余地も残しておきたい。</p>
+<p id="pdf-line-39-8" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md#L21-L31" data-pdf-link="2895" data-link-kind="external">S12 21-31 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/daily-chat-assets-20261012/source.md#L24-L39" data-pdf-link="2894" data-link-kind="external">S15 24-39 行</a></p>
+<h3 id="fragment-088" class="fragment-title">088　残す相手の自由</h3>
+<p id="pdf-line-39-10" class="body-text">経験を残すことには、その先を自分では選べないという面がある。受け取った人は、一部だけを使うかもしれない。別の意味に読み直すかもしれない。大切だった記録を開かないこともある。</p>
+<p id="pdf-line-39-13" class="body-text">それでも、何を考え、どんな条件で工夫し、何が分からなかったかを残す。その記録が、後の人を昔の答えへ縛るためのものにならぬようにしたい。経験が引き継がれるとき、同じことが続くとは限らない。次の人が別のことをできるようになる、その変化の中にも継承がある。</p>
+<p id="pdf-line-39-17" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt#L1" data-pdf-link="2893" data-link-kind="external">S11 1 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md#L21-L53" data-pdf-link="2892" data-link-kind="external">S12 21-53 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/kufu-accumulation-20261011/artifacts/source_note.md#L26-L52" data-pdf-link="2891" data-link-kind="external">S04 26-52 行</a></p>
+<footer id="pdf-line-39-18" class="source-page-footer">未完のまま考える　39</footer>
+</section>
+<section class="book-page" id="page-40" data-source-page="40" aria-label="原本 40 ページ">
+<p id="pdf-line-40-1" class="chapter-label">第12 章</p>
+<h2 id="pdf-line-40-2" class="section-title">続けることと手放すこと</h2>
+<p id="pdf-line-40-3" class="source-note">原文片</p>
+<blockquote id="pdf-line-40-4" class="quote">残り10 メートルで</blockquote>
+<blockquote id="pdf-line-40-5" class="quote">意志の強さが</blockquote>
+<blockquote id="pdf-line-40-6" class="quote">さらに頑張ることなのか</blockquote>
+<blockquote id="pdf-line-40-7" class="quote">方法を変えることなのか</blockquote>
+<blockquote id="pdf-line-40-8" class="quote">誰かに 託すことなのか</blockquote>
+<p id="pdf-line-40-9" class="source-note">本人の鑑賞前メモの転記　IMG3300 L02〜L06　本人校合前</p>
+<p id="pdf-line-40-10" class="source-note">引用 <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md#L81-L85" data-pdf-link="2890" data-link-kind="external">L06 81-85 行</a></p>
+<h3 id="fragment-089" class="fragment-title">089　残り十メートル</h3>
+<p id="pdf-line-40-12" class="body-text">最後の十メートルを、さらに頑張るか、方法を変えるか、誰かに託すか。意志の強さは、どの選択をしたかだけでは読み切れない。</p>
+<p id="pdf-line-40-14" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md#L41-L49" data-pdf-link="2889" data-link-kind="external">L06 41-49,79-85 行</a></p>
+<h3 id="fragment-090" class="fragment-title">090　意志の形</h3>
+<p id="pdf-line-40-16" class="body-text">最初に決めた方法を守ることが、いつの間にか目的を守ることに置き換わる。同じやり方で続けるほど、意志が強いように見えるからである。</p>
+<p id="pdf-line-40-18" class="body-text">だが、状況が変わった時には、その忠実さが目標への道を閉じる場合もある。方法を変える人は、諦めたのかもしれないし、まだ諦めていないから変えたのかもしれない。</p>
+<p id="pdf-line-40-20" class="body-text">どちらかは、本人の宣言だけで決まらない。何を残そうとして、何を失うことを引き受けたのか。その選び方を見なければならない。変わらない意志は、変わらない姿をしているとは限らない。</p>
+<p id="pdf-line-40-23" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md#L17-L26" data-pdf-link="2888" data-link-kind="external">L06 17-26,79-85 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/conversation_context.md#L15-L29" data-pdf-link="2887" data-link-kind="external">L10 15-29 行</a></p>
+<footer id="pdf-line-40-24" class="source-page-footer">未完のまま考える　40</footer>
+</section>
+<section class="book-page" id="page-41" data-source-page="41" aria-label="原本 41 ページ">
+<h3 id="fragment-091" class="fragment-title">091　託す手</h3>
+<p id="pdf-line-41-2" class="body-text">誰かに託すという選択には、信頼と不安が同居する。自分の力だけでは届かないところへ、仕事を運んでもらえる。けれど、運ばれた先で、それは自分の想像どおりの形を保つだろうか。</p>
+<p id="pdf-line-41-5" class="body-text">完全に同じ結果しか認めないなら、相手の判断を借りたことにはならない。一方で、任せたのだから何でもよいと言ってしまえば、託した目的が消える。</p>
+<p id="pdf-line-41-7" class="body-text">どこを守り、どこを任せるか。その境界を話す仕事が残る。託すことは責任の終点というより、責任を分けて持つ関係の始まりなのだろう。受け取る人にも、その重さを引き受けるか選ぶ余地がある。</p>
+<p id="pdf-line-41-10" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md#L17-L26" data-pdf-link="2886" data-link-kind="external">L06 17-26,50-58,79-85 行</a></p>
+<h3 id="fragment-092" class="fragment-title">092　鎧を脱いだ後</h3>
+<p id="pdf-line-41-12" class="body-text">手書きの感想には、鎧をはがしても同じ思いを持ち続けられることへの共感がある。肩書き、力、周囲の期待が取り去られた後にも残るものを、信念と呼びたいのだろう。</p>
+<p id="pdf-line-41-14" class="body-text">しかし、その思いを守ってきたのは、内側の強さだけだったのか。働ける体、使える時間、協力する人、たまたま与えられた機会も、その思いが続く場所を作っていたかもしれない。支えを認めることは、信念を軽くするだろうか。それとも、それを誰とどう保ってきたかを見えるようにするだろうか。</p>
+<p id="pdf-line-41-18" class="body-text">同じメモの終わりには、もし別の世界に生まれ直したら、いまの信念を使うのか、違うものに置き換えるのか分からない、という問いがある。ここでは、守りたい思いへの確信と、条件が変わった自分への無知とが、離れずに置かれている。</p>
+<p id="pdf-line-41-21" class="body-text">その二つを一つの結論に揃えなくてよい。今日大切にしていることは、未来の自分をすべて知っているという保証を必要としない。強く思うことと、自分の行方を決めつけないことを、一枚の紙の上で共存させることはできる。</p>
+<p id="pdf-line-41-24" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md#L100-L112" data-pdf-link="2885" data-link-kind="external">L06 100-112,141-159 行</a></p>
+<footer id="pdf-line-41-25" class="source-page-footer">未完のまま考える　41</footer>
+</section>
+<section class="book-page" id="page-42" data-source-page="42" aria-label="原本 42 ページ">
+<h3 id="fragment-093" class="fragment-title">093　帰ってくる条件</h3>
+<p id="pdf-line-42-2" class="body-text">山頂で写真を撮り、安全に下りてくる。この目標には、上る道と帰る道が最初から含まれている。頂上の一枚だけを成功の像にすると、帰還のために残す時間や力は、見えにくくなる。</p>
+<p id="pdf-line-42-5" class="body-text">届かなかった場合にも、植物を撮る道はある。ただし、代わりの楽しみがあるからといって、断念の悔しさまで消えるとは限らない。目標を変える判断には、失ったものを認める時間も要る。</p>
+<p id="pdf-line-42-8" class="body-text">帰るために引き返すことを、いつでも立派だと言うのも簡単すぎる。判断の難しさを残したまま、帰還を成功の中へ書いておく。その一行が、頂上だけを見てしまう時の自分に、別の視野を渡す。</p>
+<p id="pdf-line-42-11" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/rishiri-2027/project-charter.md#L8-L14" data-pdf-link="2884" data-link-kind="external">L07 8-14 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/rishiri-2027/plan.md#L10-L22" data-pdf-link="2883" data-link-kind="external">L08 10-22 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/rishiri-2027/sources/handoff-20261030.md#L10-L14" data-pdf-link="2882" data-link-kind="external">L09 10-14 行</a></p>
+<h3 id="fragment-094" class="fragment-title">094　進歩の重さ</h3>
+<p id="pdf-line-42-13" class="body-text">出来ることが増えると、困難も増えて、かえって動けなくなる。そう書かれたメモには、能力の蓄積を祝う言葉だけでは届かない重さがある。</p>
+<p id="pdf-line-42-15" class="body-text">作ったものは管理を求め、選べる道は選択を求める。かつて自分を助けた方法が、いまの自分から時間を取り立てることもある。増えた能力をすべて使い続けるのが進歩だとしたら、進歩はいつか一日の長さを越えてしまう。</p>
+<p id="pdf-line-42-18" class="body-text">手放す時、過去の努力が無駄になったように感じるかもしれない。けれど、その方法が役立った時期まで無かったことにはならない。役目を終えることを許せば、過去は現在の持ち物であり続ける義務から少し自由になる。</p>
+<p id="pdf-line-42-21" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md#L141-L152" data-pdf-link="2881" data-link-kind="external">L06 141-152 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/records/2026-10-10-morning-study-plan.md#L14-L27" data-pdf-link="2880" data-link-kind="external">L14 14-27 行</a></p>
+<footer id="pdf-line-42-22" class="source-page-footer">未完のまま考える　42</footer>
+</section>
+<section class="book-page" id="page-43" data-source-page="43" aria-label="原本 43 ページ">
+<h3 id="fragment-095" class="fragment-title">095　続けない一日</h3>
+<p id="pdf-line-43-2" class="body-text">続けたいことがあるから、今日は休む。そう言えれば分かりやすい。休みが次の行動に役立つことを示せるからである。だが、明日の成果へつながると説明できない休みにも、場所はあるだろうか。</p>
+<p id="pdf-line-43-5" class="body-text">疲れている人に、休む合理的な理由まで証明させると、休息は新しい課題になる。達成感も疲労もあるという記録を、一つの点数にまとめずに残すことは、人の状態が次の仕事に適しているかだけでは尽くせないと認めることである。</p>
+<p id="pdf-line-43-8" class="body-text">休もうと思えばいつでも休める、とも限らない。代わりに手を動かす人がいるか、明日の約束を変更できるか。休むための条件まで、一人でそろえなければならないのだろうか。</p>
+<p id="pdf-line-43-10" class="body-text">一日の価値を、翌日の能力増加だけで測らずに済むなら、続けることの意味も変わるだろう。生きるために続けているものが、続けるために生きなければならないものへ変わっていないか。休む日は、その問いがようやく聞こえる日でもある。</p>
+<p id="pdf-line-43-13" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/observations/2026-10-21-ueno-dekitajan/report.md#L5" data-pdf-link="2879" data-link-kind="external">L16 5,60-74 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md#L141-L159" data-pdf-link="2878" data-link-kind="external">L06 141-159 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/voice_action_reuse/01fbc9ad2b4871612bb275feca0be5ed9f5bd3581933c74c56155febe178d325.txt#L3932-L3934" data-pdf-link="2877" data-link-kind="external">L18 3932-3934,4024-4026 行</a></p>
+<h3 id="fragment-096" class="fragment-title">096　まだ決めない頁</h3>
+<p id="pdf-line-43-15" class="body-text">思いを残しておけば、明日の自分が読める。けれど、明日の自分が同じように思うかどうかまでは、今日の記録に命じられない。</p>
+<p id="pdf-line-43-17" class="body-text">引き継ぐこと、直すこと、もう使わないこと。残された断片は、そのどれにも開かれている。ここまで考えたという印は、ここから先も同じように考えよという命令ではない。</p>
+<p id="pdf-line-43-19" class="body-text">最後の頁を、完成した自分の肖像にする必要はあるだろうか。枝にはまだ実が残り、砂にはまだ知らないものがあり、守りたい思いさえ、別の条件に置かれた時の姿を見せていない。</p>
+<p id="pdf-line-43-22" class="body-text">次に拾う一枚によって、この本のどの言葉が変わるのだろう。</p>
+<p id="pdf-line-43-23" class="source-note">思索の手掛かり <a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md#L157-L159" data-pdf-link="2876" data-link-kind="external">L06 157-159 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/reports/ginkgo_observation/20261031/report.md#L18-L20" data-pdf-link="2875" data-link-kind="external">L05 18-20 行</a>　<a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/memo_transcription.md#L503-L527" data-pdf-link="2874" data-link-kind="external">L13 503-527 行</a></p>
+<footer id="pdf-line-43-24" class="source-page-footer">未完のまま考える　43</footer>
+</section>
+<section class="book-page" id="page-44" data-source-page="44" aria-label="原本 44 ページ">
+<h2 id="pdf-line-44-1" class="section-title">問いの往復</h2>
+<p id="pdf-line-44-2" class="body-text">離れた断章を組み合わせると、同じ主題の別の面が見えてくる。次の七つは、そのための読み道である。</p>
+<h3 id="pdf-line-44-4" class="reading-path-title">知識を増やす</h3>
+<p id="pdf-line-44-5" class="crossrefs"><a href="#fragment-004" data-pdf-link="2873" data-link-kind="internal">004 増える未知</a>　／　<a href="#fragment-060" data-pdf-link="2872" data-link-kind="internal">060 知らなさの輪郭</a></p>
+<p id="pdf-line-44-6" class="body-text">学ぶことで未知が増えるのは、どのような前進だろうか。</p>
+<h3 id="pdf-line-44-7" class="reading-path-title">成功を確かめる</h3>
+<p id="pdf-line-44-8" class="crossrefs"><a href="#fragment-012" data-pdf-link="2871" data-link-kind="internal">012 範囲のある成功</a>　／　<a href="#fragment-069" data-pdf-link="2870" data-link-kind="internal">069 まぐれの一球</a></p>
+<p id="pdf-line-44-9" class="body-text">再現性が分かる前にも、喜びを受け取れるだろうか。</p>
+<h3 id="pdf-line-44-10" class="reading-path-title">記録を持つ</h3>
+<p id="pdf-line-44-11" class="crossrefs"><a href="#fragment-021" data-pdf-link="2869" data-link-kind="internal">021 忘れても戻る</a>　／　<a href="#fragment-056" data-pdf-link="2868" data-link-kind="internal">056 水面を残す</a></p>
+<p id="pdf-line-44-12" class="body-text">戻れる記録に、どこまで経験を託せるだろうか。</p>
+<h3 id="pdf-line-44-13" class="reading-path-title">判断を保留する</h3>
+<p id="pdf-line-44-14" class="crossrefs"><a href="#fragment-033" data-pdf-link="2867" data-link-kind="internal">033 三つ目の返事</a>　／　<a href="#fragment-035" data-pdf-link="2866" data-link-kind="internal">035 待つ人の時間</a></p>
+<p id="pdf-line-44-15" class="body-text">自分の慎重さは、誰の時間を使っているだろうか。</p>
+<h3 id="pdf-line-44-16" class="reading-path-title">能力を伸ばす</h3>
+<p id="pdf-line-44-17" class="crossrefs"><a href="#fragment-032" data-pdf-link="2865" data-link-kind="internal">032 能力の向かう先</a>　／　<a href="#fragment-094" data-pdf-link="2864" data-link-kind="internal">094 進歩の重さ</a></p>
+<p id="pdf-line-44-18" class="body-text">できることが増えたとき、何を選ばずに済むだろうか。</p>
+<h3 id="pdf-line-44-19" class="reading-path-title">人へ任せる</h3>
+<p id="pdf-line-44-20" class="crossrefs"><a href="#fragment-043" data-pdf-link="2863" data-link-kind="internal">043 任せる範囲</a>　／　<a href="#fragment-091" data-pdf-link="2862" data-link-kind="internal">091 託す手</a></p>
+<p id="pdf-line-44-21" class="body-text">仕事を渡すとき、渡せないものは何だろうか。</p>
+<h3 id="pdf-line-44-22" class="reading-path-title">経験を残す</h3>
+<p id="pdf-line-44-23" class="crossrefs"><a href="#fragment-083" data-pdf-link="2861" data-link-kind="internal">083 最初の継承者</a>　／　<a href="#fragment-096" data-pdf-link="2860" data-link-kind="internal">096 まだ決めない頁</a></p>
+<p id="pdf-line-44-24" class="body-text">明日の自分は、今日の言葉をどう変えるだろうか。</p>
+<footer id="pdf-line-44-25" class="source-page-footer">未完のまま考える　44</footer>
+</section>
+<section class="book-page" id="page-45" data-source-page="45" aria-label="原本 45 ページ">
+<h2 id="pdf-line-45-1" class="section-title">束ねた紙のその先</h2>
+<p id="pdf-line-45-2" class="body-text">最初から一つの哲学を証明するために集められた記録ではなかった。うまく進まなかった作業があり、その日に思いついた工夫があり、旅先の時間を惜しむ声がある。書物へ編むとき、それらを同じ結論へそろえる誘惑がある。だが、資料の強さは、ときにそろわないところにあった。</p>
+<p id="pdf-line-45-6" class="body-text">確かめたいという願いは強い。それと同じくらい、自分で選び、試し、楽しみたいという願いがある。忘れたくないから残す。次のものを見たいから、いったん置く。できることを増やしたい。そして、増えたものに一日を占領されたくもない。これらは一つの標語にすると薄くなる。</p>
+<p id="pdf-line-45-10" class="body-text">本書を読み終えたことが、考え終えたことになる必要はない。どれか一つを使ってみる。違うと思った箇所へ、自分の言葉を書き添える。経験に合わなくなった断章には、新しい番号を振ってもよい。前の記録へ戻れるようにしながら、次の記録へ場所を空ける。</p>
+<p id="pdf-line-45-13" class="body-text">書物になった紙切れも、別の一日から見れば、まだ紙切れである。その軽さを残しておきたい。</p>
+<footer id="pdf-line-45-15" class="source-page-footer">未完のまま考える　45</footer>
+</section>
+<section class="book-page" id="page-46" data-source-page="46" aria-label="原本 46 ページ">
+<h2 id="pdf-line-46-1" class="section-title">原資料と断章の対応</h2>
+<p id="pdf-line-46-2" class="reference-text">資料固定日 2026 年11 月3 日 日本時間。本書は下記二つの main から解決したコミットに、読取対象を固定して編纂した。コミットに残された原資料と、今回執筆した断章を区別する。</p>
+<p id="pdf-line-46-4" class="reference-text">章立て、断章番号、見出し、本文の哲学的展開はChatGPT による編纂である。各資料の帰属は、本人入力、本人メモの既存転記、編集済み対話記録、AI による説明・設計として表示した。第三者講義や作品に関するメモは、受講者・鑑賞者の問いを中心に扱い、本人の独自学説として帰属させていない。</p>
+<p id="pdf-line-46-7" class="reference-text">本書に用いたのは、目録から選んで実読した資料である。二つのリポジトリにある全ファイル、全履歴、未統合の全ブランチを読破した版ではない。原資料の保存・検査の記録と、本人の理解や実地での効果も別のものとして扱う。</p>
+<p id="pdf-line-46-10" class="reference-text">巻末の「原文を開く」は固定コミットのファイルへ接続する。閲覧には当該リポジトリへのアクセスが必要となる場合がある。出典行は、保存済みテキストの行番号であり、手書き写真の行番号とは異なる。</p>
+<p id="pdf-line-46-12" class="reference-text">kakurai49/sandbox</p>
+<p id="pdf-line-46-13" class="source-path">e1cfd09c15f2ecd937e7967c6ae282775616fbaa</p>
+<p id="pdf-line-46-14" class="reference-text">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-46-15" class="source-path">474f412b2756fd9142f25581843607207ec819d7</p>
+<p id="pdf-line-46-16" class="reference-text">以下の資料番号は、各断章の末尾に示した番号と対応する。行を指定したリンクは、その断章で参照した最初の範囲へ接続する。本文からの類推や問い返しは、原文自体の主張とは区別される。</p>
+<h3 id="source-K02" class="source-heading">K02　不忍池のボート体験</h3>
+<p id="pdf-line-46-19" class="reference-text">記録の性格　本人帰属の文字起こし</p>
+<p id="pdf-line-46-20" class="reference-text">話者A に帰属された自動文字起こし。原音声と本人性は本調査で未照合。</p>
+<p id="pdf-line-46-21" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-46-22" class="source-path">sources/transcripts/shinobazu-boat-20261008/r0001.md</p>
+<p id="pdf-line-46-23" class="reference-text">対応断章　049、050、052、056</p>
+<p id="pdf-line-46-24" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/transcripts/shinobazu-boat-20261008/r0001.md" data-pdf-link="2859" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-K03" class="source-heading">K03　不忍池での翌日の実地記録</h3>
+<p id="pdf-line-46-26" class="reference-text">記録の性格　AI による実施要約</p>
+<p id="pdf-line-46-27" class="reference-text">本文の日付は2026 年10 月9 日。本人報告、観測、仮説、AI 提案を分けた非逐語の実施サマリー。</p>
+<p id="pdf-line-46-28" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-46-29" class="source-path">sources/supporting/shinobazu-field-practice-20261010/r0001.md</p>
+<p id="pdf-line-46-30" class="reference-text">対応断章　050、051、053、055</p>
+<p id="pdf-line-46-31" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/supporting/shinobazu-field-practice-20261010/r0001.md" data-pdf-link="2858" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-46-32" class="source-page-footer">未完のまま考える　46</footer>
+</section>
+<section class="book-page" id="page-47" data-source-page="47" aria-label="原本 47 ページ">
+<h3 id="source-K04" class="source-heading">K04　礼文旅行の実践記録</h3>
+<p id="pdf-line-47-2" class="reference-text">記録の性格　編集済み本人発言記録</p>
+<p id="pdf-line-47-3" class="reference-text">元JSON でuser に帰属された選択抜粋とAI による再構成。原音声未照合。</p>
+<p id="pdf-line-47-4" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-47-5" class="source-path">sources/practices/rebun-travel-20261027/r0001.yaml</p>
+<p id="pdf-line-47-6" class="reference-text">対応断章　029、053、054、076、077、078　章頭引用 第7、10 章</p>
+<p id="pdf-line-47-7" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/rebun-travel-20261027/r0001.yaml" data-pdf-link="2857" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-K05" class="source-heading">K05　想起と自律的な学び</h3>
+<p id="pdf-line-47-9" class="reference-text">記録の性格　本人定義の編集再構成</p>
+<p id="pdf-line-47-10" class="reference-text">本人の定義や希望を文書編集者が再構成。整った定義文を本人の原音声の逐語としない。</p>
+<p id="pdf-line-47-11" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-47-12" class="source-path">sources/practices/voice-recall-20261028/r0001.yaml</p>
+<p id="pdf-line-47-13" class="reference-text">対応断章　026、030、031、032　章頭引用 第4 章</p>
+<p id="pdf-line-47-14" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-recall-20261028/r0001.yaml" data-pdf-link="2856" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-K06" class="source-heading">K06　理解と外部記憶の知識候補</h3>
+<p id="pdf-line-47-16" class="reference-text">記録の性格　AI による知識候補</p>
+<p id="pdf-line-47-17" class="reference-text">学習談を整理したcandidate。原結果3853〜4331 行を取得。一般法則や学習効果の実証ではない。</p>
+<p id="pdf-line-47-18" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-47-19" class="source-path">sources/results/learning/r0001.yaml</p>
+<p id="pdf-line-47-20" class="reference-text">対応断章　025、026、027、028、029、031</p>
+<p id="pdf-line-47-21" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/results/learning/r0001.yaml" data-pdf-link="2855" data-link-kind="external">固定した原文を開く</a>　原ファイルの3853-4331 行を取得</p>
+<h3 id="source-K08" class="source-heading">K08　会社組織と委任のモデル</h3>
+<p id="pdf-line-47-23" class="reference-text">記録の性格　本人依頼とAI 分析</p>
+<p id="pdf-line-47-24" class="reference-text">手書きメモの読取、本人の採用依頼、過去ChatGPT の説明を区別した実践記録。</p>
+<p id="pdf-line-47-25" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-47-26" class="source-path">sources/practices/organization-model-20261027/r0001.yaml</p>
+<p id="pdf-line-47-27" class="reference-text">対応断章　073、074、077、080</p>
+<p id="pdf-line-47-28" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/organization-model-20261027/r0001.yaml" data-pdf-link="2854" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-47-29" class="source-page-footer">未完のまま考える　47</footer>
+</section>
+<section class="book-page" id="page-48" data-source-page="48" aria-label="原本 48 ページ">
+<h3 id="source-K09" class="source-heading">K09　成果物と効果の理解</h3>
+<p id="pdf-line-48-2" class="reference-text">記録の性格　本人依頼とAI 分析</p>
+<p id="pdf-line-48-3" class="reference-text">本人の登録依頼と過去AI による概念評価。元の画像や原音声を独立に確認したものではない。</p>
+<p id="pdf-line-48-4" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-48-5" class="source-path">sources/practices/output-outcome-understanding-20261027/r0001.yaml</p>
+<p id="pdf-line-48-6" class="reference-text">対応断章　079</p>
+<p id="pdf-line-48-7" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/output-outcome-understanding-20261027/r0001.yaml" data-pdf-link="2853" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-K10" class="source-heading">K10　声による設計とレビュー</h3>
+<p id="pdf-line-48-9" class="reference-text">記録の性格　本人依頼とAI 設計</p>
+<p id="pdf-line-48-10" class="reference-text">本人の目的説明とAI の六観点の提案を、帰属を分けて記録。</p>
+<p id="pdf-line-48-11" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-48-12" class="source-path">sources/practices/voice-design-review-20261026/r0001.yaml</p>
+<p id="pdf-line-48-13" class="reference-text">対応断章　073、075</p>
+<p id="pdf-line-48-14" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-design-review-20261026/r0001.yaml" data-pdf-link="2852" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-K11" class="source-heading">K11　音声から保存への追加証拠照合</h3>
+<p id="pdf-line-48-16" class="reference-text">記録の性格　AI による証拠照合報告</p>
+<p id="pdf-line-48-17" class="reference-text">追加された資料と保存証拠の対応を確認した改訂報告。本人の新たな逐語発言ではない。</p>
+<p id="pdf-line-48-18" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-48-19" class="source-path">docs/registrations/voice-github-milestone-20261031/evidence-review-r0002/README.md</p>
+<p id="pdf-line-48-20" class="reference-text">対応断章　079</p>
+<p id="pdf-line-48-21" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/docs/registrations/voice-github-milestone-20261031/evidence-review-r0002/README.md" data-pdf-link="2851" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-K15" class="source-heading">K15　声の対話から設計と実装へ</h3>
+<p id="pdf-line-48-23" class="reference-text">記録の性格　本人発言とAI 実践再構成</p>
+<p id="pdf-line-48-24" class="reference-text">本人の目的再確認の抜粋と二事例の設計・実装記録。本人の能力向上は未実証。</p>
+<p id="pdf-line-48-25" class="source-path">kakurai49/semantic-knowledge</p>
+<p id="pdf-line-48-26" class="source-path">sources/practices/voice-to-implementation-20261101/r0001.yaml</p>
+<p id="pdf-line-48-27" class="reference-text">対応断章　080</p>
+<p id="pdf-line-48-28" class="source-note"><a href="https://github.com/kakurai49/semantic-knowledge/blob/474f412b2756fd9142f25581843607207ec819d7/sources/practices/voice-to-implementation-20261101/r0001.yaml" data-pdf-link="2850" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-48-29" class="source-page-footer">未完のまま考える　48</footer>
+</section>
+<section class="book-page" id="page-49" data-source-page="49" aria-label="原本 49 ページ">
+<h3 id="source-L01" class="source-heading">L01　牛丼と牛皿をめぐる料理更新メモ</h3>
+<p id="pdf-line-49-2" class="reference-text">記録の性格　本人が添付した手書き4 枚のChatGPT による転記</p>
+<p id="pdf-line-49-3" class="reference-text">本人による全文校合は未実施。目標・計画と実食結果を区別する。</p>
+<p id="pdf-line-49-4" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-49-5" class="source-path">projects/agent2/sources/cooking_20261010/notes.md</p>
+<p id="pdf-line-49-6" class="reference-text">対応断章　065、068</p>
+<p id="pdf-line-49-7" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/cooking_20261010/notes.md" data-pdf-link="2849" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L02" class="source-heading">L02　とんかつ調理メモ</h3>
+<p id="pdf-line-49-9" class="reference-text">記録の性格　本人の調理メモ2 枚のChatGPT による転記</p>
+<p id="pdf-line-49-10" class="reference-text">手の接触部に液が付かないという局所評価と、料理の好意的な所感を別に残す。本人校合前。</p>
+<p id="pdf-line-49-11" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-49-12" class="source-path">projects/agent2/sources/tonkatsu_20261013/notes.md</p>
+<p id="pdf-line-49-13" class="reference-text">対応断章　066、067、068、072　章頭引用 第9 章</p>
+<p id="pdf-line-49-14" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/tonkatsu_20261013/notes.md" data-pdf-link="2848" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L04" class="source-heading">L04　銀杏観察の清掃影響と週間記録</h3>
+<p id="pdf-line-49-16" class="reference-text">記録の性格　本人の報告と画像観察を整理したレポート</p>
+<p id="pdf-line-49-17" class="reference-text">清掃は本人の推定を含む報告であり、直接目撃・時刻・除去量は未確認。『使える問いが違う写真』はAI編集表現。</p>
+<p id="pdf-line-49-19" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-49-20" class="source-path">projects/agent2/reports/ginkgo_observation/20261016/report.md</p>
+<p id="pdf-line-49-21" class="reference-text">対応断章　057、058、063</p>
+<p id="pdf-line-49-22" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/reports/ginkgo_observation/20261016/report.md" data-pdf-link="2847" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L05" class="source-heading">L05　十月末の銀杏観察と評価訂正</h3>
+<p id="pdf-line-49-24" class="reference-text">記録の性格　観測情報と判定範囲を整理した当日レポート</p>
+<p id="pdf-line-49-25" class="reference-text">樹上の実の残存を記録。減少・終盤という前回答の評価を測定根拠なしとして不採用にしている。</p>
+<p id="pdf-line-49-26" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-49-27" class="source-path">projects/agent2/reports/ginkgo_observation/20261031/report.md</p>
+<p id="pdf-line-49-28" class="reference-text">対応断章　057、063、096</p>
+<p id="pdf-line-49-29" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/reports/ginkgo_observation/20261031/report.md" data-pdf-link="2846" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-49-30" class="source-page-footer">未完のまま考える　49</footer>
+</section>
+<section class="book-page" id="page-50" data-source-page="50" aria-label="原本 50 ページ">
+<h3 id="source-L06" class="source-heading">L06　ディガー鑑賞の予習と感想</h3>
+<p id="pdf-line-50-2" class="reference-text">記録の性格　本人の予習と鑑賞後の手書き7 枚をChatGPT が転記</p>
+<p id="pdf-line-50-3" class="reference-text">本人校合前。映画の筋や登場人物の事実を独立確認した資料ではなく、本人の問いと受け止めの資料。</p>
+<p id="pdf-line-50-4" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-50-5" class="source-path">projects/agent2/sources/digger-20261022-r0001/memo_transcription.md</p>
+<p id="pdf-line-50-6" class="reference-text">対応断章　089、090、091、092、094、095、096　章頭引用 第12 章</p>
+<p id="pdf-line-50-7" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/memo_transcription.md" data-pdf-link="2845" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L07" class="source-heading">L07　利尻山計画の目的と成功条件</h3>
+<p id="pdf-line-50-9" class="reference-text">記録の性格　本人の目標や申告を踏まえた計画憲章</p>
+<p id="pdf-line-50-10" class="reference-text">山頂撮影と安全な下山を併記。上位目的の言語化はAI の設計提案で本人採択前。</p>
+<p id="pdf-line-50-11" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-50-12" class="source-path">projects/rishiri-2027/project-charter.md</p>
+<p id="pdf-line-50-13" class="reference-text">対応断章　093</p>
+<p id="pdf-line-50-14" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/rishiri-2027/project-charter.md" data-pdf-link="2844" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L08" class="source-heading">L08　利尻山へ向けた個別計画案</h3>
+<p id="pdf-line-50-16" class="reference-text">記録の性格　本人の目標や準備の報告を整理した計画案</p>
+<p id="pdf-line-50-17" class="reference-text">将来の計画・準備の喜び・未測定の現在能力を区別する。実施済み登山の記録ではない。</p>
+<p id="pdf-line-50-18" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-50-19" class="source-path">projects/rishiri-2027/plan.md</p>
+<p id="pdf-line-50-20" class="reference-text">対応断章　093</p>
+<p id="pdf-line-50-21" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/rishiri-2027/plan.md" data-pdf-link="2843" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L09" class="source-heading">L09　利尻山計画の引継ぎ</h3>
+<p id="pdf-line-50-23" class="reference-text">記録の性格　過去の相談を引き継ぐための設計ドラフト</p>
+<p id="pdf-line-50-24" class="reference-text">本人の目標とAI の提案が区分される。未承認・未実装という原時点の状態を保持する。</p>
+<p id="pdf-line-50-25" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-50-26" class="source-path">projects/rishiri-2027/sources/handoff-20261030.md</p>
+<p id="pdf-line-50-27" class="reference-text">対応断章　093</p>
+<p id="pdf-line-50-28" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/rishiri-2027/sources/handoff-20261030.md" data-pdf-link="2842" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-50-29" class="source-page-footer">未完のまま考える　50</footer>
+</section>
+<section class="book-page" id="page-51" data-source-page="51" aria-label="原本 51 ページ">
+<h3 id="source-L10" class="source-heading">L10　ディガー鑑賞前後の対話</h3>
+<p id="pdf-line-51-2" class="reference-text">記録の性格　本人の発話抜粋とAI 支援の整理</p>
+<p id="pdf-line-51-3" class="reference-text">U01〜U03 は本人発言。A01 以下の言語化・問いはAI の要約または提案であり、本人の独力の分析とはしない。</p>
+<p id="pdf-line-51-5" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-51-6" class="source-path">projects/agent2/sources/digger-20261022-r0001/conversation_context.md</p>
+<p id="pdf-line-51-7" class="reference-text">対応断章　090</p>
+<p id="pdf-line-51-8" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/digger-20261022-r0001/conversation_context.md" data-pdf-link="2841" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L11" class="source-heading">L11　メイオベントス学習の依頼と回想</h3>
+<p id="pdf-line-51-10" class="reference-text">記録の性格　取得できた本人発言と提供順の整理</p>
+<p id="pdf-line-51-11" class="reference-text">CHAT01〜03 は本人発言。無参照再生の条件は本人申告で、独立観測ではない。</p>
+<p id="pdf-line-51-12" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-51-13" class="source-path">projects/agent2/sources/meiobenthos-20261025-r0001/conversation_excerpt.md</p>
+<p id="pdf-line-51-14" class="reference-text">対応断章　059</p>
+<p id="pdf-line-51-15" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/conversation_excerpt.md" data-pdf-link="2840" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L12" class="source-heading">L12　不忍池の実地行動記録</h3>
+<p id="pdf-line-51-17" class="reference-text">記録の性格　可視会話に基づく本人の行動と報告の整理</p>
+<p id="pdf-line-51-18" class="reference-text">逐語原本ではない。桜の咲き具合、弁当の味、不安などは本人の現場報告または回想。</p>
+<p id="pdf-line-51-19" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-51-20" class="source-path">projects/voice-mode-field-capture/records/2026-10-09-shinobazu-voice-session.md</p>
+<p id="pdf-line-51-21" class="reference-text">対応断章　062</p>
+<p id="pdf-line-51-22" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/records/2026-10-09-shinobazu-voice-session.md" data-pdf-link="2839" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L13" class="source-heading">L13　メイオベントスの問いと受講後メモ</h3>
+<p id="pdf-line-51-24" class="reference-text">記録の性格　本人の予習・講義・受講後メモと講師資料の転記</p>
+<p id="pdf-line-51-25" class="reference-text">第三者講義の内容と本人の感想を含む混合資料。採用引用は受講後の本人メモ。本人校合前。</p>
+<p id="pdf-line-51-26" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-51-27" class="source-path">projects/agent2/sources/meiobenthos-20261025-r0001/memo_transcription.md</p>
+<p id="pdf-line-51-28" class="reference-text">対応断章　059、060、061、064、096　章頭引用 第8 章</p>
+<p id="pdf-line-51-29" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/meiobenthos-20261025-r0001/memo_transcription.md" data-pdf-link="2838" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-51-30" class="source-page-footer">未完のまま考える　51</footer>
+</section>
+<section class="book-page" id="page-52" data-source-page="52" aria-label="原本 52 ページ">
+<h3 id="source-L14" class="source-heading">L14　朝の勉強会と整理の方針</h3>
+<p id="pdf-line-52-2" class="reference-text">記録の性格　本人の手書きメモと会話に基づく再構成記録</p>
+<p id="pdf-line-52-3" class="reference-text">逐字翻刻ではない。何を使い、何を使わないかの整理動機を記録する。</p>
+<p id="pdf-line-52-4" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-52-5" class="source-path">projects/voice-mode-field-capture/records/2026-10-10-morning-study-plan.md</p>
+<p id="pdf-line-52-6" class="reference-text">対応断章　094</p>
+<p id="pdf-line-52-7" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/records/2026-10-10-morning-study-plan.md" data-pdf-link="2837" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L16" class="source-heading">L16　できたじゃんをめぐる行動記録</h3>
+<p id="pdf-line-52-9" class="reference-text">記録の性格　本人の会話と手書きメモを整理したレポートと観測設計</p>
+<p id="pdf-line-52-10" class="reference-text">達成感・疲労の報告と将来の想起練習を区別。『今日は次の活動はしたくない』はAI による例示で、本人の逐語発言ではない。</p>
+<p id="pdf-line-52-12" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-52-13" class="source-path">projects/voice-mode-field-capture/observations/2026-10-21-ueno-dekitajan/report.md</p>
+<p id="pdf-line-52-14" class="reference-text">対応断章　070、071、095</p>
+<p id="pdf-line-52-15" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/observations/2026-10-21-ueno-dekitajan/report.md" data-pdf-link="2836" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L17" class="source-heading">L17　できたじゃんの手書き感想</h3>
+<p id="pdf-line-52-17" class="reference-text">記録の性格　本人のバッティング後の手書きメモをChatGPT が転記</p>
+<p id="pdf-line-52-18" class="reference-text">本人校合前。まぐれ、喜び、気持ちの保存への関心は本人記録。後日の心理効果は計画・仮説。</p>
+<p id="pdf-line-52-19" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-52-20" class="source-path">projects/voice-mode-field-capture/runs/voice-20261021-ueno-400efdfb26eb96b1/sources/memo-91af492a421e6194.txt</p>
+<p id="pdf-line-52-22" class="reference-text">対応断章　069、070、071</p>
+<p id="pdf-line-52-23" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/voice-mode-field-capture/runs/voice-20261021-ueno-400efdfb26eb96b1/sources/memo-91af492a421e6194.txt" data-pdf-link="2835" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-L18" class="source-heading">L18　バッティングと外出の会話原資料</h3>
+<p id="pdf-line-52-25" class="reference-text">記録の性格　ユーザーとアシスタントの話者付き会話表示テキスト</p>
+<p id="pdf-line-52-26" class="reference-text">疲労は本人の発言0962・0985 で確認。音声の独立校合ではなく、打撃だけが疲労原因と特定する資料でもない。</p>
+<p id="pdf-line-52-28" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-52-29" class="source-path">projects/agent2/sources/voice_action_reuse/01fbc9ad2b4871612bb275feca0be5ed9f5bd3581933c74c56155febe178d325.txt</p>
+<p id="pdf-line-52-31" class="reference-text">対応断章　070、095</p>
+<p id="pdf-line-52-32" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/sources/voice_action_reuse/01fbc9ad2b4871612bb275feca0be5ed9f5bd3581933c74c56155febe178d325.txt" data-pdf-link="2834" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-52-33" class="source-page-footer">未完のまま考える　52</footer>
+</section>
+<section class="book-page" id="page-53" data-source-page="53" aria-label="原本 53 ページ">
+<h3 id="source-S01" class="source-heading">S01　未知を生むための探究設計</h3>
+<p id="pdf-line-53-2" class="reference-text">記録の性格　設計文書</p>
+<p id="pdf-line-53-3" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-53-4" class="source-path">projects/agent2/docs/unknown_creation.md</p>
+<p id="pdf-line-53-5" class="reference-text">対応断章　004、007、014、016、040</p>
+<p id="pdf-line-53-6" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent2/docs/unknown_creation.md" data-pdf-link="2833" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S02" class="source-heading">S02　違和感から問いへの引き継ぎ</h3>
+<p id="pdf-line-53-8" class="reference-text">記録の性格　対話の編集済み要約</p>
+<p id="pdf-line-53-9" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-53-10" class="source-path">projects/practice-review/sources/morning-study-20261025/inputs/inquiry_handoff.md</p>
+<p id="pdf-line-53-11" class="reference-text">対応断章　001、002、003、007、008</p>
+<p id="pdf-line-53-12" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/inquiry_handoff.md" data-pdf-link="2832" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S03" class="source-heading">S03　認知的余白の引き継ぎ</h3>
+<p id="pdf-line-53-14" class="reference-text">記録の性格　音声対話の編集済み要約</p>
+<p id="pdf-line-53-15" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-53-16" class="source-path">projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md</p>
+<p id="pdf-line-53-17" class="reference-text">対応断章　005、016、021、022、034、038、039　章頭引用 第5 章</p>
+<p id="pdf-line-53-18" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/practice-review/sources/morning-study-20261025/inputs/cognitive_margin_handoff.md" data-pdf-link="2831" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S04" class="source-heading">S04　工夫の蓄積の手書きメモ</h3>
+<p id="pdf-line-53-20" class="reference-text">記録の性格　本人の手書きメモの既存転記 判読留保を含む</p>
+<p id="pdf-line-53-21" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-53-22" class="source-path">projects/agent1/examples/chat_capture/kufu-accumulation-20261011/artifacts/source_note.md</p>
+<p id="pdf-line-53-23" class="reference-text">対応断章　017、088　章頭引用 第3 章</p>
+<p id="pdf-line-53-24" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/kufu-accumulation-20261011/artifacts/source_note.md" data-pdf-link="2830" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S05" class="source-heading">S05　処理の重複に気づいた本人入力</h3>
+<p id="pdf-line-53-26" class="reference-text">記録の性格　本人入力の保存テキスト</p>
+<p id="pdf-line-53-27" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-53-28" class="source-path">projects/thought-inquiry/sources/text/37a9ab9a7525852fbc590a0acc8f57e381b8624bc877d80fa1ee81f350b1344d.txt</p>
+<p id="pdf-line-53-30" class="reference-text">対応断章　001、006　章頭引用 第1 章</p>
+<p id="pdf-line-53-31" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/37a9ab9a7525852fbc590a0acc8f57e381b8624bc877d80fa1ee81f350b1344d.txt" data-pdf-link="2829" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-53-32" class="source-page-footer">未完のまま考える　53</footer>
+</section>
+<section class="book-page" id="page-54" data-source-page="54" aria-label="原本 54 ページ">
+<h3 id="source-S06" class="source-heading">S06　重複の直感と処理改善の報告</h3>
+<p id="pdf-line-54-2" class="reference-text">記録の性格　実践の編集済み報告</p>
+<p id="pdf-line-54-3" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-54-4" class="source-path">projects/thought-inquiry/runs/001bc915d536596f8fa1/report.md</p>
+<p id="pdf-line-54-5" class="reference-text">対応断章　006、015</p>
+<p id="pdf-line-54-6" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/001bc915d536596f8fa1/report.md" data-pdf-link="2828" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S07" class="source-heading">S07　声から保存へ届いた実践の記録</h3>
+<p id="pdf-line-54-8" class="reference-text">記録の性格　実践の編集済み報告</p>
+<p id="pdf-line-54-9" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-54-10" class="source-path">projects/repository-guide/reports/voice-github-milestone-20261031/README.md</p>
+<p id="pdf-line-54-11" class="reference-text">対応断章　009、012、013、015、021、023</p>
+<p id="pdf-line-54-12" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/repository-guide/reports/voice-github-milestone-20261031/README.md" data-pdf-link="2827" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S08" class="source-heading">S08　ボイス設計レビューの会話記録</h3>
+<p id="pdf-line-54-14" class="reference-text">記録の性格　対話の編集済み要約</p>
+<p id="pdf-line-54-15" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-54-16" class="source-path">projects/agent1/examples/chat_capture/voice-design-review-20261026/source.md</p>
+<p id="pdf-line-54-17" class="reference-text">対応断章　008、045、047</p>
+<p id="pdf-line-54-18" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-design-review-20261026/source.md" data-pdf-link="2826" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S09" class="source-heading">S09　クレドとポリシーとルールの整理</h3>
+<p id="pdf-line-54-20" class="reference-text">記録の性格　対話の編集済み報告</p>
+<p id="pdf-line-54-21" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-54-22" class="source-path">projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md</p>
+<p id="pdf-line-54-23" class="reference-text">対応断章　009、033、034、035、036、037、038、040、041、042、043、044、045、046、048 章頭引用 第2 章</p>
+<p id="pdf-line-54-25" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/report.md" data-pdf-link="2825" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S10" class="source-heading">S10　クレドと経費の四往復の入力記録</h3>
+<p id="pdf-line-54-27" class="reference-text">記録の性格　本人の質問と編集者の構造化を含む入力記録</p>
+<p id="pdf-line-54-28" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-54-29" class="source-path">projects/thought-inquiry/runs/6c172efdff692a329d5f/intake.yaml</p>
+<p id="pdf-line-54-30" class="reference-text">対応断章　037、041　章頭引用 第6 章</p>
+<p id="pdf-line-54-31" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/6c172efdff692a329d5f/intake.yaml" data-pdf-link="2824" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-54-32" class="source-page-footer">未完のまま考える　54</footer>
+</section>
+<section class="book-page" id="page-55" data-source-page="55" aria-label="原本 55 ページ">
+<h3 id="source-S11" class="source-heading">S11　六十三歳のソロライフについての本人入力</h3>
+<p id="pdf-line-55-2" class="reference-text">記録の性格　本人入力の保存テキスト</p>
+<p id="pdf-line-55-3" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-55-4" class="source-path">projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt</p>
+<p id="pdf-line-55-6" class="reference-text">対応断章　019、081、082、085、086、088　章頭引用 第11 章</p>
+<p id="pdf-line-55-7" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/53daaa863a099c4e2239fde17f1e0606bc021f622123a4fe941332ac7d5803f8.txt" data-pdf-link="2823" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S12" class="source-heading">S12　経験を使い直すソロライフの整理</h3>
+<p id="pdf-line-55-9" class="reference-text">記録の性格　AI による整理と提案 本人の確定信条ではない</p>
+<p id="pdf-line-55-10" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-55-11" class="source-path">projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md</p>
+<p id="pdf-line-55-12" class="reference-text">対応断章　019、024、082、083、085、086、087、088</p>
+<p id="pdf-line-55-13" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/runs/cebd1b3f4a97c4cfc158/report.md" data-pdf-link="2822" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S13" class="source-heading">S13　予防の仕事と評価への本人の問い</h3>
+<p id="pdf-line-55-15" class="reference-text">記録の性格　本人入力の保存テキスト</p>
+<p id="pdf-line-55-16" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-55-17" class="source-path">projects/thought-inquiry/sources/text/507c5136d7ff548509154167311bbb884aebc863a381e389c80433124320b924.txt</p>
+<p id="pdf-line-55-19" class="reference-text">対応断章　011、086</p>
+<p id="pdf-line-55-20" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/sources/text/507c5136d7ff548509154167311bbb884aebc863a381e389c80433124320b924.txt" data-pdf-link="2821" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S14" class="source-heading">S14　想起と自律的な行動選択の整理</h3>
+<p id="pdf-line-55-22" class="reference-text">記録の性格　音声対話の編集済み要約</p>
+<p id="pdf-line-55-23" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-55-24" class="source-path">projects/agent1/examples/chat_capture/voice-recall-20261028-r0001/source.md</p>
+<p id="pdf-line-55-25" class="reference-text">対応断章　010、020、048、084</p>
+<p id="pdf-line-55-26" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/voice-recall-20261028-r0001/source.md" data-pdf-link="2820" data-link-kind="external">固定した原文を開く</a></p>
+<h3 id="source-S15" class="source-heading">S15　日次チャット資産化の原資料整理</h3>
+<p id="pdf-line-55-28" class="reference-text">記録の性格　手書きメモと本人依頼の再構成</p>
+<p id="pdf-line-55-29" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-55-30" class="source-path">projects/agent1/examples/chat_capture/daily-chat-assets-20261012/source.md</p>
+<p id="pdf-line-55-31" class="reference-text">対応断章　020、022、024、087</p>
+<p id="pdf-line-55-32" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/agent1/examples/chat_capture/daily-chat-assets-20261012/source.md" data-pdf-link="2819" data-link-kind="external">固定した原文を開く</a></p>
+<footer id="pdf-line-55-33" class="source-page-footer">未完のまま考える　55</footer>
+</section>
+<section class="book-page" id="page-56" data-source-page="56" aria-label="原本 56 ページ">
+<h3 id="source-S16" class="source-heading">S16　思いつき探究と資産化の設計</h3>
+<p id="pdf-line-56-2" class="reference-text">記録の性格　設計文書</p>
+<p id="pdf-line-56-3" class="source-path">kakurai49/sandbox</p>
+<p id="pdf-line-56-4" class="source-path">projects/thought-inquiry/README.md</p>
+<p id="pdf-line-56-5" class="reference-text">対応断章　018</p>
+<p id="pdf-line-56-6" class="source-note"><a href="https://github.com/kakurai49/sandbox/blob/e1cfd09c15f2ecd937e7967c6ae282775616fbaa/projects/thought-inquiry/README.md" data-pdf-link="2818" data-link-kind="external">固定した原文を開く</a></p>
+<p id="pdf-line-56-7" class="reference-text">P01　Blaise Pascal Pensées Ordre 2</p>
+<p id="pdf-line-56-8" class="reference-text">Lafuma 2〜4 Sellier 38。原文 « Ordre par dialogues. » を引用。日本語訳は本書編纂時の私訳。参照日 2026 年11 月3 日。</p>
+<p id="pdf-line-56-10" class="source-note"><a href="https://www.penseesdepascal.fr/Ordre/Ordre2-moderne.php" data-pdf-link="2817" data-link-kind="external">パスカルの原文を開く</a></p>
+<footer id="pdf-line-56-11" class="source-page-footer">未完のまま考える　56</footer>
+</section>
+<section class="book-page" id="page-57" data-source-page="57" aria-label="原本 57 ページ">
+<h2 id="pdf-line-57-1" class="section-title">奥付</h2>
+<p id="pdf-line-57-2" class="colophon-title">未完のまま考える</p>
+<p id="pdf-line-57-3" class="body-text">日々の記録から編む九十六の断章</p>
+<p id="pdf-line-57-4" class="body-text">2026 年11 月3 日　初版</p>
+<p id="pdf-line-57-5" class="body-text">素材　kakurai49 の実践と思索の記録</p>
+<p id="pdf-line-57-6" class="body-text">編纂と断章執筆 ChatGPT</p>
+<p id="pdf-line-57-7" class="body-text">本文の章立て、断章番号、見出しは本書独自のもの。パスカルの断章番号とは対応しない。</p>
+<p id="pdf-line-57-8" class="body-text">本文 21,599 字　96 断章</p>
+<p id="pdf-line-57-9" class="body-text">引用の足場となった原資料 42 件</p>
+<p id="pdf-line-57-10" class="body-text">原資料の固定版へ戻りながら、次の経験によって加筆し直せる本として編纂した。</p>
+<p id="pdf-line-57-11" class="body-text"><a href="#table-of-contents" data-pdf-link="2816" data-link-kind="internal">目次へ戻る</a></p>
+<footer id="pdf-line-57-12" class="source-page-footer">未完のまま考える　57</footer>
+</section>
+</article></main>
+<footer class="reader-end"><a href="#table-of-contents">目次へ戻る</a>　<a href="../index.html">ホーム</a></footer>
+</body>
+</html>

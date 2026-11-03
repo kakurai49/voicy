@@ -2,6 +2,15 @@
   "schema": "voicy-blog-catalog/v2",
   "articles": [
     {
+      "run_id": "mikan-no-mama-kangaeru",
+      "title": "未完のまま考える",
+      "date": "2026-11-04",
+      "source_sha256": "140e694af85af6aad5020d7c7a0c949d15415ece17ac19c1293a57ec79c2d74f",
+      "html_sha256": "0889f09037440e200a488521fd1d86527c9f92981fceb505b3a8e01321d58eb7",
+      "theme": "paper",
+      "summary": "日々の記録から編む九十六の断章。十二章・全九十六断章と原資料の対応、奥付を収録。"
+    },
+    {
       "run_id": "20261103-r0001",
       "title": "文化の日の上野で、312万行と「つながる」ことを考える",
       "date": "2026-11-03",
