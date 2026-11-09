@@ -2,6 +2,15 @@
   "schema": "voicy-blog-catalog/v2",
   "articles": [
     {
+      "run_id": "20261109-r0001",
+      "title": "知ったことを、未来に使う",
+      "date": "2026-11-09",
+      "source_sha256": "a66e93dfd82736bfed47a29d0dfb7ea8d8299eb1a176b915f5394c16e755b1c1",
+      "html_sha256": "7aba74d041f847fbdbcfcab2df44515d317a89ce3f7721ac3fcce9ec8c9d74e5",
+      "theme": "space",
+      "summary": "苔の講座、AIとの復習、楽しそうなアニメの場面。雨のタコツボから、知識の再利用と今日の探索へ考えがつながりました。"
+    },
+    {
       "run_id": "20261108-r0001",
       "title": "写真を減らして、寄り道の発見を味わう",
       "date": "2026-11-08",
