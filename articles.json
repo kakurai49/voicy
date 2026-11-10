@@ -2,6 +2,15 @@
   "schema": "voicy-blog-catalog/v2",
   "articles": [
     {
+      "run_id": "20261110-r0001",
+      "title": "312万行の先にあった、誰かの成長",
+      "date": "2026-11-10",
+      "source_sha256": "8780d6fdf631bd619dccd82c127a2033108a4d6058f129ee37f84d2154670abc",
+      "html_sha256": "5cfc2c5eeac6b19f1ab6a297baa936a2d55452b8fd105a29c55efd78e9ff0357",
+      "theme": "space",
+      "summary": "雨の日のカフェ、番号で呼ばれた健診、友人の新しい仕事。今年の成果を振り返り、来年の「自分を守る力」へ考えをつなぎます。"
+    },
+    {
       "run_id": "20261109-r0001",
       "title": "知ったことを、未来に使う",
       "date": "2026-11-09",
