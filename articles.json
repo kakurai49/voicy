@@ -2,6 +2,15 @@
   "schema": "voicy-blog-catalog/v2",
   "articles": [
     {
+      "run_id": "20261111-r01",
+      "title": "安心できる仲間と、知らない現場。その両方を持っていたい",
+      "date": "2026-11-11",
+      "source_sha256": "6bf25af1c4ec4f850c5c6f95dbfdeaf65d775257ed82a732a64dd466af279fd8",
+      "html_sha256": "7bc49ba89204e1e57079632f2d944f966407864ee7bd99b545882fcc5471f1f3",
+      "theme": "space",
+      "summary": "寒い朝の鳩、品川での再会、違う仕事の話。いつもの日常から次の問いを持ち帰る11月11日の配信です。"
+    },
+    {
       "run_id": "20261110-r0001",
       "title": "312万行の先にあった、誰かの成長",
       "date": "2026-11-10",
