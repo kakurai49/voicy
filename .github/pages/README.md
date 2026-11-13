@@ -120,7 +120,9 @@ main以外の手動実行は配備しないため、初回配備の再試行はm
 
 workflow名は既存の `pages build and deployment` を維持します。
 ただし、PRのrun成功は配備成功ではありません。互換controllerはcustom workflowのpath・main・イベント・対象commit・
-同じrun/attemptの `deploy` job成功を確認してから、既存の全公開ファイル読戻し・HTTP検査へ進みます。
+同じrun/HEADに属する最新の `deploy` job成功を確認してから、既存の全公開ファイル読戻し・HTTP検査へ進みます。
+HTTP照合だけを再試行してDeployが前のattemptに残る場合は、全attemptのjobsを全ページ読み戻し、
+最新のDeployが成功していることを確認します。過去の成功で新しい失敗を隠すことは認めません。
 旧dynamic Pagesの証拠は移行前の互換経路として扱います。
 原稿生成、独立再Build、SBOM、依存脆弱性検査、保存検査はsandbox側の既存工程を継続します。
 このrepository側の検査だけでそれらを代替したとは扱いません。
