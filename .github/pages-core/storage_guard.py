@@ -24,7 +24,15 @@ PROTECTED = (POLICY_PATH, 'AGENTS.md', 'tools/storage_guard.py',
              'shared/storage/amendments/pages-prefix-20261114/manifest.json',
              'shared/storage/amendments/pages-prefix-20261114/approval.json',
              'shared/storage/amendments/pages-prefix-20261114/transition.py',
-             'tests/test_storage_pages_prefix_transition.py')
+             'tests/test_storage_pages_prefix_transition.py',
+             'shared/storage/amendments/pages-owner-20261114/manifest.json',
+             'shared/storage/amendments/pages-owner-20261114/approval.json',
+             'shared/storage/amendments/pages-owner-20261114/transition.py',
+             'tests/test_storage_pages_owner_transition.py',
+             'shared/storage/amendments/pages-directories-20261115/manifest.json',
+             'shared/storage/amendments/pages-directories-20261115/approval.json',
+             'shared/storage/amendments/pages-directories-20261115/transition.py',
+             'tests/test_storage_pages_directories_transition.py')
 ACTORS = {'ChatGPT_root_executor', 'meta_agent', 'child_agent', 'CI_worker', 'publication_adapter'}
 LIMITS = {'single_text_bytes': 1_000_000, 'publication_bytes': 5_000_000,
           'publication_files': 128, 'new_history_blob_bytes': 5_000_000,

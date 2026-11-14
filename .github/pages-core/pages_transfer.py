@@ -33,12 +33,28 @@ def canonical_tar(files):
     """Same deterministic encoder as the reviewed Pages builder, including padding."""
     output = io.BytesIO()
     with tarfile.open(fileobj=output, mode='w', format=tarfile.PAX_FORMAT) as archive:
+        directories = set()
+        def add_directory(name):
+            info = tarfile.TarInfo('./' if name == '.' else './' + name + '/')
+            info.type = tarfile.DIRTYPE
+            info.size = 0
+            info.mode = 0o755
+            info.mtime = 0
+            info.uid = info.gid = 1001
+            info.uname = info.gname = ''
+            archive.addfile(info)
+            directories.add(name)
+        add_directory('.')
         for name, raw in sorted(files.items()):
+            parent = PurePosixPath(name).parent
+            for path in [*reversed(parent.parents), parent]:
+                if str(path) not in directories:
+                    add_directory(str(path))
             info = tarfile.TarInfo('./' + name)
             info.size = len(raw)
             info.mode = 0o644
             info.mtime = 0
-            info.uid = info.gid = 0
+            info.uid = info.gid = 1001
             info.uname = info.gname = ''
             archive.addfile(info, io.BytesIO(raw))
     return output.getvalue()
@@ -299,8 +315,23 @@ def admit(artifact_raw, files, *, policy, context, binding, retention_days, insp
             require(total <= policy['limits']['decoded_bytes'], 'PAGES_DECODED_BYTE_BUDGET')
         require('_release.json' in files and 'index.html' in files, 'PAGES_PUBLIC_RECEIPT_REQUIRED')
         seen = set()
+        # Only zero-byte root and exact public-file ancestor directories are
+        # metadata. They cannot introduce an unused path or public payload.
+        expected_directories = {'.'} | {'./' + str(parent) for name in files
+                                      for parent in PurePosixPath(name).parents if str(parent) != '.'}
+        seen_directories = set()
         with tarfile.open(fileobj=io.BytesIO(artifact_raw), mode='r:') as archive:
             for member in archive:
+                if member.type == tarfile.DIRTYPE:
+                    require(member.name in expected_directories and member.name not in seen_directories,
+                            'PAGES_TAR_DIRECTORY_SET')
+                    require(member.size == 0 and member.mode == 0o755 and member.mtime == 0
+                            and member.uid == member.gid == 1001 and member.uname == member.gname == ''
+                            and not member.linkname
+                            and member.pax_headers in ({}, {'path': './' if member.name == '.' else member.name + '/'}),
+                            'PAGES_TAR_DIRECTORY_METADATA')
+                    seen_directories.add(member.name)
+                    continue
                 require(len(seen) < policy['limits']['files'], 'PAGES_FILE_BUDGET')
                 require(member.type == tarfile.REGTYPE and not member.issym() and not member.islnk()
                         and not member.linkname, 'PAGES_TAR_MEMBER_TYPE')
@@ -312,7 +343,7 @@ def admit(artifact_raw, files, *, policy, context, binding, retention_days, insp
                 require(name in files and name not in seen, 'PAGES_TAR_MEMBER_SET')
                 require(member.size == len(files[name]) and member.size <= policy['limits']['member_bytes'],
                         'PAGES_TAR_MEMBER_SIZE')
-                require(member.mode == 0o644 and member.mtime == 0 and member.uid == member.gid == 0
+                require(member.mode == 0o644 and member.mtime == 0 and member.uid == member.gid == 1001
                         and member.uname == member.gname == '', 'PAGES_TAR_METADATA')
                 stream = archive.extractfile(member)
                 require(stream is not None, 'PAGES_TAR_UNREADABLE')
@@ -320,6 +351,7 @@ def admit(artifact_raw, files, *, policy, context, binding, retention_days, insp
                         'PAGES_TAR_MEMBER_BYTES')
                 seen.add(name)
         require(seen == set(files), 'PAGES_TAR_MEMBER_SET')
+        require(seen_directories == expected_directories, 'PAGES_TAR_DIRECTORY_SET')
         # Reject hidden headers, alternate encodings, trailing archives/data and
         # noncanonical padding, even if tarfile would accept them semantically.
         require(artifact_raw == canonical_tar(files), 'PAGES_TAR_NONCANONICAL')

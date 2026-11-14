@@ -29,7 +29,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, unquote, urljoin, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
-VERSION = "1.1.1"
+VERSION = "1.1.3"
 DEFAULT_SCHEMA_DIR = Path(__file__).resolve().parent / "schema"
 MAX_FILE_BYTES = 50 * 1024 * 1024
 MAX_TOTAL_BYTES = 500 * 1024 * 1024
@@ -413,19 +413,44 @@ def browser_sbom(stage: Path, profile: dict, source_sha: str) -> dict:
     })
 
 
+def _tar_parents(name: str) -> list[str]:
+    parent = PurePosixPath(name).parent
+    return [str(path) for path in [*reversed(parent.parents), parent] if str(path) != "."]
+
+
+def _add_tar_directory(archive, name: str) -> None:
+    info = tarfile.TarInfo("./" if name == "." else "./" + name + "/")
+    info.type = tarfile.DIRTYPE
+    info.size = 0
+    info.mode = 0o755
+    info.mtime = 0
+    info.uid = info.gid = 1001
+    info.uname = info.gname = ""
+    archive.addfile(info)
+
+
 def _make_tar(stage: Path, files: list[dict], destination: Path) -> None:
     with tarfile.open(destination, "w", format=tarfile.PAX_FORMAT) as archive:
+        # Match the root/parent directory structure of the fixed official
+        # packer while preserving every regular-file header and byte.
+        _add_tar_directory(archive, ".")
+        directories = {"."}
         # Sort by canonical POSIX text, independently of pathlib traversal
         # ordering (for example articles.json versus articles/a.html).
         for entry in sorted(files, key=lambda item: item["path"]):
             path = contained_file(stage, entry["path"])
+            for parent in _tar_parents(entry["path"]):
+                if parent not in directories:
+                    _add_tar_directory(archive, parent)
+                    directories.add(parent)
             # Pages requires a literal ./ prefix in TAR member names. Manifest
             # and HTTP paths remain canonical relative paths without it.
             info = tarfile.TarInfo("./" + entry["path"])
             info.size = entry["bytes"]
             info.mode = 0o644
             info.mtime = 0
-            info.uid = info.gid = 0
+            # Directory headers are the only packaging variable in this trial.
+            info.uid = info.gid = 1001
             info.uname = info.gname = ""
             with path.open("rb") as stream:
                 archive.addfile(info, stream)
@@ -585,9 +610,20 @@ def verify_artifact(manifest: dict, artifact: Path) -> dict:
     if len(artifact_data) != manifest["artifact"]["bytes"] or digest(artifact_data) != manifest["artifact"]["sha256"]:
         fail("Artifact hash/size mismatch")
     seen = set()
+    expected_directories = {"."} | {"./" + parent for name in expected for parent in _tar_parents(name)}
+    seen_directories = set()
     try:
         with tarfile.open(artifact, "r:") as archive:
             for member in archive:
+                if member.type == tarfile.DIRTYPE:
+                    if (member.name not in expected_directories or member.name in seen_directories
+                            or member.size != 0 or member.mode != 0o755 or member.mtime != 0
+                            or member.uid != 1001 or member.gid != 1001
+                            or member.uname or member.gname or member.linkname
+                            or member.pax_headers not in ({}, {"path": "./" if member.name == "." else member.name + "/"})):
+                        fail("Unexpected/duplicate/noncanonical archive directory")
+                    seen_directories.add(member.name)
+                    continue
                 if not member.name.startswith("./"):
                     fail("Archive member must start with ./")
                 # Remove exactly the required prefix, without normalizing any
@@ -609,6 +645,8 @@ def verify_artifact(manifest: dict, artifact: Path) -> dict:
         raise ReleaseError(f"Invalid artifact: {exc}") from exc
     if seen != set(expected):
         fail("Artifact has missing files")
+    if seen_directories != expected_directories:
+        fail("Artifact has missing directories")
     return {"schema": "pages-verification/v1", "status": "PASS", "kind": "local-artifact", "files_verified": len(seen),
             "source_sha": manifest["source_sha"], "artifact_sha256": manifest["artifact"]["sha256"]}
 

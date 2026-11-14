@@ -220,9 +220,14 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      deployment-outcome: ${{ steps.deployment.outcome }}
+      receipt-outcome: ${{ steps.receipt.outcome }}
+      receipt-upload-outcome: ${{ steps.receipt_upload.outcome }}
     steps:
       # No checkout, repository script, package install, or rebuild in this job.
       - name: Require a fresh audit and a build from this same run attempt
+        id: preflight
         env:
           BUILD_REPOSITORY: ${{ needs.build.outputs.build-repository }}
           BUILD_SOURCE_SHA: ${{ needs.build.outputs.build-source-sha }}
@@ -267,6 +272,7 @@ jobs:
           PY
 
       - name: Require the intended Pages configuration and immutable artifact identity
+        id: configuration
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           ARTIFACT_ID: ${{ needs.build.outputs.pages-artifact-id }}
@@ -296,6 +302,7 @@ jobs:
             }
 
       - name: Download the exact Pages artifact by immutable ID
+        id: artifact_download
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           artifact-ids: ${{ needs.build.outputs.pages-artifact-id }}
@@ -304,6 +311,7 @@ jobs:
           digest-mismatch: error
 
       - name: Verify the downloaded canonical tar before deployment
+        id: tar_verification
         env:
           EXPECTED_TAR_SHA256: ${{ needs.build.outputs.artifact-sha256 }}
         run: |
@@ -330,7 +338,17 @@ jobs:
           artifact_name: ${{ needs.build.outputs.pages-artifact-name }}
 
       - name: Record deployment identity separately from verification
+        id: receipt
+        if: always()
+        timeout-minutes: 1
         env:
+          DEPLOYMENT_OUTCOME: ${{ steps.deployment.outcome }}
+          DEPLOY_JOB_STATUS: ${{ job.status }}
+          PREFLIGHT_OUTCOME: ${{ steps.preflight.outcome }}
+          CONFIGURATION_OUTCOME: ${{ steps.configuration.outcome }}
+          ARTIFACT_DOWNLOAD_OUTCOME: ${{ steps.artifact_download.outcome }}
+          TAR_VERIFICATION_OUTCOME: ${{ steps.tar_verification.outcome }}
+          ARTIFACT_NAME: ${{ needs.build.outputs.pages-artifact-name }}
           ARTIFACT_ID: ${{ needs.build.outputs.pages-artifact-id }}
           ARTIFACT_DIGEST: ${{ needs.build.outputs.pages-artifact-digest }}
           TAR_SHA256: ${{ needs.build.outputs.artifact-sha256 }}
@@ -339,12 +357,50 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os
+          from datetime import datetime, timezone
           from pathlib import Path
-          receipt = {'schema': 'pages-deployment/v1', 'status': 'DEPLOYED_NOT_HTTP_VERIFIED',
-                     'source_sha': os.environ['GITHUB_SHA'], 'run_id': os.environ['GITHUB_RUN_ID'],
-                     'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'artifact_id': os.environ['ARTIFACT_ID'],
-                     'artifact_digest': os.environ['ARTIFACT_DIGEST'], 'tar_sha256': os.environ['TAR_SHA256'],
-                     'manifest_sha256': os.environ['MANIFEST_SHA256'], 'page_url': os.environ['PAGE_URL']}
+          def value(name):
+              return os.environ.get(name) or None
+          def outcome(name):
+              observed = value(name)
+              return observed if observed in {'success', 'failure', 'cancelled', 'skipped'} else None
+          deployment = outcome('DEPLOYMENT_OUTCOME')
+          predeployment = {name: outcome(name.upper() + '_OUTCOME') for name in
+                           ('preflight', 'configuration', 'artifact_download', 'tar_verification')}
+          failed_stage = next((name for name, result in predeployment.items()
+                               if result in {'failure', 'cancelled'}), None)
+          if deployment == 'success':
+              error_class, error_summary = None, None
+          elif deployment in {'failure', 'cancelled'}:
+              failed_stage = 'deployment'
+              error_class = 'deployment_' + deployment
+              error_summary = 'The deployment action reported ' + deployment + '; inspect its job log.'
+          elif deployment == 'skipped' and failed_stage:
+              error_class = 'predeployment_' + predeployment[failed_stage]
+              error_summary = 'Deployment was not attempted after ' + failed_stage + '.'
+          elif deployment == 'skipped':
+              error_class, error_summary = 'deployment_not_attempted', 'The deployment action was skipped.'
+          else:
+              error_class, error_summary = 'deployment_outcome_unavailable', 'The deployment action outcome was unavailable.'
+          status = {'success': 'DEPLOYED_NOT_HTTP_VERIFIED', 'failure': 'DEPLOYMENT_FAILED',
+                    'cancelled': 'DEPLOYMENT_CANCELLED', 'skipped': 'DEPLOYMENT_NOT_ATTEMPTED'}
+          receipt = {
+              'schema': 'pages-deployment/v1', 'status': status.get(deployment, 'OUTCOME_UNAVAILABLE'),
+              'observed_at': datetime.now(timezone.utc).isoformat(),
+              'repository': value('GITHUB_REPOSITORY'), 'source_sha': value('GITHUB_SHA'),
+              'ref': value('GITHUB_REF'), 'event': value('GITHUB_EVENT_NAME'),
+              'workflow_ref': value('GITHUB_WORKFLOW_REF'),
+              'run_id': value('GITHUB_RUN_ID'), 'run_attempt': value('GITHUB_RUN_ATTEMPT'),
+              'deployment_step_outcome': deployment,
+              'deploy_job_status_at_recording': outcome('DEPLOY_JOB_STATUS'),
+              'predeployment_outcomes': predeployment,
+              'deployment_id': None, 'deployment_id_unavailable_reason': 'action_output_unavailable',
+              'artifact_name': value('ARTIFACT_NAME'), 'artifact_id': value('ARTIFACT_ID'),
+              'artifact_digest': value('ARTIFACT_DIGEST'), 'tar_sha256': value('TAR_SHA256'),
+              'manifest_sha256': value('MANIFEST_SHA256'), 'page_url': value('PAGE_URL'),
+              'expected_page_url': 'https://kakurai49.github.io/voicy/', 'http_verification': 'NOT_RECORDED_HERE',
+              'failed_stage': failed_stage, 'error_class': error_class, 'error_summary': error_summary,
+          }
           raw = (json.dumps(receipt, indent=2) + '\n').encode()
           assert len(raw) <= 100000
           (Path(os.environ['RUNNER_TEMP']) / 'deployment.json').write_bytes(raw)
@@ -354,6 +410,9 @@ jobs:
           PY
 
       - name: Retain the small deployment receipt
+        id: receipt_upload
+        if: ${{ always() && steps.receipt.outcome == 'success' }}
+        timeout-minutes: 2
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: pages-deployment-${{ github.run_id }}-${{ github.run_attempt }}
@@ -372,8 +431,13 @@ jobs:
       contents: read
     env:
       PYTHONDONTWRITEBYTECODE: '1'
+    outputs:
+      checkout-outcome: ${{ steps.checkout.outcome }}
+      evidence-download-outcome: ${{ steps.evidence_download.outcome }}
+      manifest-http-outcome: ${{ steps.manifest_http.outcome }}
     steps:
       - name: Check out the same event commit without saved credentials
+        id: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.sha }}
@@ -381,6 +445,7 @@ jobs:
           fetch-depth: 1
 
       - name: Download the exact evidence artifact by immutable ID
+        id: evidence_download
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           artifact-ids: ${{ needs.build.outputs.evidence-artifact-id }}
@@ -389,6 +454,7 @@ jobs:
           digest-mismatch: error
 
       - name: Match manifest identity and verify every served byte
+        id: manifest_http
         env:
           EXPECTED_MANIFEST_SHA256: ${{ needs.build.outputs.manifest-sha256 }}
           EXPECTED_TAR_SHA256: ${{ needs.build.outputs.artifact-sha256 }}
@@ -436,3 +502,63 @@ jobs:
           if-no-files-found: warn
           retention-days: 1
           overwrite: false
+
+  status:
+    name: status
+    needs: [build, deploy, verify]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions: {}
+    steps:
+      # This job reports results without publication or artifact-upload actions.
+      - name: Summarize every stage including skipped jobs
+        if: always()
+        timeout-minutes: 1
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          VERIFY_RESULT: ${{ needs.verify.result }}
+          DEPLOYMENT_OUTCOME: ${{ needs.deploy.outputs.deployment-outcome }}
+          RECEIPT_OUTCOME: ${{ needs.deploy.outputs.receipt-outcome }}
+          RECEIPT_UPLOAD_OUTCOME: ${{ needs.deploy.outputs.receipt-upload-outcome }}
+          VERIFY_CHECKOUT_OUTCOME: ${{ needs.verify.outputs.checkout-outcome }}
+          VERIFY_DOWNLOAD_OUTCOME: ${{ needs.verify.outputs.evidence-download-outcome }}
+          VERIFY_MANIFEST_HTTP_OUTCOME: ${{ needs.verify.outputs.manifest-http-outcome }}
+          ARTIFACT_ID: ${{ needs.build.outputs.pages-artifact-id }}
+          ARTIFACT_DIGEST: ${{ needs.build.outputs.pages-artifact-digest }}
+          TAR_SHA256: ${{ needs.build.outputs.artifact-sha256 }}
+          MANIFEST_SHA256: ${{ needs.build.outputs.manifest-sha256 }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          def value(name):
+              return os.environ.get(name) or None
+          def outcome(name):
+              observed = value(name)
+              return observed if observed in {'success', 'failure', 'cancelled', 'skipped'} else None
+          report = {
+              'schema': 'pages-run-summary/v1', 'observed_at': datetime.now(timezone.utc).isoformat(),
+              'repository': value('GITHUB_REPOSITORY'), 'source_sha': value('GITHUB_SHA'),
+              'ref': value('GITHUB_REF'), 'event': value('GITHUB_EVENT_NAME'),
+              'workflow_ref': value('GITHUB_WORKFLOW_REF'),
+              'run_id': value('GITHUB_RUN_ID'), 'run_attempt': value('GITHUB_RUN_ATTEMPT'),
+              'jobs': {name: outcome(name.upper() + '_RESULT') for name in ('build', 'deploy', 'verify')},
+              'deployment_step_outcome': outcome('DEPLOYMENT_OUTCOME'),
+              'deployment_receipt': {'generation': outcome('RECEIPT_OUTCOME'),
+                                     'upload': outcome('RECEIPT_UPLOAD_OUTCOME')},
+              'verification_steps': {'checkout': outcome('VERIFY_CHECKOUT_OUTCOME'),
+                                     'evidence_download': outcome('VERIFY_DOWNLOAD_OUTCOME'),
+                                     'manifest_and_http': outcome('VERIFY_MANIFEST_HTTP_OUTCOME')},
+              'artifact_id': value('ARTIFACT_ID'), 'artifact_digest': value('ARTIFACT_DIGEST'),
+              'tar_sha256': value('TAR_SHA256'), 'manifest_sha256': value('MANIFEST_SHA256'),
+          }
+          raw = json.dumps(report, indent=2)
+          assert len(raw.encode()) <= 100000
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('## Pages stage outcomes\n\n```json\n' + raw + '\n```\n\n')
+              out.write('Skipped jobs are not deployment or HTTP verification success. Missing step outcomes are null.\n\n')
+              out.write('This summary creates no artifact. Deployment receipts expire after one day. If the runner cannot finish, use the Actions run/job API; receipt storage is not guaranteed.\n')
+          print(raw)
+          PY
