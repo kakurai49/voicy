@@ -1,0 +1,26 @@
+{
+  "adapter": ".github/pages/site_adapter.py",
+  "base_url": "https://kakurai49.github.io/voicy/",
+  "build_materials": [
+    ".github/pages-core/pages_core.py",
+    ".github/pages-core/requirements.lock",
+    ".github/pages-core/schema/bom-1.6.schema.json",
+    ".github/pages-core/schema/jsf-0.82.schema.json",
+    ".github/pages-core/schema/source.json",
+    ".github/pages-core/schema/spdx.schema.json",
+    ".github/pages-core/security.py",
+    ".github/pages-core/vendor-manifest.json",
+    ".github/pages/build_site.py",
+    ".github/workflows/pages.yml"
+  ],
+  "repository": "kakurai49/voicy",
+  "required_files": [
+    ".nojekyll",
+    "README.md",
+    "index.html",
+    "articles.json"
+  ],
+  "runtime_components": [],
+  "schema": "pages-profile/v1",
+  "site": "voicy"
+}

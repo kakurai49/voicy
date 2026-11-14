@@ -1,3 +1,5 @@
+# Generated from kakurai49/sandbox projects/pages-release/templates/pages.yml.
+# Update the common source and run tools/sync_sites.py; do not edit this copy.
 name: pages build and deployment
 
 on:
@@ -7,7 +9,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Every job declares its own minimum permissions.
 permissions: {}
 
 concurrency:
@@ -18,64 +19,146 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
       contents: read
     env:
       PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONHASHSEED: '0'
     outputs:
-      pages-artifact-name: ${{ steps.artifact-names.outputs.pages }}
-      manifest-artifact-name: ${{ steps.artifact-names.outputs.manifest }}
+      pages-artifact-name: ${{ steps.release.outputs.pages }}
+      evidence-artifact-name: ${{ steps.release.outputs.evidence }}
+      artifact-sha256: ${{ steps.release.outputs.artifact_sha256 }}
+      manifest-sha256: ${{ steps.release.outputs.manifest_sha256 }}
+      pages-artifact-id: ${{ steps.pages.outputs.artifact-id }}
+      pages-artifact-digest: ${{ steps.pages.outputs.artifact-digest }}
+      evidence-artifact-id: ${{ steps.evidence.outputs.artifact-id }}
+      build-run-attempt: ${{ steps.release.outputs.build_run_attempt }}
+      audit-observed-at: ${{ steps.release.outputs.audit_observed_at }}
     steps:
-      - name: Check out the event commit
+      - name: Check out the exact event commit
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ github.sha }}
           persist-credentials: false
           fetch-depth: 1
 
-      - name: Test the publication boundary
-        run: python3 -m unittest discover -s .github/pages -p 'test_*.py' -v
+      - name: Set up the pinned Python runtime
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.14'
 
-      - name: Validate and package the complete public site
-        run: >-
-          python3 .github/pages/build_site.py
-          --source "$GITHUB_WORKSPACE"
-          --output "$RUNNER_TEMP/voicy-pages"
-          --commit "$GITHUB_SHA"
+      - name: Verify the installed common package and workflow
+        run: python .github/pages-core/security.py verify-vendor --root .
 
-      - name: Bind artifact names to this successful build attempt
-        id: artifact-names
+      - name: Install the complete locked validation environment
         run: |
-          python3 - <<'PY'
-          import os
-          suffix = os.environ['GITHUB_RUN_ID'] + '-' + os.environ['GITHUB_RUN_ATTEMPT']
-          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
-              output.write('pages=github-pages-' + suffix + '\n')
-              output.write('manifest=pages-build-manifest-' + suffix + '\n')
+          python -m venv "$RUNNER_TEMP/pages-env"
+          "$RUNNER_TEMP/pages-env/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: --require-hashes -r .github/pages-core/requirements.lock
+
+      - name: Test the site publication boundary
+        run: |
+          "$RUNNER_TEMP/pages-env/bin/python" -m unittest discover -s .github/pages -p 'test_*.py' -v
+
+      - name: Build twice and inventory the exact public bytes
+        run: >-
+          "$RUNNER_TEMP/pages-env/bin/python" .github/pages-core/pages_core.py build
+          --root . --profile .github/pages/site.json
+          --output "$RUNNER_TEMP/pages-release"
+          --source-sha "$GITHUB_SHA" --run-id "$GITHUB_RUN_ID"
+          --run-attempt "$GITHUB_RUN_ATTEMPT"
+
+      - name: Validate both SBOMs with the pinned official CycloneDX schema
+        run: >-
+          "$RUNNER_TEMP/pages-env/bin/python" .github/pages-core/security.py schema
+          --output "$RUNNER_TEMP/pages-release"
+
+      - name: Audit every installed Python distribution with OSV
+        run: >-
+          "$RUNNER_TEMP/pages-env/bin/python" .github/pages-core/security.py audit
+          --output "$RUNNER_TEMP/pages-release"
+
+      - name: Require all evidence to match this build before publication
+        run: >-
+          "$RUNNER_TEMP/pages-env/bin/python" .github/pages-core/pages_core.py gate
+          --output "$RUNNER_TEMP/pages-release"
+          --schema-receipt "$RUNNER_TEMP/pages-release/schema-validation.json"
+          --audit-receipt "$RUNNER_TEMP/pages-release/vulnerability-audit.json"
+
+      - name: Bind outputs and summarize the verified build
+        id: release
+        run: |
+          "$RUNNER_TEMP/pages-env/bin/python" - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'pages-release'
+          binding = json.loads((root / 'binding.json').read_text())
+          validation = json.loads((root / 'validation.json').read_text())
+          audit = json.loads((root / 'vulnerability-audit.json').read_text())
+          assert validation['deployment_eligible'] is True
+          assert binding['repository'] == os.environ['GITHUB_REPOSITORY']
+          assert binding['source_sha'] == os.environ['GITHUB_SHA']
+          assert binding['run_id'] == os.environ['GITHUB_RUN_ID']
+          assert binding['run_attempt'] == os.environ['GITHUB_RUN_ATTEMPT']
+          suffix = binding['run_id'] + '-' + binding['run_attempt']
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write('pages=github-pages-' + suffix + '\n')
+              out.write('evidence=pages-evidence-' + suffix + '\n')
+              out.write('artifact_sha256=' + binding['artifact_sha256'] + '\n')
+              out.write('manifest_sha256=' + binding['manifest_sha256'] + '\n')
+              out.write('build_run_attempt=' + binding['run_attempt'] + '\n')
+              out.write('audit_observed_at=' + audit['observed_at'] + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('## Verified Pages build\n\n```json\n')
+              out.write(json.dumps({'binding': binding, 'validation': validation}, indent=2))
+              out.write('\n```\n\nThe audit covers installed Python distributions. Interpreter, OS, Actions and first-party code assessment limits remain recorded.\n')
+              out.write('This technical gate does not authorize storage. The current sandbox L0 policy rejects a Pages tar; production upload remains blocked pending a separately approved policy amendment.\n')
           PY
 
-      # Upload exactly one validated tar. This preserves .nojekyll, which the
-      # generic upload-pages-artifact action excludes together with dotfiles.
-      - name: Upload the Pages artifact
-        id: artifact
+      - name: Check the exact evidence file budget
+        run: >-
+          "$RUNNER_TEMP/pages-env/bin/python" .github/pages-core/security.py evidence-budget
+          --output "$RUNNER_TEMP/pages-release"
+
+      - name: Admit the Pages archive under the current storage policy
+        if: github.event_name != 'pull_request'
+        run: >-
+          "$RUNNER_TEMP/pages-env/bin/python" .github/pages-core/security.py pages-admission
+          --output "$RUNNER_TEMP/pages-release"
+
+      # Upload only after a successful gate. PRs test everything without publishing.
+      # One already-verified tar preserves .nojekyll and excludes all private inputs.
+      - name: Upload the exact validated Pages tar
+        id: pages
+        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: ${{ steps.artifact-names.outputs.pages }}
-          path: ${{ runner.temp }}/voicy-pages/artifact.tar
+          name: ${{ steps.release.outputs.pages }}
+          path: ${{ runner.temp }}/pages-release/artifact.tar
           archive: true
-          if-no-files-found: error
           compression-level: 1
+          if-no-files-found: error
           retention-days: 1
           overwrite: false
 
-      - name: Retain the build manifest outside the public site
+      - name: Keep only named release evidence outside the public site
+        id: evidence
+        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: ${{ steps.artifact-names.outputs.manifest }}
-          path: ${{ runner.temp }}/voicy-pages/manifest.json
+          name: ${{ steps.release.outputs.evidence }}
+          path: |
+            ${{ runner.temp }}/pages-release/binding.json
+            ${{ runner.temp }}/pages-release/release-manifest.json
+            ${{ runner.temp }}/pages-release/build.cdx.json
+            ${{ runner.temp }}/pages-release/browser-runtime.cdx.json
+            ${{ runner.temp }}/pages-release/provenance.json
+            ${{ runner.temp }}/pages-release/validation.json
+            ${{ runner.temp }}/pages-release/schema-validation.json
+            ${{ runner.temp }}/pages-release/vulnerability-audit.json
           archive: true
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 1
           overwrite: false
 
   deploy:
@@ -94,29 +177,76 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # No checkout, dependency install, repository script, or HTML generation
-      # runs with deployment permissions. This inline check only reads Pages.
-      - name: Require the approved Pages publishing mode
+      # No checkout, repository script, package install, or rebuild in this job.
+      - name: Require a fresh audit and a build from this same run attempt
+        env:
+          BUILD_RUN_ATTEMPT: ${{ needs.build.outputs.build-run-attempt }}
+          AUDIT_OBSERVED_AT: ${{ needs.build.outputs.audit-observed-at }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from datetime import datetime, timezone
+          if os.environ['BUILD_RUN_ATTEMPT'] != os.environ['GITHUB_RUN_ATTEMPT']:
+              raise SystemExit('Build belongs to a previous attempt. Re-run all jobs before deployment.')
+          observed = datetime.fromisoformat(os.environ['AUDIT_OBSERVED_AT'].replace('Z', '+00:00'))
+          if observed.tzinfo is None or not 0 <= (datetime.now(timezone.utc) - observed).total_seconds() <= 86400:
+              raise SystemExit('Dependency audit is not fresh. Re-run all jobs before deployment.')
+          PY
+
+      - name: Require the intended Pages configuration
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const { data: pages } = await github.request('GET /repos/{owner}/{repo}/pages', {
-              owner: context.repo.owner,
-              repo: context.repo.repo
+              owner: context.repo.owner, repo: context.repo.repo
             });
             if (pages.build_type !== 'workflow') {
-              core.setFailed('Pages Source must be GitHub Actions before deployment. Follow .github/pages/README.md.');
+              core.setFailed('Pages Source must be GitHub Actions. Follow the migration instructions before the first deployment.');
               return;
             }
             if (pages.html_url !== 'https://kakurai49.github.io/voicy/') {
-              core.setFailed('Unexpected Pages destination; review the publication policy before deploying.');
+              core.setFailed('Unexpected Pages destination.');
             }
 
-      - name: Deploy the artifact from this workflow run
+      - name: Deploy only this successful build attempt
         id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
         with:
           artifact_name: ${{ needs.build.outputs.pages-artifact-name }}
+
+      - name: Record deployment identity separately from verification
+        env:
+          ARTIFACT_ID: ${{ needs.build.outputs.pages-artifact-id }}
+          ARTIFACT_DIGEST: ${{ needs.build.outputs.pages-artifact-digest }}
+          TAR_SHA256: ${{ needs.build.outputs.artifact-sha256 }}
+          MANIFEST_SHA256: ${{ needs.build.outputs.manifest-sha256 }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          receipt = {'schema': 'pages-deployment/v1', 'status': 'DEPLOYED_NOT_HTTP_VERIFIED',
+                     'source_sha': os.environ['GITHUB_SHA'], 'run_id': os.environ['GITHUB_RUN_ID'],
+                     'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'artifact_id': os.environ['ARTIFACT_ID'],
+                     'artifact_digest': os.environ['ARTIFACT_DIGEST'], 'tar_sha256': os.environ['TAR_SHA256'],
+                     'manifest_sha256': os.environ['MANIFEST_SHA256'], 'page_url': os.environ['PAGE_URL']}
+          raw = (json.dumps(receipt, indent=2) + '\n').encode()
+          assert len(raw) <= 100000
+          (Path(os.environ['RUNNER_TEMP']) / 'deployment.json').write_bytes(raw)
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('## Deployment receipt\n\n```json\n' + json.dumps(receipt, indent=2) + '\n```\n')
+          print(json.dumps(receipt))
+          PY
+
+      - name: Retain the small deployment receipt
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pages-deployment-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/deployment.json
+          archive: true
+          if-no-files-found: error
+          retention-days: 1
+          overwrite: false
 
   verify:
     name: verify
@@ -128,33 +258,66 @@ jobs:
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
-      - name: Check out the same event commit for verification
+      - name: Check out the same event commit without saved credentials
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ github.sha }}
           persist-credentials: false
           fetch-depth: 1
 
-      - name: Download only this run's build manifest
+      - name: Download the exact evidence artifact by immutable ID
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: ${{ needs.build.outputs.manifest-artifact-name }}
-          path: ${{ runner.temp }}/voicy-manifest
+          artifact-ids: ${{ needs.build.outputs.evidence-artifact-id }}
+          path: ${{ runner.temp }}/pages-evidence
+          merge-multiple: true
           digest-mismatch: error
 
-      - name: Verify every served file against the build manifest
-        run: >-
-          python3 .github/pages/verify_site.py
-          --manifest "$RUNNER_TEMP/voicy-manifest/manifest.json"
-          --commit "$GITHUB_SHA"
-          --report "$RUNNER_TEMP/voicy-http-verification.json"
+      - name: Match manifest identity and verify every served byte
+        env:
+          EXPECTED_MANIFEST_SHA256: ${{ needs.build.outputs.manifest-sha256 }}
+          EXPECTED_TAR_SHA256: ${{ needs.build.outputs.artifact-sha256 }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, importlib.util, json, os, time
+          from pathlib import Path
+          path = Path('.github/pages-core/pages_core.py')
+          spec = importlib.util.spec_from_file_location('pages_core', path)
+          core = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(core)
+          directory = Path(os.environ['RUNNER_TEMP']) / 'pages-evidence'
+          raw = (directory / 'release-manifest.json').read_bytes()
+          assert hashlib.sha256(raw).hexdigest() == os.environ['EXPECTED_MANIFEST_SHA256']
+          manifest = json.loads(raw)
+          assert manifest['repository'] == os.environ['GITHUB_REPOSITORY']
+          assert manifest['source_sha'] == os.environ['GITHUB_SHA']
+          assert manifest['run_id'] == os.environ['GITHUB_RUN_ID']
+          assert manifest['run_attempt'] == os.environ['GITHUB_RUN_ATTEMPT']
+          assert manifest['artifact']['sha256'] == os.environ['EXPECTED_TAR_SHA256']
+          for attempt in range(3):
+              try:
+                  receipt = core.verify_http(manifest, 'https://kakurai49.github.io/voicy/', timeout=10)
+                  break
+              except (core.ReleaseError, OSError) as exc:
+                  if attempt == 2:
+                      receipt = {'schema': 'pages-verification/v1', 'status': 'FAIL', 'error': str(exc)}
+                  else:
+                      time.sleep(15)
+          (directory / 'verification.json').write_bytes(core.json_bytes(receipt))
+          assert (directory / 'verification.json').stat().st_size <= 100000
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('## Public HTTP verification\n\n```json\n' + json.dumps(receipt, indent=2) + '\n```\n')
+          if receipt['status'] != 'PASS':
+              raise SystemExit(1)
+          PY
 
-      - name: Retain HTTP verification evidence outside the public site
+      - name: Retain the small HTTP verification receipt
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: pages-http-verification-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/voicy-http-verification.json
+          name: pages-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/pages-evidence/verification.json
           archive: true
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 1
           overwrite: false

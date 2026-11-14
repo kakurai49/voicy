@@ -36,8 +36,21 @@ MANAGEMENT_FILES = frozenset({
     ".github/pages/verify_site.py",
     ".github/pages/test_verify_site.py",
     ".github/pages/README.md",
+    ".github/pages/site_adapter.py",
+    ".github/pages/site.json",
+    ".github/pages/test_site_adapter.py",
+    ".github/pages-core/pages_core.py",
+    ".github/pages-core/security.py",
+    ".github/pages-core/requirements.lock",
+    ".github/pages-core/schema/bom-1.6.schema.json",
+    ".github/pages-core/schema/jsf-0.82.schema.json",
+    ".github/pages-core/schema/spdx.schema.json",
+    ".github/pages-core/schema/LICENSE",
+    ".github/pages-core/schema/source.json",
+    ".github/pages-core/vendor-manifest.json",
 })
-MANAGEMENT_DIRS = frozenset({".github", ".github/workflows", ".github/pages"})
+MANAGEMENT_DIRS = frozenset({".github", ".github/workflows", ".github/pages",
+                             ".github/pages-core", ".github/pages-core/schema"})
 PUBLIC_DIRS = frozenset({"articles", "assets", "assets/js"})
 ARTICLE = re.compile(r"articles/[A-Za-z0-9][A-Za-z0-9_-]{0,95}\.html\Z")
 RUN_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]{0,95}\Z")

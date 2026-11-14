@@ -1,165 +1,66 @@
-# Voicy Pages のBuild・Deploy分離
+# Voicy Pages：共通ビルド・SBOM・配備
 
-このリポジトリは、`kakurai49/sandbox` のVoicy後処理が生成・審査した公開用HTMLを保持します。
-`.github/workflows/pages.yml` は公開ファイルを検査・梱包し、mainの承認済み変更だけをGitHub Pagesへ配備します。
+Voicy固有の公開内容検査はこのディレクトリで管理し、再ビルド、梱包、SBOM、脆弱性確認、配備判定、公開後の照合は `.github/pages-core/` の共通実装で行います。正本は `kakurai49/sandbox/projects/pages-release/` です。TECH・DUKEと同じ共通処理を使います。
 
-## 何を解決するか
+## 変更後の流れ
 
-2026-11-14の調査で、ブランチ型Pagesの動的workflowではBuildにも `Pages: write` が付いていました。
-この実装はジョブごとに権限を指定し、公開用の認証情報を持つDeployから原稿・HTML生成やリポジトリのスクリプト実行を分離します。
+1. `site_adapter.py` が既存の `build_site.py` の公開境界・catalog・HTML・CSP・JavaScript SRI検査を実行する。
+2. 検査済みの公開ファイルだけを空のstageに同じbytesでコピーする。原文、管理ファイル、テスト、SBOMは入れない。
+3. 共通coreが独立した2つのstageを作成して公開bytesを比較し、決定的tar・公開マーカー `_release.json`・manifest・ビルドSBOM・ブラウザSBOMを生成する。
+4. 固定したCycloneDX 1.6公式schemaで両SBOMを検証し、実行Python環境の全installed packageをOSVで調べる。通信・形式・件数・paginationの不確実な結果は未完了として止める。
+5. 検査証拠を同じcommit・run・attempt・tar/SBOM hashに結び、全必須検査が合格した場合に配備する。
+6. 公開後、配信ファイルをmanifestのbytes/SHA-256と照合する。
 
-| job | 仕事 | 明示するGITHUB_TOKEN権限 |
-|---|---|---|
-| `build` | テスト、公開内容検査、再現可能なtar作成、artifact保存 | `contents: read` |
-| `deploy` | Pages公開方式・公開先の確認、同じrunのartifactを配備 | `pages: write`, `id-token: write` |
-| `verify` | 同じrunのmanifestを取得、配備後HTTP内容照合 | `contents: read` |
+`.github/workflows/pages.yml` のworkflow名は互換性のため **pages build and deployment** を維持します。BuildとVerifyは公開先への書込み権限を持たず、Deployだけが `pages: write` と `id-token: write` を持ちます。Deployでcheckout・依存インストール・原稿生成・リポジトリコード実行は行いません。共通ファイルは固定sandbox commitとhashを持つvendorとして配布されます。
 
-workflow全体の既定は `permissions: {}`。Build/VerifyにPages書込み・OIDC取得権限はなく、DeployにContents書込み・読み取り権限はありません。
-GitHubが例外として付ける `Metadata: read` は実行ログに表示される場合があります。
-独自のPAT、`DEPLOY_TOKEN`、repository/environment Secretを新設・参照しません。
-GitHub-hosted `ubuntu-24.04` を使用し、checkoutは `persist-credentials: false` です。
+## PRと本番
 
-## イベントと配備条件
+main宛てPRはビルド・検査を実行します。PRの合格は本番配備の成功を意味しません。本番は当該リポジトリのmainへのpushまたはmainの手動実行だけです。配備直前にPages SourceがGitHub Actionsで、公開先が `https://kakurai49.github.io/voicy/` であることを読み取って確認します。
 
-| イベント | Build | Deploy | HTTP照合 |
-|---|---|---|---|
-| main宛てPR（draftを含む） | 実行 | skip | skip |
-| `kakurai49/voicy` のmainへのpush | 実行 | Build成功後に実行 | Deploy成功後に実行 |
-| 同リポジトリmainの手動 `workflow_dispatch` | 実行 | Build成功後に実行 | Deploy成功後に実行 |
-| 手動実行でmain以外を選択 | 実行 | skip | skip |
+2026-11-14に確認した既存mainの [run 43549882672](https://github.com/kakurai49/voicy/actions/runs/43549882672) はBuild成功後、`Pages Source must be GitHub Actions before deployment` で停止しました。403ではなく、旧ブランチ型のPages設定を検出した結果です。同HEADの旧dynamic workflowは成功していました。今後の初回切替は次の順序で行います。
 
-`pull_request_target` や `workflow_run` による権限昇格経路は使用しません。
-Deployはリポジトリ名・`refs/heads/main`・イベント種別の3条件を検査し、`github-pages` environmentを使用します。
-Deploy内の固定版 `github-script` はPages設定のGETだけを行い、`build_type=workflow` と
-`https://kakurai49.github.io/voicy/` を確認します。公開方式を自動で変更する処理はありません。
-Deploy内ではcheckout、依存のインストール、リポジトリスクリプト実行、再ビルドを行いません。
+1. sandboxの公開先管理ファイル互換変更を先にマージする。
+2. Voicyの `Settings → Environments → github-pages` をmainだけが配備できる条件に設定する。
+3. `Settings → Pages → Build and deployment → Source` を **GitHub Actions** に切り替える。
+4. 本PRをmainへマージし、同じmerge commitのBuild・Deploy・Verifyを確認する。
 
-## 公開物と管理ファイルの境界
+この実装はPages設定やenvironment設定を自動変更しません。利用可能なGitHub連携APIではこれらの管理操作を実行できません。
 
-公開対象は `.nojekyll`、`README.md`、`index.html`、`articles.json`、登録済み `articles/*.html` と、
-既存ポリシーで認められるハッシュ付き `assets/js/*.(js|mjs)` だけです。
-次の6ファイルはGitHubリポジトリで管理しますが、Pages artifactへ入れません。
+## 保守する場所
 
-- `.github/workflows/pages.yml`
-- `.github/pages/build_site.py`
-- `.github/pages/test_build_site.py`
-- `.github/pages/verify_site.py`
-- `.github/pages/test_verify_site.py`
-- `.github/pages/README.md`
-
-未知のrootファイル・管理ファイル・ディレクトリ、シンボリックリンク、ハードリンク、特殊ファイルは拒否します。
-checkoutの `.git` ディレクトリだけを実行時管理領域として除外します。
-テストでは `PYTHONDONTWRITEBYTECODE=1` を指定し、ソース内にキャッシュを作りません。
-
-`build_site.py` はUTF-8、ファイルサイズ、catalogの重複、記事hash、日付、分析ページの親子対応、
-ローカルリンクとfragment、CSP・JavaScriptのhash/SRI、典型的な秘密情報の文字列を検査します。
-秘密情報検査は既知の高信頼パターンを対象とし、あらゆる秘密を検出できるという保証ではありません。
-外部リンクをBuildで開くことはありません。
-
-既存45公開ファイル（35記事＋6分析ページ＋index/catalog/README/marker）をそのまま保持する移行です。
-HTML・catalog・公開READMEはこの移行で書き換えません。
-今後の追加記事はcatalogから検証するため、45という件数を実装に固定していません。
-
-## Artifactと証拠
-
-Buildの出力先はソース外の新規ディレクトリです。既存出力先やソースを削除・上書きしません。
-
-| 出力 | 用途 |
+| 対象 | 正本と更新方法 |
 |---|---|
-| `site/` | 検査した公開ファイルの同一bytesコピー |
-| `artifact.tar` | 公開ファイルだけを含む、時刻・所有者・順序を固定したtar |
-| `manifest.json` | 対象commit、全公開path/bytes/SHA-256、tarのSHA-256 |
+| 公開記事・catalog | 既存sandbox Voicy後処理 |
+| Voicy固有HTML・catalog検査 | `.github/pages/build_site.py` |
+| サイト設定 | `.github/pages/site.json` |
+| 共通core・schema・workflow | sandbox `projects/pages-release/` を変更し同期ツールで配布 |
+| 公開先管理ファイル一覧 | このbuilderとsandbox `web_publication_policy.json` / `publish_blog.py` を同時更新 |
 
-`github-pages-{run_id}-{build_attempt}` artifactには `artifact.tar` 1ファイルだけをZIPとしてアップロードします。
-`archive: true` を明示し、Deployと同じrunの同じartifact名を使います。
-`.nojekyll` もtarへ含めるため、dotfilesを除外する `upload-pages-artifact` を経由せず、固定版 `upload-artifact` を使用します。
-通常ファイルだけをtarへ入れ、管理文書・manifest・テストコード・`.git` は入れません。
+管理ファイルは完全なGit treeと個別blobのhashを読戻して保持し、公開candidateから除きます。未知の管理ファイルやsymlinkは拒否します。新しい共通ファイルを追加するときは、Voicyとsandboxの厳密一覧を両方更新してください。
 
-manifestは別の `pages-build-manifest-{run_id}-{build_attempt}` artifact、公開後の観測は `pages-http-verification-{run_id}-{attempt}` artifactに保持します。
-実際のartifact名は成功したBuildのjob outputsへ束縛します。Build再実行では名前衝突を避け、
-Deployだけの再試行では成功済みBuildが出力したartifact名を使います。別runのartifactは取得しません。
-Pages artifactの保持は1日、検査証拠は7日です。期限切れ後はmainの手動実行で再Buildします。
-検証証拠は公開サイトに混入しませんが、この公開リポジトリのActions artifactとして閲覧可能な情報だけを含めます。
+共通のvendorファイルを直接編集するとhash照合が失敗します。正本を変更し、固定commitを確定してから再配布します。公開用HTMLやcatalogを共通化のために書き換える必要はありません。
 
-`verify_site.py` は同じrunのmanifestのcommitを検査し、固定公開先の全配信ファイルについて
-HTTP 200・最終URL・bytes・SHA-256を照合します。リダイレクトは禁止し、認証情報を送信しません。
-CDN反映待ちは不一致のファイルだけを最大5回再確認します。
-空のビルドマーカー `.nojekyll` はtarには保持しますが、HTTP配信検査から除きます。
-API上のDeploy成功だけでworkflowを完了にせず、HTTP不一致は `verify` の失敗にします。
+## JavaScriptの追加・更新
 
-## 初回導入：承認後に行う順序
+現在のVoicy公開サイトにはブラウザ実行用JavaScriptがないため、`runtime_components` は空配列です。将来 `assets/js/` にJavaScriptを導入するときは、従来のレビュー・ファイル名hash・CSP/SRIに加えて `site.json.runtime_components` に全JSの `path/name/version` を登録してください。
 
-このPRの作成・CI検証中は、本番のPages設定・environment・mainを変更しません。
-現在の連携APIにはPages/environmentの設定操作がないため、以下の管理画面での切替は管理者が行います。
-
-1. このPRと、`kakurai49/sandbox` の対応する互換PRのCI・差分を確認する。
-2. `sandbox` の互換PRを先にマージする。公開先の管理6ファイルを明示的に許可・保持し、公開artifactから除く変更である。
-3. `voicy` の Settings → Environments → `github-pages` で、Deployment branches and tagsを
-   **Selected branches and tags → Branch `main`** に限定する。既存の必要な保護条件を確認する。
-   `Protected branches only` は、保護branchがない場合にmain限定を保証しないため代用しない。
-4. `voicy` の Settings → Pages → Build and deployment → Sourceを **GitHub Actions** に切り替える。
-   既存サイトを削除する操作や新しいworkflowテンプレートの追加は不要。
-5. このPRをdraft解除してmainへマージする。mainのpushでBuild→Deploy→Verifyが実行される。
-6. 同じmerge commitのrunで3job成功を確認する。BuildログにPages/OIDC権限がないこと、
-   DeployログにPages/OIDC権限があること、Pages artifact IDと配備要求のIDが一致することを確認する。
-7. `pages-http-verification-{run_id}-{attempt}` の `success=true`、対象commit、全配信ファイル一致を確認する。
-
-先に公開方式を切り替えてからこのPRをマージすることで、旧ブランチ型の動的workflowとの二重配備を避けます。
-mainへのマージだけではPages Sourceの切替は完了しません。
-main以外の手動実行は配備しないため、初回配備の再試行はmainを選んで行います。
-
-公開先への書込み・branch・commit・PR・merge操作は、利用者の方針どおりChatGPTのGitHub連携APIで行います。
-本workflow内の公式Actionsは、GitHubがjobごとに発行する権限を使って動作します。
-
-## sandboxとの互換性
-
-公開元controllerは `projects/voicy-postprocess/tools/publish_blog.py` です。
-互換変更では完全recursive treeの検証を維持し、上記管理pathのblob hashを検証してから公開inventoryから除外します。
-公開ファイル保存は既存base treeに変更を重ねるため、管理ファイルと過去記事を保持します。
-未知の管理pathを任意に追加することは引き続き失敗になります。新しい管理ファイルを増やすときは両リポジトリの許可一覧を更新します。
-
-workflow名は既存の `pages build and deployment` を維持します。
-ただし、PRのrun成功は配備成功ではありません。互換controllerはcustom workflowのpath・main・イベント・対象commit・
-同じrun/HEADに属する最新の `deploy` job成功を確認してから、既存の全公開ファイル読戻し・HTTP検査へ進みます。
-HTTP照合だけを再試行してDeployが前のattemptに残る場合は、全attemptのjobsを全ページ読み戻し、
-最新のDeployが成功していることを確認します。過去の成功で新しい失敗を隠すことは認めません。
-旧dynamic Pagesの証拠は移行前の互換経路として扱います。
-原稿生成、独立再Build、SBOM、依存脆弱性検査、保存検査はsandbox側の既存工程を継続します。
-このrepository側の検査だけでそれらを代替したとは扱いません。
+ファイル追加だけでは共通coreの「全JSとSBOM登録の一致」検査で失敗します。これは登録漏れを公開することを防ぐための必須条件です。既存assetの変更、名前変更、削除も同じPRでprofileへ反映します。版番号がないfirst-party codeには `sha256:<内容hash>` を使用できます。第三者依存・CDN・動的importは現在の公開profileでは未対応です。
 
 ## ローカル確認
 
-Python 3.12の標準ライブラリで動作し、追加パッケージは不要です。
-出力先は既存でない、ソース外のディレクトリを指定してください。
+GitHubからの読み書きは利用者指定の連携APIを使い、取得済みファイルに対して実行します。
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/pages -p 'test_*.py' -v
-PYTHONDONTWRITEBYTECODE=1 python3 .github/pages/build_site.py --source . --output /tmp/voicy-pages-check
+python3 .github/pages-core/security.py verify-vendor --root .
 ```
 
-HTTP照合は本番配備後の工程です。単体テストは架空の応答を用い、公開先への通信を行いません。
-GitHub上のBuild・Deploy・Verifyの実行結果と、ローカルの単体テスト結果を区別して記録します。
+実際のビルド・schema・OSV・gateのコマンドはworkflowとsandbox設計書を正本とします。出力先はソース外の新規ディレクトリです。公開用tarはPagesの目的物、検証JSONは別の短期証拠として扱い、全worktreeはアップロードしません。
 
-## Actionの固定参照
+SBOMは実際の梱包処理とブラウザ配信ファイルの構成を記録します。sandboxで行った元原稿生成の全工程を、この配備側SBOMが代替するとは扱いません。CPython/OS/ブラウザエンジン/Actionsサービスや自作コードの脆弱性はPyPIのOSV監査対象外として明記します。
 
-2026-11-14にGitHub連携APIで公式repositoryのタグ・固定ソースを確認しました。
+## 現行保存規則による本番停止
 
-| Action | 確認した版 | 固定commit |
-|---|---|---|
-| checkout | v7.0.1 | `3d3c42e5aac5ba805825da76410c181273ba90b1` |
-| upload-artifact | v7.0.2 | `cf430e030ddbb5b0abf93d22962f4752f3646cd9` |
-| download-artifact | v8.0.2 | `9000827ccba6bdab643e8b6fd33ac0654aef8333` |
-| github-script | v9.0.0 | `3a2844b7e9c422d3c10d287c895573f7108da1b3` |
-| deploy-pages | v5 | `368f82528645a54fb793d4d04e342629a3f51346` |
+共通基盤はsandboxの保護されたL0保存規則に従います。現在の規則はArtifactを100,000 bytes・16ファイル・保持1日に限定し、tarの送信も禁止しています。Pagesの公開tarはこの条件に適合しないため、`pages-admission` が本番upload前に拒否します。PRではuploadせず、Build・SBOM・監査・検証を実施できます。
 
-すべてNode 24版です。タグの移動に追従せず、更新時はソースと要求権限を確認して固定commitを変更します。
-
-## 根拠
-
-- [GitHub Pagesのcustom workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
-- [Pages公開元の設定](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
-- [Deployment environment](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments)
-- [workflowのpermissions](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)
-- [固定deploy-pages](https://github.com/actions/deploy-pages/blob/368f82528645a54fb793d4d04e342629a3f51346/README.md)
-- [元の調査対象Pages run](https://github.com/kakurai49/voicy/actions/runs/43341037531)
-- [sandbox公開契約](https://github.com/kakurai49/sandbox/blob/main/projects/voicy-postprocess/docs/web_publication.md)
+Pages SourceをGitHub Actionsへ変更するだけでは本番公開は開通しません。sandboxの `projects/pages-release/docs/PAGES_POLICY_PROPOSAL.md` にある用途限定の改訂案について、所有者の別途承認と保護規則・検査器の新しい信頼基準が必要です。このPRは保護規則を変更しません。
