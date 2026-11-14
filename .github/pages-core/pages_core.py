@@ -29,7 +29,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, unquote, urljoin, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 DEFAULT_SCHEMA_DIR = Path(__file__).resolve().parent / "schema"
 MAX_FILE_BYTES = 50 * 1024 * 1024
 MAX_TOTAL_BYTES = 500 * 1024 * 1024
@@ -419,7 +419,9 @@ def _make_tar(stage: Path, files: list[dict], destination: Path) -> None:
         # ordering (for example articles.json versus articles/a.html).
         for entry in sorted(files, key=lambda item: item["path"]):
             path = contained_file(stage, entry["path"])
-            info = tarfile.TarInfo(entry["path"])
+            # Pages requires a literal ./ prefix in TAR member names. Manifest
+            # and HTTP paths remain canonical relative paths without it.
+            info = tarfile.TarInfo("./" + entry["path"])
             info.size = entry["bytes"]
             info.mode = 0o644
             info.mtime = 0
@@ -586,7 +588,11 @@ def verify_artifact(manifest: dict, artifact: Path) -> dict:
     try:
         with tarfile.open(artifact, "r:") as archive:
             for member in archive:
-                name = relative_path(member.name)
+                if not member.name.startswith("./"):
+                    fail("Archive member must start with ./")
+                # Remove exactly the required prefix, without normalizing any
+                # further ./, empty component, absolute path, or traversal.
+                name = relative_path(member.name[2:])
                 if not member.isfile() or member.issym() or member.islnk() or name in seen or name not in expected:
                     fail("Unexpected/duplicate/non-regular archive member")
                 if member.size != expected[name]["bytes"]:

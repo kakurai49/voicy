@@ -34,7 +34,7 @@ def canonical_tar(files):
     output = io.BytesIO()
     with tarfile.open(fileobj=output, mode='w', format=tarfile.PAX_FORMAT) as archive:
         for name, raw in sorted(files.items()):
-            info = tarfile.TarInfo(name)
+            info = tarfile.TarInfo('./' + name)
             info.size = len(raw)
             info.mode = 0o644
             info.mtime = 0
@@ -304,16 +304,21 @@ def admit(artifact_raw, files, *, policy, context, binding, retention_days, insp
                 require(len(seen) < policy['limits']['files'], 'PAGES_FILE_BUDGET')
                 require(member.type == tarfile.REGTYPE and not member.issym() and not member.islnk()
                         and not member.linkname, 'PAGES_TAR_MEMBER_TYPE')
-                require(member.name in files and member.name not in seen, 'PAGES_TAR_MEMBER_SET')
-                require(member.size == len(files[member.name]) and member.size <= policy['limits']['member_bytes'],
+                require(member.name.startswith('./'), 'PAGES_TAR_PATH_PREFIX')
+                # Strip exactly one literal prefix, without path normalization.
+                # Manifest names have already passed inspect_name, so exact
+                # membership also rejects repeated prefixes and path aliases.
+                name = member.name[2:]
+                require(name in files and name not in seen, 'PAGES_TAR_MEMBER_SET')
+                require(member.size == len(files[name]) and member.size <= policy['limits']['member_bytes'],
                         'PAGES_TAR_MEMBER_SIZE')
                 require(member.mode == 0o644 and member.mtime == 0 and member.uid == member.gid == 0
                         and member.uname == member.gname == '', 'PAGES_TAR_METADATA')
                 stream = archive.extractfile(member)
                 require(stream is not None, 'PAGES_TAR_UNREADABLE')
-                require(stream.read(policy['limits']['member_bytes'] + 1) == files[member.name],
+                require(stream.read(policy['limits']['member_bytes'] + 1) == files[name],
                         'PAGES_TAR_MEMBER_BYTES')
-                seen.add(member.name)
+                seen.add(name)
         require(seen == set(files), 'PAGES_TAR_MEMBER_SET')
         # Reject hidden headers, alternate encodings, trailing archives/data and
         # noncanonical padding, even if tarfile would accept them semantically.

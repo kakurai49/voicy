@@ -1,5 +1,33 @@
 # Voicy Pages：共通ビルド・SBOM・配備
 
+## 2026-11-14 TAR形式互換性修正（共通基盤1.1.1）
+
+TECH #3のmain採択後、本番run 43604714055はBuild・保存入場・Artifact照合に成功し、
+GitHub Pagesの配備で `deployment_failed` となった。Buildからの再実行でも同じ結果だった。
+実物のtarと共通実装を確認し、各ファイル名にPagesが要求する `./` 接頭辞が欠けていたため、
+共通生成器と保存検査器を1.1.1へ修正して同期する。
+根拠は [公式担当者の説明](https://github.com/actions/deploy-pages/issues/203#issuecomment-1652804586)。
+
+生成器は `./index.html` のような名前を保存し、検査器は接頭辞を一度だけ除去して
+既存の安全なmanifestへ完全一致照合する。旧形式、二重接頭辞、絶対パス、親参照、重複、
+サイズ・内容の差し替えは拒否する。公開本文・資産は維持し、coreの版とhashを含む
+`_release.json` とtarのbytes/hashは新しいBuildで作り直す。
+
+保存規則1.1.0、容量・件数・保持期間、main限定、同じrun/attempt、監査・schema・
+Environmentの条件は維持する。共通正本の旧承認資料は保存し、独立した修正基準
+`shared/storage/amendments/pages-prefix-20261114/` でexact bytesの採択を記録する。
+変更理由の詳細はsandboxの `projects/pages-release/docs/PAGES_PREFIX_COMPATIBILITY_20261114.md`。
+実際の修正source commitは `.github/pages-core/vendor-manifest.json` の `source.commit` に固定する。
+
+所有者は3サイトのPages Sourceとgithub-pages Environmentのmain制限を確認した旨を伝え、
+各PRのマージを指示した。これは所有者による設定確認として記録し、対応外の管理APIで
+直接読み取った証拠とは扱わない。通常の本番workflowでもPages Sourceと公開先を再照合する。
+修正後の本番Build・Deploy・全公開HTTP照合は、マージコミットのActions runで別途確認する。
+この変更履歴の保存時点では修正後の本番成功は未確認である。
+
+以下の1.1.0節は限定改訂の方針と当時の検証記録を保持したものであり、今回の形式修正と
+実設定確認の最新状況は本節を参照する。
+
 ## 2026-11-14 所有者承認による限定改訂（現在の方針）
 
 所有者は、sandboxの `projects/pages-release/docs/PAGES_POLICY_PROPOSAL.md` に示したPages専用転送の限定改訂と、変更理由・履歴をGitHubへ保存することを明示的に承認した。ここに記すのはその承認を受けた保存規則・共通基盤 v1.1.0 への移行記録である。本番配備や設定切替の完了を宣言する記録ではない。
