@@ -11,12 +11,15 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 import hashlib
+import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import stat
 import sys
 import tarfile
+import tempfile
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote
 from urllib.request import HTTPRedirectHandler, Request, build_opener
@@ -35,8 +38,9 @@ EVIDENCE_REQUIRED = {
     "provenance.json", "validation.json", "schema-validation.json", "vulnerability-audit.json",
 }
 EVIDENCE_OPTIONAL = {"verification.json", "pages-storage-admission.json"}
-# References to the existing trusted L0, not a copied or amended policy.
-# These fixed facts cannot be changed through a profile, CLI flag, or CI variable.
+# Historical L0 references are preserved. Approved Pages admission below reads
+# the new canonical policy/guard through immutable vendor source_inputs; it
+# never rewrites these old references to imply the exception existed earlier.
 STORAGE_REFERENCE = {
     "repository": "kakurai49/sandbox",
     "commit": "47419e615aada02963da17bd97f422da7ab216d8",
@@ -53,6 +57,21 @@ STORAGE_GUARD_REFERENCE = {
     "function": "artifact_admission",
 }
 STORAGE_ARTIFACT_LIMITS = {"artifact_bytes": 100000, "artifact_files": 16, "artifact_retention_days": 1}
+# Separate, owner-approved Pages delivery bounds. General evidence/storage
+# limits above are deliberately unchanged; this is not a generic tar allowlist.
+PAGES_LIMITS = {"artifact_bytes": 5_000_000, "decoded_bytes": 5_000_000,
+                "member_bytes": 1_000_000, "artifact_files": 128,
+                "artifact_retention_days": 1}
+PAGES_DESTINATIONS = {
+    "kakurai49/tech": ("tech", "https://kakurai49.github.io/tech/"),
+    "kakurai49/voicy": ("voicy", "https://kakurai49.github.io/voicy/"),
+    "kakurai49/duke": ("duke", "https://kakurai49.github.io/duke/"),
+}
+PAGES_STORAGE_INPUTS = {
+    ".github/pages-core/storage_guard.py": "tools/storage_guard.py",
+    ".github/pages-core/storage-policy.json": "shared/storage/constitution.json",
+    ".github/pages-core/pages_transfer.py": "shared/storage/pages_transfer.py",
+}
 UNASSESSED = [
     "CPython interpreter and standard library vulnerabilities are not queried in the PyPI audit.",
     "Runner operating system, browser engine, GitHub Actions and GitHub Pages service are not audited.",
@@ -328,97 +347,304 @@ def evidence_budget(output: Path):
     return {"status": "PASS", "files": files, "bytes": total, "retention_days": 1}
 
 
-def pages_admission(output: Path):
-    """Deny Pages tar upload under the unchanged, referenced L0 contract.
+def _read_admission_file(path: Path, maximum: int) -> bytes:
+    """Read a bounded, stable, single-link regular file without following links."""
+    path = Path(path)
+    require(not any(part.is_symlink() for part in (path, *path.parents)),
+            "ADMISSION_SYMLINK_DENIED")
+    before = path.lstat()
+    require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1,
+            "ADMISSION_REGULAR_SINGLE_LINK_REQUIRED")
+    require(before.st_size <= maximum, "ADMISSION_FILE_BYTE_BUDGET")
+    descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    with os.fdopen(descriptor, "rb") as stream:
+        opened = os.fstat(stream.fileno())
+        require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
+                == (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns)
+                and opened.st_nlink == 1, "ADMISSION_FILE_CHANGED")
+        raw = stream.read(maximum + 1)
+        after = os.fstat(stream.fileno())
+    current = path.lstat()
+    require((opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns, opened.st_nlink)
+            == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_nlink)
+            == (current.st_dev, current.st_ino, current.st_size, current.st_mtime_ns, current.st_nlink)
+            and len(raw) == opened.st_size, "ADMISSION_FILE_CHANGED")
+    return raw
 
-    Pages delivery is not exempt from the artifact policy.  The current L0
-    does not admit tar transport; staying below its byte limit cannot grant
-    that permission.  A separately approved policy/guard amendment and a new
-    trusted baseline are required before this routine can acquire an ALLOW
-    path.  No profile, environment setting, or nominal task approval bypasses it.
-    """
-    output = Path(output)
+
+def _admission_json(path: Path):
+    return strict_json(_read_admission_file(path, STORAGE_ARTIFACT_LIMITS["artifact_bytes"]))
+
+
+def _context_identity(context: dict, binding: dict, profile: dict):
+    require(isinstance(context, dict) and context.get("schema") == "pages-admission-context/v1",
+            "PAGES_CONTEXT_SCHEMA")
+    for key in ("repository", "site", "source_sha", "run_id", "run_attempt"):
+        require(isinstance(context.get(key), str) and context[key] == binding.get(key),
+                "PAGES_CONTEXT_BINDING_MISMATCH")
+    destination = PAGES_DESTINATIONS.get(context["repository"])
+    require(destination is not None and destination == (profile.get("site"), profile.get("base_url"))
+            and context["site"] == profile.get("site")
+            and context["repository"] == profile.get("repository"), "PAGES_DESTINATION_NOT_ALLOWED")
+    require(context.get("environment") == "github-pages"
+            and context.get("purpose") == "github-pages-deploy"
+            and type(context.get("retention_days")) is int and context["retention_days"] == 1,
+            "PAGES_DELIVERY_CONTEXT_REQUIRED")
+
+
+def _validate_admission_receipt_time(receipt: dict):
+    require(isinstance(receipt, dict), "PAGES_EVIDENCE_OBJECT_REQUIRED")
+    try:
+        stamp = datetime.fromisoformat(receipt["observed_at"].replace("Z", "+00:00"))
+        age = (datetime.now(timezone.utc) - stamp).total_seconds()
+    except (KeyError, TypeError, ValueError, AttributeError) as exc:
+        raise SecurityError("PAGES_EVIDENCE_TIME_REQUIRED") from exc
+    # Admission is stricter than the general gate: no future-dated receipts.
+    require(0 <= age <= 86400, "PAGES_EVIDENCE_EXPIRED_OR_FUTURE")
+
+
+def _load_storage_inputs(root: Path):
+    """Authenticate the canonical storage inputs against the pinned vendor copy."""
+    manifest = _admission_json(root / ".github/pages-core/vendor-manifest.json")
+    require(isinstance(manifest, dict), "PAGES_VENDOR_MANIFEST_REQUIRED")
+    source = manifest.get("source")
+    require(isinstance(source, dict) and source.get("repository") == "kakurai49/sandbox"
+            and isinstance(source.get("commit"), str)
+            and re.fullmatch(r"[a-f0-9]{40}", source["commit"]), "PAGES_STORAGE_SOURCE_PIN_REQUIRED")
+    entries = manifest.get("source_inputs")
+    require(isinstance(entries, list) and len(entries) == len(PAGES_STORAGE_INPUTS),
+            "PAGES_STORAGE_SOURCE_INPUTS_REQUIRED")
+    indexed = {}
+    raw_files = {}
+    references = {}
+    for entry in entries:
+        require(isinstance(entry, dict) and set(entry) == {"path", "source_path", "sha256", "git_blob_sha"},
+                "PAGES_STORAGE_SOURCE_INPUT_INVALID")
+        installed = entry["path"]
+        require(installed in PAGES_STORAGE_INPUTS and installed not in indexed
+                and entry["source_path"] == PAGES_STORAGE_INPUTS[installed],
+                "PAGES_STORAGE_SOURCE_PATH_MISMATCH")
+        raw = _read_admission_file(root / installed, 1_000_000)
+        actual_blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+        require(entry["sha256"] == core.digest(raw) and entry["git_blob_sha"] == actual_blob,
+                "PAGES_STORAGE_SOURCE_HASH_MISMATCH")
+        indexed[installed] = entry
+        raw_files[installed] = raw
+        references[installed] = {
+            "repository": source["repository"], "commit": source["commit"],
+            "path": entry["source_path"], "sha256": entry["sha256"], "blob_sha": actual_blob,
+        }
+    require(set(indexed) == set(PAGES_STORAGE_INPUTS), "PAGES_STORAGE_SOURCE_INPUTS_REQUIRED")
+    verify_vendor(root)
+    return raw_files, references
+
+
+def _canonical_storage_admission(root: Path, artifact_raw: bytes, files: dict,
+                                 policy_raw: bytes, context: dict, binding: dict):
+    """Load only the hash-checked canonical guard and its Pages helper."""
+    directory = root / ".github/pages-core"
+    names = ("pages_transfer", "_pages_canonical_storage_guard")
+    previous = {name: sys.modules.get(name) for name in names}
+    try:
+        for name, filename in zip(names, ("pages_transfer.py", "storage_guard.py")):
+            spec = importlib.util.spec_from_file_location(name, directory / filename)
+            require(spec is not None and spec.loader is not None, "PAGES_STORAGE_IMPORT_UNAVAILABLE")
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[name] = module
+            spec.loader.exec_module(module)
+        guard = sys.modules[names[1]]
+        function = getattr(guard, "pages_artifact_admission", None)
+        require(callable(function), "PAGES_STORAGE_ADMISSION_UNAVAILABLE")
+        try:
+            return function(artifact_raw, files, policy_raw=policy_raw, context=context,
+                            binding=binding, retention_days=1)
+        except getattr(guard, "PolicyError", ValueError) as exc:
+            raise SecurityError("PAGES_CANONICAL_POLICY_REJECTED") from exc
+    finally:
+        for name, module in previous.items():
+            if module is None:
+                sys.modules.pop(name, None)
+            else:
+                sys.modules[name] = module
+
+
+def _adapter_public_files(root: Path, profile: dict, output: Path, manifest: dict):
+    """Recheck the site's exact public allowlist in the unprivileged Build job."""
+    source_before = core.inventory(root, public=False)
+    provenance = _admission_json(output / "provenance.json")
+    require(provenance.get("schema") == "pages-provenance/v1"
+            and provenance.get("binding") == core.binding(output)
+            and provenance.get("profile_sha256") == core.digest(core.json_bytes(profile))
+            and provenance.get("source_inventory_sha256") == core.digest(core.json_bytes(source_before)),
+            "PAGES_PROVENANCE_MISMATCH")
+    adapter = core.contained_file(root, profile["adapter"])
+    spec = importlib.util.spec_from_file_location("_pages_admission_adapter", adapter)
+    require(spec is not None and spec.loader is not None, "PAGES_ADAPTER_UNAVAILABLE")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    require(callable(getattr(module, "prepare", None)), "PAGES_ADAPTER_UNAVAILABLE")
+    with tempfile.TemporaryDirectory(prefix="pages-admission-") as temporary:
+        stage = Path(temporary) / "public"
+        stage.mkdir()
+        module.prepare(root, stage)
+        actual = core.inventory(stage)
+        expected = [entry for entry in manifest["files"] if entry["path"] != core.RESERVED_PUBLIC]
+        require(actual == expected, "PAGES_ADAPTER_PUBLIC_BYTES_MISMATCH")
+        core.validate_runtime(stage, profile, actual)
+        require(core.inventory(root, public=False) == source_before, "PAGES_ADAPTER_CHANGED_SOURCE")
+        files = {entry["path"]: _read_admission_file(stage / entry["path"], PAGES_LIMITS["member_bytes"])
+                 for entry in actual}
+    # core.verify_artifact validates this receipt's identity and inventory.
+    files[core.RESERVED_PUBLIC] = _read_admission_file(
+        output / "public" / core.RESERVED_PUBLIC, PAGES_LIMITS["member_bytes"])
+    return files
+
+
+def _pages_admission(output: Path, *, root: Path, profile: dict, context: dict, rehearsal: bool):
+    output, root = Path(output), Path(root)
     receipt = {
         "schema": "pages-storage-admission/v1", "status": "DENY",
-        "binding": core.binding(output), "observed_at": now(),
-        "policy": dict(STORAGE_REFERENCE), "guard": dict(STORAGE_GUARD_REFERENCE),
-        "limits": dict(STORAGE_ARTIFACT_LIMITS), "requested_retention_days": 1,
-        "artifact": {"path": "artifact.tar", "bytes": None, "sha256": None},
-        "public_content": {"file_count": 0, "utf8_file_count": 0, "decoded_bytes": 0,
-                           "inspection": "INCOMPLETE", "manifest_match": False},
-        "violations": [{"code": "BINARY_ARTIFACT_FORMAT_DENIED", "format": "tar",
-                        "reason": "The referenced L0/guard has no Pages-tar exception."}],
-        "remote_writes": 0,
-        "required_resolution": "Owner-approved narrow policy/guard amendment and a new independent trusted baseline; then update and retest this admission implementation.",
+        "mode": "rehearsal" if rehearsal else "production", "upload_authorized": False,
+        "observed_at": now(), "binding": None, "context": context,
+        "limits": dict(PAGES_LIMITS), "evidence_limits": dict(STORAGE_ARTIFACT_LIMITS),
+        "requested_retention_days": 1, "remote_writes": 0, "violations": [],
+        "configuration_requirement": "Actual github-pages Environment/main-only restriction is verified separately before production deployment; this receipt does not assert unseen settings.",
     }
-    reasons = receipt["violations"]
-    content = receipt["public_content"]
-    artifact = output / "artifact.tar"
+    writable = False
     try:
-        require(artifact.is_file() and not artifact.is_symlink()
-                and stat.S_ISREG(artifact.lstat().st_mode) and artifact.stat().st_nlink == 1,
-                "ARTIFACT_REGULAR_FILE_REQUIRED")
-        size = artifact.stat().st_size
-        with artifact.open("rb") as stream:
-            actual_hash = hashlib.file_digest(stream, "sha256").hexdigest()
-        receipt["artifact"].update(bytes=size, sha256=actual_hash)
-        if size > STORAGE_ARTIFACT_LIMITS["artifact_bytes"]:
-            reasons.append({"code": "ARTIFACT_CONTAINER_BYTE_BUDGET", "observed": size,
-                            "limit": STORAGE_ARTIFACT_LIMITS["artifact_bytes"]})
-        require(size <= core.MAX_TOTAL_BYTES + core.MAX_FILES * 2048, "ARTIFACT_INSPECTION_BUDGET")
-        seen = set()
-        with tarfile.open(artifact, "r:") as archive:
-            for member in archive:
-                require(member.isfile(), "ARTIFACT_NONREGULAR_MEMBER")
-                path = core.relative_path(member.name)
-                require(path not in seen and len(seen) < core.MAX_FILES, "ARTIFACT_MEMBER_IDENTITY_OR_COUNT")
-                seen.add(path)
-                require(0 <= member.size <= core.MAX_FILE_BYTES, "ARTIFACT_MEMBER_INSPECTION_BUDGET")
-                stream = archive.extractfile(member)
-                require(stream is not None, "ARTIFACT_MEMBER_UNREADABLE")
-                raw = stream.read(member.size + 1)
-                require(len(raw) == member.size, "ARTIFACT_MEMBER_SIZE_MISMATCH")
-                content["file_count"] += 1
-                content["decoded_bytes"] += len(raw)
-                require(content["decoded_bytes"] <= core.MAX_TOTAL_BYTES, "PUBLIC_INSPECTION_BUDGET")
-                try:
-                    raw.decode("utf-8")
-                    require(b"\0" not in raw, "PUBLIC_NUL_BYTE")
-                    content["utf8_file_count"] += 1
-                except (UnicodeError, SecurityError):
-                    reasons.append({"code": "PUBLIC_UTF8_TEXT_REQUIRED", "path": path})
-        content["inspection"] = "COMPLETE"
+        require(output.is_dir() and root.is_dir()
+                and not any(part.is_symlink() for part in (output, *output.parents, root, *root.parents)),
+                "PAGES_REAL_DIRECTORIES_REQUIRED")
+        require(not output.resolve().is_relative_to(root.resolve())
+                and not root.resolve().is_relative_to(output.resolve()), "PAGES_SOURCE_OUTPUT_OVERLAP")
+        target = output / "pages-storage-admission.json"
+        if target.exists() or target.is_symlink():
+            _admission_json(target)
+        require(isinstance(_admission_json(output / "validation.json"), dict),
+                "PAGES_VALIDATION_OBJECT_REQUIRED")
+        writable = True
+        for name in sorted(EVIDENCE_REQUIRED):
+            _admission_json(output / name)
+        evidence_budget(output)
+        core.validate_profile(profile)
+        binding = core.binding(output)
+        receipt["binding"] = binding
+        require(_admission_json(output / "binding.json") == binding, "PAGES_BINDING_FILE_MISMATCH")
+        _context_identity(context, binding, profile)
+        actual_context = dict(context)
+        if rehearsal:
+            require(context.get("event_name") == "pull_request"
+                    and isinstance(context.get("ref"), str)
+                    and re.fullmatch(r"refs/pull/[1-9][0-9]*/merge", context["ref"]),
+                    "PAGES_REHEARSAL_REQUIRES_REAL_PR_CONTEXT")
+            context = {**context, "ref": "refs/heads/main", "event_name": "push"}
+            receipt["actual_context"] = actual_context
+            receipt["context"] = context
+        else:
+            require(context.get("ref") == "refs/heads/main"
+                    and context.get("event_name") in {"push", "workflow_dispatch"},
+                    "PAGES_PRODUCTION_REQUIRES_MAIN_EVENT")
+        raw_files, references = _load_storage_inputs(root)
+        receipt["policy"] = references[".github/pages-core/storage-policy.json"]
+        receipt["guard"] = references[".github/pages-core/storage_guard.py"]
+        receipt["pages_guard"] = references[".github/pages-core/pages_transfer.py"]
+        schema = _admission_json(output / "schema-validation.json")
+        audit = _admission_json(output / "vulnerability-audit.json")
+        _validate_admission_receipt_time(schema)
+        _validate_admission_receipt_time(audit)
+        # Audit/schema semantics and failures retain their existing meaning.
+        require(audit.get("database") == OSV_ENDPOINT, "PAGES_AUDIT_DATABASE_MISMATCH")
+        validation = core.gate(output, schema, audit)
+        require(validation.get("deployment_eligible") is True, "PAGES_QUALITY_GATE_REQUIRED")
+        manifest = _admission_json(output / "release-manifest.json")
+        require(manifest.get("base_url") == profile["base_url"], "PAGES_MANIFEST_DESTINATION_MISMATCH")
+        files = _adapter_public_files(root, profile, output, manifest)
+        artifact_raw = _read_admission_file(output / "artifact.tar", PAGES_LIMITS["artifact_bytes"])
+        decision = _canonical_storage_admission(
+            root, artifact_raw, files, raw_files[".github/pages-core/storage-policy.json"], context, binding)
+        require(isinstance(decision, dict), "PAGES_STORAGE_DECISION_REQUIRED")
+        receipt["storage_decision"] = decision
+        if decision.get("decision") != "ALLOW":
+            violations = decision.get("violations", [])
+            require(isinstance(violations, list), "PAGES_STORAGE_VIOLATIONS_INVALID")
+            receipt["violations"] = list(violations)
+            raise SecurityError("PAGES_CANONICAL_STORAGE_DENIED")
+        # Detect any changed evidence or artifact between validation and admission.
+        require(core.binding(output) == binding
+                and _read_admission_file(output / "artifact.tar", PAGES_LIMITS["artifact_bytes"]) == artifact_raw,
+                "PAGES_ARTIFACT_CHANGED_AFTER_VALIDATION")
+        receipt["artifact"] = {"path": "artifact.tar", "bytes": len(artifact_raw),
+                               "sha256": core.digest(artifact_raw)}
+        receipt["public_content"] = {"file_count": len(files), "decoded_bytes": sum(map(len, files.values())),
+                                     "utf8_file_count": len(files), "inspection": "COMPLETE",
+                                     "manifest_match": True, "adapter_match": True}
+        receipt["status"] = "PASS"
+        receipt["upload_authorized"] = not rehearsal
+    except (ValueError, OSError, TypeError, KeyError, AttributeError, ImportError) as exc:
+        receipt["violations"].append({
+            "code": str(exc) if isinstance(exc, SecurityError) else "PAGES_ADMISSION_RECHECK_FAILED",
+            "error_type": type(exc).__name__,
+        })
+    if writable:
+        validation = _admission_json(output / "validation.json")
+        require(isinstance(validation, dict), "PAGES_VALIDATION_OBJECT_REQUIRED")
+        validation.update(
+            storage_admission=("PASS" if receipt["upload_authorized"] else
+                               "REHEARSAL" if receipt["status"] == "PASS" else "DENY"),
+            deployment_eligible=receipt["upload_authorized"])
+        core.write_json(output / "validation.json", validation)
+        core.write_json(output / "pages-storage-admission.json", receipt)
         try:
-            core.verify_artifact(core.load_json(output / "release-manifest.json"), artifact)
-            content["manifest_match"] = True
-        except (OSError, ValueError, KeyError, TypeError):
-            reasons.append({"code": "ARTIFACT_MANIFEST_MISMATCH"})
-    except (OSError, ValueError, TypeError, tarfile.TarError) as exc:
-        reasons.append({"code": str(exc) if isinstance(exc, SecurityError) else "ARTIFACT_INSPECTION_FAILED",
-                        "error_type": type(exc).__name__})
-    if content["decoded_bytes"] > STORAGE_ARTIFACT_LIMITS["artifact_bytes"]:
-        reasons.append({"code": "ARTIFACT_DECODED_BYTE_BUDGET", "observed": content["decoded_bytes"],
-                        "limit": STORAGE_ARTIFACT_LIMITS["artifact_bytes"]})
-    if content["file_count"] > STORAGE_ARTIFACT_LIMITS["artifact_files"]:
-        reasons.append({"code": "ARTIFACT_FILE_BUDGET", "observed": content["file_count"],
-                        "limit": STORAGE_ARTIFACT_LIMITS["artifact_files"]})
-    # A previously successful content/security gate is insufficient for upload.
-    validation_path = output / "validation.json"
-    if validation_path.is_file() and not validation_path.is_symlink():
-        validation = core.load_json(validation_path)
-        require(isinstance(validation, dict), "VALIDATION_OBJECT_REQUIRED")
-        validation.update(storage_admission="DENY", deployment_eligible=False)
-        core.write_json(validation_path, validation)
-    core.write_json(output / "pages-storage-admission.json", receipt)
+            evidence_budget(output)
+        except (ValueError, OSError, TypeError, KeyError) as exc:
+            receipt.update(status="DENY", upload_authorized=False)
+            receipt["violations"].append({"code": "PAGES_RECEIPT_EVIDENCE_BUDGET",
+                                          "error_type": type(exc).__name__})
+            validation.update(storage_admission="DENY", deployment_eligible=False)
+            core.write_json(output / "validation.json", validation)
+            core.write_json(output / "pages-storage-admission.json", receipt)
     return receipt
+
+
+def pages_admission(output: Path, *, root: Path, profile: dict, context: dict):
+    """Authorize only an exact, approved main-run Pages delivery."""
+    return _pages_admission(output, root=root, profile=profile, context=context, rehearsal=False)
+
+
+def pages_rehearsal(output: Path, *, root: Path, profile: dict, context: dict):
+    """Exercise production admission on PR bytes without any upload authority."""
+    return _pages_admission(output, root=root, profile=profile, context=context, rehearsal=True)
+
+
+def github_admission_context(profile: dict, environment: str):
+    """The production CLI has no identity override flags or input context JSON."""
+    require(os.environ.get("GITHUB_ACTIONS") == "true", "PAGES_GITHUB_ACTIONS_CONTEXT_REQUIRED")
+    keys = {"repository": "GITHUB_REPOSITORY", "source_sha": "GITHUB_SHA", "run_id": "GITHUB_RUN_ID",
+            "run_attempt": "GITHUB_RUN_ATTEMPT", "ref": "GITHUB_REF", "event_name": "GITHUB_EVENT_NAME"}
+    context = {key: os.environ.get(variable) for key, variable in keys.items()}
+    require(all(isinstance(value, str) and value for value in context.values()),
+            "PAGES_GITHUB_CONTEXT_INCOMPLETE")
+    require(re.fullmatch(r"[a-f0-9]{40}", context["source_sha"])
+            and re.fullmatch(r"[1-9][0-9]*", context["run_id"])
+            and re.fullmatch(r"[1-9][0-9]*", context["run_attempt"]),
+            "PAGES_GITHUB_CONTEXT_INVALID")
+    context.update(schema="pages-admission-context/v1", site=profile.get("site"),
+                   environment=environment, purpose="github-pages-deploy", retention_days=1)
+    return context
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    for command in ("schema", "audit", "evidence-budget", "pages-admission"):
+    for command in ("schema", "audit", "evidence-budget"):
         sub = commands.add_parser(command)
         sub.add_argument("--output", required=True, type=Path)
+    for command in ("pages-admission", "pages-rehearsal"):
+        sub = commands.add_parser(command)
+        sub.add_argument("--output", required=True, type=Path)
+        sub.add_argument("--root", required=True, type=Path)
+        sub.add_argument("--profile", required=True, type=Path)
+        sub.add_argument("--environment", required=True, choices=["github-pages"])
     vendor = commands.add_parser("verify-vendor")
     vendor.add_argument("--root", required=True, type=Path)
     args = parser.parse_args(argv)
@@ -429,8 +655,11 @@ def main(argv=None):
             result = vulnerability_audit(args.output)
         elif args.command == "verify-vendor":
             result = verify_vendor(args.root)
-        elif args.command == "pages-admission":
-            result = pages_admission(args.output)
+        elif args.command in {"pages-admission", "pages-rehearsal"}:
+            profile = _admission_json(args.profile)
+            context = github_admission_context(profile, args.environment)
+            function = pages_admission if args.command == "pages-admission" else pages_rehearsal
+            result = function(args.output, root=args.root, profile=profile, context=context)
         else:
             result = evidence_budget(args.output)
     except (ValueError, OSError, KeyError, TypeError) as exc:

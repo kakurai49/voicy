@@ -1,5 +1,77 @@
 # Voicy Pages：共通ビルド・SBOM・配備
 
+## 2026-11-14 所有者承認による限定改訂（現在の方針）
+
+所有者は、sandboxの `projects/pages-release/docs/PAGES_POLICY_PROPOSAL.md` に示したPages専用転送の限定改訂と、変更理由・履歴をGitHubへ保存することを明示的に承認した。ここに記すのはその承認を受けた保存規則・共通基盤 v1.1.0 への移行記録である。本番配備や設定切替の完了を宣言する記録ではない。
+
+初期版では、PRのBuild・SBOM・監査が成功しても、mainでは保存規則 v1.0.0 が公開用tarを一律拒否した。このため、一般Artifactの禁止を維持したまま、検査済みのPages転送だけを認める経路を追加した。既存の公開記事・catalog・記事の日付や本文は、この限定改訂のために変更しない。
+
+### 許可範囲と上限
+
+| 対象 | 現在の限定条件 |
+|---|---|
+| repository | `kakurai49/tech`、`kakurai49/voicy`、`kakurai49/duke` の3件 |
+| 本番の起動元 | 同repositoryのmainへのpush、またはmainのworkflow_dispatch |
+| 配備先 | `github-pages` Environment、mainだけを許可する実設定 |
+| 公開内容 | adapterの検査済み集合・manifest・tarに完全一致するUTF-8テキスト |
+| 件数と容量 | 128公開ファイル以下、展開後・非圧縮tarとも5,000,000 bytes以下、1ファイル1,000,000 bytes以下 |
+| 保持期間 | 1日 |
+| 内部証拠 | 従来どおり100,000 bytes・16ファイル・保持1日 |
+| 再検査 | 同じsource SHA・run ID・attempt・各hash、schema・監査・公開境界・再現性の合格、24時間以内の監査 |
+
+空のroot `.nojekyll` と公開用 `_release.json` は名前を指定して検査する。原文、source-map、workflow、test、内部証拠、鍵・資格情報、画像や圧縮データ、任意archive、worktree全体は公開tarへ含めない。一般Artifactへのtar許可や容量拡張は行わない。
+
+本番の `pages-admission` は実際の `GITHUB_*` からrepository・SHA・run・attempt・ref・eventを取得し、sourceとprofile、adapter再実行、tarの正規bytesを再確認する。公開を許す真偽値だけの設定や、任意の実行識別情報による解除はない。PRでは別の `pages-rehearsal` を実行し、同じ入場条件を試験するが、receiptの `upload_authorized` と `validation.json` の `deployment_eligible` は必ずfalseにする。
+
+### 共通正本と管理ファイルの変更
+
+次の3ファイルを公開対象外の管理ファイルとして追加する。公開tarには入れない。
+
+| 配布ファイル | sandboxの正本 |
+|---|---|
+| `.github/pages-core/storage_guard.py` | `tools/storage_guard.py` |
+| `.github/pages-core/storage-policy.json` | `shared/storage/constitution.json` |
+| `.github/pages-core/pages_transfer.py` | `shared/storage/pages_transfer.py` |
+
+実際に配布された固定commitは `.github/pages-core/vendor-manifest.json` の `source.commit` を参照する。`source_inputs` には正本path・SHA-256・Git blob SHAが入り、実bytesとの一致を確認する。未確定の将来commitをこの文書へ先に書かない。正本の変更、保護された改訂手順、新しい信頼基準、3サイトへの同期を対応する変更として記録し、旧hashや旧版の停止履歴を遡って書き換えない。
+
+実データの統合試験では、Voicyの `articles.json` と `articles/記事.html` について、Pathの並び順とPOSIX文字列順が異なり、builderと独立検査器のtar bytesが一致しない問題を検出した。共通 `_make_tar()` を明示的なPOSIX文字列順へ統一し、同じ組合せを使う回帰テストを追加した。manifestのファイル順と記事本文は変更していない。
+
+### Voicyのローカル統合検証記録
+
+2026-11-14に、取得済みの実サイトデータと改訂候補の共通コードを別の一時コピーへ同期して確認した。
+
+| 検査・測定 | 結果 |
+|---|---|
+| 既存サイトテスト | 43件すべて成功 |
+| 独立2回の生成・公開bytes比較 | PASS |
+| 両SBOMの公式schema検査 | PASS |
+| 実OSV照会 | 固定環境の8パッケージを照会してPASS |
+| main条件の入場検査シミュレーション | PASS |
+| PRリハーサル | PASS、公開権限なし |
+| 公開ファイル数 | 48件（公開用 `_release.json` を含む） |
+| 公開内容合計 | 1,991,781 bytes |
+| 非圧縮tar | 2,037,760 bytes |
+| 入場receiptを含む証拠 | 9ファイル・41,471 bytes |
+
+実行環境はCPython 3.12.14と、変更していない `requirements.lock` のhash付き8依存である。OSVの観測は同日21:13台（JST）。共通core 56件、security 33件のテストも成功した。正規tar順序の修正後に3サイトすべてを再実行した。
+
+この表は**ローカル試験**であり、source commit・source SHA・run IDには試験専用の合成値を使用した。GitHub Actionsの実行証拠、固定commitの公開完了、Artifact upload、本番Deploy、公開HTTP照合の成功へ読み替えない。最終的な配布commitを確定して同期した後、対象PRの同じHEADでCI結果を別途確認する。
+
+### 本番の受入条件と設定確認
+
+今回使用できるGitHub連携APIでは、設定参照に必要なURLが許可対象外としてHTTP 400で拒否された。このため、Pages SourceとEnvironmentの実設定を確認・変更できたとは記録していない。この400は、実行権限不足を示す403と同じ意味ではない。
+
+本番受入には、Pages SourceがGitHub Actionsであること、公開先が `https://kakurai49.github.io/voicy/` であること、`github-pages` Environmentがmainだけを許可することを実設定で確認する。Build・Deploy・Verifyを同じ実commit・run・attemptで追跡し、Deploy直前のArtifact ID・size・hashの照合と、配備後の公開HTTP bytes照合まで確認して完了とする。
+
+ドラフト解除だけで再テストが実行されたとは扱わず、解除後の対象HEADについて実際のCI実行を確認する。失敗した本番jobだけの再実行はattempt不一致で停止するため、監査が古い場合も含めてworkflow全体を再実行する。PRの成功、コードのマージ、保存規則の改訂、設定切替、本番公開の結果は区別して記録する。
+
+---
+
+## 改訂前の記録（2026-11-14の初期設計）
+
+以下は変更理由と経緯を追跡するために保持した初期版の記録である。「現行保存規則では拒否する」「別途承認が必要」「このPRでは保護規則を変更しない」等は、その当時の状態を表す。所有者承認後の限定改訂は上記の節を参照する。
+
 Voicy固有の公開内容検査はこのディレクトリで管理し、再ビルド、梱包、SBOM、脆弱性確認、配備判定、公開後の照合は `.github/pages-core/` の共通実装で行います。正本は `kakurai49/sandbox/projects/pages-release/` です。TECH・DUKEと同じ共通処理を使います。
 
 ## 変更後の流れ

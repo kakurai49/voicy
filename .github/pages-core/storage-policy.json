@@ -1,0 +1,115 @@
+{
+  "schema": "storage-constitution/v1",
+  "id": "repository-storage-constitution",
+  "version": "1.1.0",
+  "level": "L0_repository_constitution",
+  "purpose": "原資料の意味・証拠・来歴を守り、GitHubへの不要な保存と重複を最小化する。",
+  "actors": [
+    "ChatGPT_root_executor",
+    "meta_agent",
+    "child_agent",
+    "CI_worker",
+    "publication_adapter"
+  ],
+  "invariants": {
+    "all_remote_writes_in_scope": true,
+    "temporary_transport_is_not_exempt": true,
+    "decode_before_inspection": true,
+    "no_binary_transport": true,
+    "no_unreferenced_transport_blobs": true,
+    "preserve_original_evidence": true,
+    "whole_worktree_artifacts": "DENY",
+    "fail_closed": true,
+    "main_merge_requires_separate_authorization": true,
+    "binary_transport_exceptions": [
+      "pages_transfer"
+    ]
+  },
+  "representation": {
+    "memo": "原文・訂正・取消・行ID・判読留保を転記。解釈は別項目。",
+    "scene": "目的別プロファイルの特徴・画像内region・値・単位・未知を構造化。一般的説明文では代替不可。",
+    "mixed": "文字領域と非文字領域を分け、両方式を適用。",
+    "text_source": "元々文字のコード・記録は正規UTF-8ファイルのまま保存。圧縮・符号化して隠さない。",
+    "references": [
+      "repository",
+      "commit",
+      "path",
+      "sha256"
+    ],
+    "image_location_is_not_storage_location": true
+  },
+  "limits": {
+    "single_text_bytes": 1000000,
+    "publication_bytes": 5000000,
+    "publication_files": 128,
+    "new_history_blob_bytes": 5000000,
+    "history_commits": 500,
+    "artifact_bytes": 100000,
+    "artifact_files": 16,
+    "artifact_retention_days": 1
+  },
+  "precedence": "L0保存憲法 > 共通更新・画像表現契約1.1.0 > 個別設計 > 実行・転送手順。既存の凍結憲法や参照hashは書き換えず、横断的な追加制約として適用。",
+  "amendment": "原則・上限・検査器・保護workflowの変更は通常処理で拒否。所有者の別途承認と新しい信頼基準で改訂。",
+  "enforcement_boundary": "検査付き公開実行器は最初のremote write前に拒否する。CIは送信後の二次検査。別資格情報による直接API操作はリポジトリ内コードだけでは失効できない。",
+  "pages_transfer": {
+    "schema": "pages-transfer-policy/v1",
+    "authorization_ref": "chat:20261114-pages-transfer-owner-approval",
+    "approval_record": "shared/storage/amendments/pages-20261114/approval.json",
+    "purpose": "github-pages-deploy",
+    "repositories": {
+      "kakurai49/tech": {
+        "site": "tech",
+        "base_url": "https://kakurai49.github.io/tech/"
+      },
+      "kakurai49/voicy": {
+        "site": "voicy",
+        "base_url": "https://kakurai49.github.io/voicy/"
+      },
+      "kakurai49/duke": {
+        "site": "duke",
+        "base_url": "https://kakurai49.github.io/duke/"
+      }
+    },
+    "ref": "refs/heads/main",
+    "events": [
+      "push",
+      "workflow_dispatch"
+    ],
+    "environment": "github-pages",
+    "environment_branch": "main",
+    "encoder": "python-tarfile-pax-normalized-v1",
+    "transport_envelope": {
+      "producer": "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+      "format": "GitHub-Actions-artifact-ZIP",
+      "only_member": "artifact.tar",
+      "member_count": 1,
+      "bytes": 5000000,
+      "verify_service_digest_and_decoded_tar_hash": true
+    },
+    "text_suffixes": [
+      ".html",
+      ".css",
+      ".js",
+      ".json",
+      ".xml",
+      ".md",
+      ".txt"
+    ],
+    "limits": {
+      "tar_bytes": 5000000,
+      "decoded_bytes": 5000000,
+      "member_bytes": 1000000,
+      "files": 128,
+      "retention_days": 1
+    },
+    "inspection": [
+      "exact_adapter_allowlist",
+      "utf8_and_encoded_binary",
+      "canonical_tar_bytes",
+      "same_source_run_attempt_and_hashes",
+      "sbom_schema",
+      "dependency_audit_within_24_hours"
+    ],
+    "ordinary_artifacts_unchanged": true
+  }
+}

@@ -2,7 +2,11 @@
   "files": [
     {
       "path": ".github/pages-core/pages_core.py",
-      "sha256": "abb1bd776123b92822766abb56c9a3df19acf446edee7409b2ba170b91b6cbf5"
+      "sha256": "1b13bc7fac28e01cbe15821efb3478218622bb4169092609d511fb56092b8c6f"
+    },
+    {
+      "path": ".github/pages-core/pages_transfer.py",
+      "sha256": "12a1c99382bfb32515621c60af9869c6fe13ce435ad2bc2165d738a70bf37f01"
     },
     {
       "path": ".github/pages-core/requirements.lock",
@@ -30,20 +34,48 @@
     },
     {
       "path": ".github/pages-core/security.py",
-      "sha256": "e5cfd10f662b58297c29b12da8ba5892b53fc7f0a1a34ad8651a947df0d1f010"
+      "sha256": "62a7917c49323e327805fcac432cf749c3858e0e7414d03c354a1a1188e21566"
+    },
+    {
+      "path": ".github/pages-core/storage-policy.json",
+      "sha256": "70bb0ac94cd8034a7e34e20fc2b601f4410e7d38f5a15ec200448cfd912e9e8c"
+    },
+    {
+      "path": ".github/pages-core/storage_guard.py",
+      "sha256": "9ad1df39631edee19752f516623f2121471ce2d6d5f2885c578675f2f1ca692e"
     },
     {
       "path": ".github/workflows/pages.yml",
-      "sha256": "23fa99976345818e8580135b3fa3fd3987a8dae470a7efe5295db9248cd3193f"
+      "sha256": "fff90995048d81f4217ff8ed3609990834b46e8d0564c918d70d745aad688421"
     }
   ],
   "generator": "projects/pages-release/tools/sync_sites.py",
   "maintenance": "Edit the sandbox source, test, publish an immutable commit, then resync all sites and review their PRs.",
   "schema": "pages-core-vendor/v1",
   "source": {
-    "commit": "d04cbf4854c28e0b508df071cccf194982eab3b5",
+    "commit": "4403c23e861bf0c2695431da8c91c09fd6fed0c1",
     "path": "projects/pages-release/",
     "repository": "kakurai49/sandbox"
   },
-  "version": "1.0.0"
+  "source_inputs": [
+    {
+      "git_blob_sha": "20d7181efa572d103c7ef6997c71b3eaf5d53427",
+      "path": ".github/pages-core/pages_transfer.py",
+      "sha256": "12a1c99382bfb32515621c60af9869c6fe13ce435ad2bc2165d738a70bf37f01",
+      "source_path": "shared/storage/pages_transfer.py"
+    },
+    {
+      "git_blob_sha": "8cd5dfae871e607c2f3ab20830b4756cff4f8377",
+      "path": ".github/pages-core/storage-policy.json",
+      "sha256": "70bb0ac94cd8034a7e34e20fc2b601f4410e7d38f5a15ec200448cfd912e9e8c",
+      "source_path": "shared/storage/constitution.json"
+    },
+    {
+      "git_blob_sha": "ac3d31545bea5b39d4bb91999037f214f59bad1a",
+      "path": ".github/pages-core/storage_guard.py",
+      "sha256": "9ad1df39631edee19752f516623f2121471ce2d6d5f2885c578675f2f1ca692e",
+      "source_path": "tools/storage_guard.py"
+    }
+  ],
+  "version": "1.1.0"
 }

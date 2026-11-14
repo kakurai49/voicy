@@ -3,12 +3,15 @@
   "base_url": "https://kakurai49.github.io/voicy/",
   "build_materials": [
     ".github/pages-core/pages_core.py",
+    ".github/pages-core/pages_transfer.py",
     ".github/pages-core/requirements.lock",
     ".github/pages-core/schema/bom-1.6.schema.json",
     ".github/pages-core/schema/jsf-0.82.schema.json",
     ".github/pages-core/schema/source.json",
     ".github/pages-core/schema/spdx.schema.json",
     ".github/pages-core/security.py",
+    ".github/pages-core/storage-policy.json",
+    ".github/pages-core/storage_guard.py",
     ".github/pages-core/vendor-manifest.json",
     ".github/pages/build_site.py",
     ".github/workflows/pages.yml"

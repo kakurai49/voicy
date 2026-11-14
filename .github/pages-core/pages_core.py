@@ -29,7 +29,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, unquote, urljoin, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 DEFAULT_SCHEMA_DIR = Path(__file__).resolve().parent / "schema"
 MAX_FILE_BYTES = 50 * 1024 * 1024
 MAX_TOTAL_BYTES = 500 * 1024 * 1024
@@ -415,7 +415,9 @@ def browser_sbom(stage: Path, profile: dict, source_sha: str) -> dict:
 
 def _make_tar(stage: Path, files: list[dict], destination: Path) -> None:
     with tarfile.open(destination, "w", format=tarfile.PAX_FORMAT) as archive:
-        for entry in files:
+        # Sort by canonical POSIX text, independently of pathlib traversal
+        # ordering (for example articles.json versus articles/a.html).
+        for entry in sorted(files, key=lambda item: item["path"]):
             path = contained_file(stage, entry["path"])
             info = tarfile.TarInfo(entry["path"])
             info.size = entry["bytes"]
