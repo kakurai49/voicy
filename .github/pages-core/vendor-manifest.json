@@ -1,0 +1,81 @@
+{
+  "files": [
+    {
+      "path": ".github/pages-core/pages_core.py",
+      "sha256": "fd0b1da80177ed68739abb8428cb0293caf9bcd21b6fcee1eff4a3729098f056"
+    },
+    {
+      "path": ".github/pages-core/pages_transfer.py",
+      "sha256": "865e4c2b71c5158f9381a855f2bbefba20528b1705187f8f1708153df01d235d"
+    },
+    {
+      "path": ".github/pages-core/requirements.lock",
+      "sha256": "3ec787bb8dfbcce1c688d14e2ca2c1deda19f48b1387894fd6d911e8fd5f7113"
+    },
+    {
+      "path": ".github/pages-core/schema/LICENSE",
+      "sha256": "6c29f22a4a7385285c6f579ec9f33c5e989f00739d6b257243a0b082ec9447ae"
+    },
+    {
+      "path": ".github/pages-core/schema/bom-1.6.schema.json",
+      "sha256": "3e92dddbc30cf7f6a02b80f0942b1a4cfd4fb1c26f1dfc4310afa9d613cafb93"
+    },
+    {
+      "path": ".github/pages-core/schema/jsf-0.82.schema.json",
+      "sha256": "8bae002c25e723db7ee1f26afde680ae1a2b1a8f6b4b4b0fd65dc3becb090aae"
+    },
+    {
+      "path": ".github/pages-core/schema/source.json",
+      "sha256": "a8f44f4608d9dcfa2995af79a235658ad1a2630770b866e114e06a15d51ffabe"
+    },
+    {
+      "path": ".github/pages-core/schema/spdx.schema.json",
+      "sha256": "baa9d3bd1ed57b6751b0887edead6b5063ff53ff7429cf85d476c6c94af0166e"
+    },
+    {
+      "path": ".github/pages-core/security.py",
+      "sha256": "62a7917c49323e327805fcac432cf749c3858e0e7414d03c354a1a1188e21566"
+    },
+    {
+      "path": ".github/pages-core/storage-policy.json",
+      "sha256": "70bb0ac94cd8034a7e34e20fc2b601f4410e7d38f5a15ec200448cfd912e9e8c"
+    },
+    {
+      "path": ".github/pages-core/storage_guard.py",
+      "sha256": "f17f1429f5aa767a62305fb689bc5e09a7bb23f644a8ca982d3397264f51e545"
+    },
+    {
+      "path": ".github/workflows/pages.yml",
+      "sha256": "ef5d3a970423f09dc361da4c744e9d3cdc2e4bcfaca0f9121e668e225708dfd9"
+    }
+  ],
+  "generator": "projects/pages-release/tools/sync_sites.py",
+  "maintenance": "Edit the sandbox source, test, publish an immutable commit, then resync all sites and review their PRs.",
+  "schema": "pages-core-vendor/v1",
+  "source": {
+    "commit": "5a9d2c30e9b81557b3bd1e4c02d9f101294ca013",
+    "path": "projects/pages-release/",
+    "repository": "kakurai49/sandbox"
+  },
+  "source_inputs": [
+    {
+      "git_blob_sha": "059efb89b9d4345fcfb25953d8761ad222a33bc8",
+      "path": ".github/pages-core/pages_transfer.py",
+      "sha256": "865e4c2b71c5158f9381a855f2bbefba20528b1705187f8f1708153df01d235d",
+      "source_path": "shared/storage/pages_transfer.py"
+    },
+    {
+      "git_blob_sha": "8cd5dfae871e607c2f3ab20830b4756cff4f8377",
+      "path": ".github/pages-core/storage-policy.json",
+      "sha256": "70bb0ac94cd8034a7e34e20fc2b601f4410e7d38f5a15ec200448cfd912e9e8c",
+      "source_path": "shared/storage/constitution.json"
+    },
+    {
+      "git_blob_sha": "422c80cc7476d70e028c4c5386e8fd66f55cfa1e",
+      "path": ".github/pages-core/storage_guard.py",
+      "sha256": "f17f1429f5aa767a62305fb689bc5e09a7bb23f644a8ca982d3397264f51e545",
+      "source_path": "tools/storage_guard.py"
+    }
+  ],
+  "version": "1.1.3"
+}
