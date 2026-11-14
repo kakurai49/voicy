@@ -1,0 +1,160 @@
+name: pages build and deployment
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Every job declares its own minimum permissions.
+permissions: {}
+
+concurrency:
+  group: voicy-pages-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    outputs:
+      pages-artifact-name: ${{ steps.artifact-names.outputs.pages }}
+      manifest-artifact-name: ${{ steps.artifact-names.outputs.manifest }}
+    steps:
+      - name: Check out the event commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Test the publication boundary
+        run: python3 -m unittest discover -s .github/pages -p 'test_*.py' -v
+
+      - name: Validate and package the complete public site
+        run: >-
+          python3 .github/pages/build_site.py
+          --source "$GITHUB_WORKSPACE"
+          --output "$RUNNER_TEMP/voicy-pages"
+          --commit "$GITHUB_SHA"
+
+      - name: Bind artifact names to this successful build attempt
+        id: artifact-names
+        run: |
+          python3 - <<'PY'
+          import os
+          suffix = os.environ['GITHUB_RUN_ID'] + '-' + os.environ['GITHUB_RUN_ATTEMPT']
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('pages=github-pages-' + suffix + '\n')
+              output.write('manifest=pages-build-manifest-' + suffix + '\n')
+          PY
+
+      # Upload exactly one validated tar. This preserves .nojekyll, which the
+      # generic upload-pages-artifact action excludes together with dotfiles.
+      - name: Upload the Pages artifact
+        id: artifact
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ steps.artifact-names.outputs.pages }}
+          path: ${{ runner.temp }}/voicy-pages/artifact.tar
+          archive: true
+          if-no-files-found: error
+          compression-level: 1
+          retention-days: 1
+          overwrite: false
+
+      - name: Retain the build manifest outside the public site
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ steps.artifact-names.outputs.manifest }}
+          path: ${{ runner.temp }}/voicy-pages/manifest.json
+          archive: true
+          if-no-files-found: error
+          retention-days: 7
+          overwrite: false
+
+  deploy:
+    name: deploy
+    needs: build
+    if: >-
+      github.repository == 'kakurai49/voicy' &&
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # No checkout, dependency install, repository script, or HTML generation
+      # runs with deployment permissions. This inline check only reads Pages.
+      - name: Require the approved Pages publishing mode
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { data: pages } = await github.request('GET /repos/{owner}/{repo}/pages', {
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            if (pages.build_type !== 'workflow') {
+              core.setFailed('Pages Source must be GitHub Actions before deployment. Follow .github/pages/README.md.');
+              return;
+            }
+            if (pages.html_url !== 'https://kakurai49.github.io/voicy/') {
+              core.setFailed('Unexpected Pages destination; review the publication policy before deploying.');
+            }
+
+      - name: Deploy the artifact from this workflow run
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
+        with:
+          artifact_name: ${{ needs.build.outputs.pages-artifact-name }}
+
+  verify:
+    name: verify
+    needs: [build, deploy]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the same event commit for verification
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Download only this run's build manifest
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ needs.build.outputs.manifest-artifact-name }}
+          path: ${{ runner.temp }}/voicy-manifest
+          digest-mismatch: error
+
+      - name: Verify every served file against the build manifest
+        run: >-
+          python3 .github/pages/verify_site.py
+          --manifest "$RUNNER_TEMP/voicy-manifest/manifest.json"
+          --commit "$GITHUB_SHA"
+          --report "$RUNNER_TEMP/voicy-http-verification.json"
+
+      - name: Retain HTTP verification evidence outside the public site
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pages-http-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/voicy-http-verification.json
+          archive: true
+          if-no-files-found: warn
+          retention-days: 7
+          overwrite: false
